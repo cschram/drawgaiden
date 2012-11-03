@@ -1,0 +1,16 @@
+{
+  "name": "drawgaiden",
+  "version": "0.0.0",
+  "description": "Collaborative drawing application.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "keywords": [
+    "drawing",
+    "collaboration"
+  ],
+  "author": "Corey Schram",
+  "license": "MIT"
+}
