@@ -1,15 +1,18 @@
 {
   "name": "drawgaiden",
   "version": "0.0.1",
-  "private": false,
+  "private": true,
   "scripts": {
-    "start": "forever -o stdout.log -e stderr.log start app.js",
-    "stop": "forever stop app.js"
+    "start": "node app"
   },
   "dependencies": {
-    "express": "3.0.x",
+    "express": "~3.4.0",
     "hjs": "*",
-    "less-middleware": "*",
-    "socket.io": "0.9.x"
+    "socket.io": "~0.9.16"
+  },
+  "devDependencies": {
+    "express": "~3.4.0",
+    "hjs": "*",
+    "socket.io": "~0.9.16"
   }
 }
