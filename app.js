@@ -3,7 +3,8 @@ var express = require("express"),
     server  = require("http").createServer(app),
     io      = require("socket.io").listen(server),
     path    = require("path"),
-    config  = require("./config");
+    config  = require("./config"),
+    state   = require('./lib/state');
 
 app.configure(function () {
   app.set('port', process.env.PORT || 3000);
@@ -29,6 +30,26 @@ server.listen(app.get('port'), function () {
   console.log("Express server listening on port " + app.get('port'));
 });
 
-io.sockets.on("connection", function (sock) {
-    console.log("Socket.io Connection.");
+io.sockets.on("connection", function (socket) {
+
+  console.log("Socket.io Connection.");
+
+  socket.on('login', function (name, done) {
+
+    if (state.users.indexOf(name) > -1) {
+
+      done('A user with that name is already logged in.');
+
+    } else {
+
+      console.log('Logging in "' + name + '".');
+
+      socket.set('name', name, function () {
+        done();
+      });
+
+    }
+
+  });
+    
 });

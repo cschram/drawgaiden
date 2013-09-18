@@ -4,6 +4,8 @@
 
 	<title>Get Up And Draw Gaiden 2: Shut Up And Sketch</title>
 
+	<!--[if IE]><script src="js/contrib/excanvas/excanvas.js"></script><![endif]-->
+
 	<link rel="stylesheet" href="/css/normalize.css">
 	<link rel="stylesheet" href="/css/style.css">
 
@@ -19,9 +21,10 @@
 		<label for="name">Hey, so, enter your username:</label>
 		<input type="text" name="name">
 		<input type="submit" value="Start Drawing">
+		<p class="error"></p>
 	</form>
 
-	<div class="canvas-wrap" style="width:{{canvasWidth}}px; height:{{canvasHeight}}px;" hidden>
+	<div id="canvases" style="width:{{canvasWidth}}px; height:{{canvasHeight}}px;" hidden>
 		<canvas id="canvas" width="{{canvasWidth}}" height="{{canvasHeight}}"></canvas>
 
 		<canvas id="user-canvas" width="{{canvasWidth}}" height="{{canvasHeight}}">
@@ -29,6 +32,9 @@
 		</canvas>
 	</div>
 
+	<script src="js/contrib/es5-shim/es5-shim.js"></script>
+	<script src="js/contrib/es5-shim/es5-sham.js"></script>
+	<script src="js/contrib/jquery/jquery.js"></script>
 	<script data-main="js/main" src="js/contrib/requirejs/require.js"></script>
 
 </body>

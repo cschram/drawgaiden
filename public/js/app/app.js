@@ -1,14 +1,33 @@
 define([
 
+	'socket.io',
 	'app/logger'
 
 ],
-function ( Logger ) {
+function ( io, Logger ) {
 	
 	var App = {
 
+		socket: null,
+
 		init: function () {
-			Logger.log('App', 'Initializing...');
+			this.socket = io.connect('/');
+		},
+
+		login: function (name) {
+			var def = $.Deferred();
+
+			this.socket.emit('login', name, function (err, data) {
+				if (err) {
+					def.reject(err);
+				} else {
+					// Do something with data
+
+					def.resolve();
+				}
+			});
+
+			return def.promise();
 		}
 
 	};

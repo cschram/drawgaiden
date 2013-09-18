@@ -63,14 +63,17 @@ input[type="submit"] {
 	width: 375px;
 }
 
-.canvas-wrap {
+.error { color: #ff0000; }
+
+#canvases {
 	background: #fff;
 	border: 1px solid #001133;
-	margin: 0 auto;
+	margin: 0 auto 20px auto;
 	position: relative;
 }
 
 canvas {
+	background: transparent;
 	left: 0;
 	position: absolute;
 	top: 0;

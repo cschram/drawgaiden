@@ -6,7 +6,8 @@ define({
 		if (message) {
 			if (group !== this.currentGroup) {
 				console.groupEnd();
-				console.groupCollapsed(group);
+				console.group(group);
+				this.currentGroup = group;
 			}
 			console.log(message);
 		} else {
