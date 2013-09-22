@@ -9,7 +9,6 @@ body {
 	background: #003366;
 	color: #cccccc;
 	font-family: Helvetica, arial, freesans, clean, sans-serif;
-	text-shadow: 1px 1px 0 #001133;
 }
 
 header {
@@ -17,43 +16,37 @@ header {
 	border-bottom: 2px solid #001133;
 	color: #003366;
 	margin-bottom: 20px;
-	padding: 5px 0;
+	padding: 5px;
 }
 
-header h1,
-header h2 {
-	margin: 0;
-	padding: 1px 8px;
-	text-shadow: none;
+header span {
+	padding-right: 5px;
+	position: relative;
+	top: -4px;
 }
-header h1 { font-size: 20px; }
-header h2 { font-size: 14px; }
+header input[type="range"] {
+	padding-left: 5px;
+	width: 200px;
+}
+header input[type="radio"]:checked + label {
+	font-weight: bold;
+}
 
 label { padding: 0 0 0 3px; }
 
-input { -webkit-appearance: none; outline: 0; }
-
-input[type="text"] {
-	border: 1px solid;
-	border-color: #848484 #c1c1c1 #e1e1e1;
-	border-radius: 2px;
+input[name="name"] {
 	color: #000;
-	height: 20px;
+	height: 22px;
 	margin: 0 0 0 4px;
 	padding: 2px 3px;
+	vertical-align: middle;
+	width: 170px;
 }
 
 input[type="submit"] {
-	-webkit-background-clip: padding;
-	background: linear-gradient(#ffffff,#dddddd);
-	border: 1px solid;
-	border-color: #ddd #bbb #999;
-	border-radius: 4px;
-	color: #333;
-	font: bold 16px "Helvetica Neue",Arial,"Liberation Sans",FreeSans,sans-serif;
-	line-height: 1.5em;
+	font-size: 15px;
+	line-height: 1.2em;
 	margin: 7px 0 0 0;
-	text-shadow: #fff 0 1px 1px;
 	width: 100%;
 }
 

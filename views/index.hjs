@@ -7,13 +7,33 @@
 	<!--[if IE]><script src="js/contrib/excanvas/excanvas.js"></script><![endif]-->
 
 	<link rel="stylesheet" href="/css/normalize.css">
+	<link rel="stylesheet" href="/css/formalize.css">
+	<link rel="stylesheet" href="/js/contrib/spectrum/spectrum.css">
 	<link rel="stylesheet" href="/css/style.css">
 
 </head>
 <body>
 
 	<header>
-		<!-- Tool bar -->
+		<div id="tools">
+			<span class="tool">
+				<input type="radio" name="tool" id="tool_pencil" value="pencil" checked="checked">
+				<label for="tool_pencil">Pencil</label>
+			</span>
+			<span class="tool">
+				<input type="radio" name="tool" id="tool_rectangle" value="rectangle">
+				<label for="tool_rectangle">Rectangle</label>
+			</span>
+			<span class="tool">
+				<input type="radio" name="tool" id="tool_eraser" value="eraser">
+				<label for="tool_eraser">Eraser</label>
+			</span>
+			<span class="colors">
+				<input type="color" name="stroke-color" value="#000000">
+				<input type="color" name="fill-color" value="#ffffff">
+			</span>
+			<input type="range" name="size" min="1" max="25" value="1">
+		</div>
 	</header>
 
 	<form id="user-login">
@@ -36,10 +56,18 @@
 		</canvas> -->
 	</div>
 
-	<script src="js/contrib/es5-shim/es5-shim.js"></script>
-	<script src="js/contrib/es5-shim/es5-sham.js"></script>
-	<script src="js/contrib/jquery/jquery.js"></script>
-	<script data-main="js/main" src="js/contrib/requirejs/require.js"></script>
+	<!-- Base Dependencies -->
+	<script src="/js/contrib/es5-shim/es5-shim.js"></script>
+	<script src="/js/contrib/es5-shim/es5-sham.js"></script>
+	<script src="/js/contrib/jquery/jquery.js"></script>
+
+	<!-- jQuery Plugins -->
+	<script src="/js/contrib/formalize/jquery.formalize.js"></script>
+	<script src="/js/contrib/spectrum/spectrum.js"></script>
+	<script src="/js/contrib/html5slider/html5slider.js"></script>
+
+	<!-- App -->
+	<script data-main="/js/main" src="/js/contrib/requirejs/require.js"></script>
 
 </body>
 </html>
