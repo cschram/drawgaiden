@@ -27,17 +27,23 @@ function ( App, Component, Logging, Canvas, UserCanvas ) {
 			// Fire off mouse events to 
 			this.on('mousedown', function (e) {
 				this.trigger( document, 'canvas.mouse.down', {
-					x: e.offsetX,
-					y: e.offsetY
+					x : e.offsetX,
+					y : e.offsetY
 				});
 			});
 			this.on('mouseup', function (e) {
 				this.trigger( document, 'canvas.mouse.up' );
 			});
+			this.on('mouseout', function (e) {
+				this.trigger( document, 'canvas.mouse.out', {
+					x : e.offsetX,
+					y : e.offsetY
+				});
+			});
 			this.on('mousemove', function (e) {
 				this.trigger( document, 'canvas.mouse.move', {
-					x: e.offsetX,
-					y: e.offsetY
+					x : e.offsetX,
+					y : e.offsetY
 				});
 			});
 

@@ -32,8 +32,6 @@ server.listen(app.get('port'), function () {
 
 io.sockets.on("connection", function ( socket ) {
 
-  console.log("Socket.io Connection.");
-
   socket.on('login', function ( name, done ) {
 
     if (state.users.indexOf(name) > -1) {
@@ -42,9 +40,8 @@ io.sockets.on("connection", function ( socket ) {
 
     } else {
 
-      console.log('Logging in "' + name + '".');
-
       socket.set('name', name, function () {
+        state.users.push(name);
         done();
       });
 

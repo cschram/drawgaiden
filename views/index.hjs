@@ -14,8 +14,10 @@
 </head>
 <body>
 
-	<header>
-		<div id="tools">
+	<header class="cf">
+		<!-- Toolbar -->
+		<div id="tools" hidden>
+			<!-- Tool Select -->
 			<span class="tool">
 				<input type="radio" name="tool" id="tool_pencil" value="pencil" checked="checked">
 				<label for="tool_pencil">Pencil</label>
@@ -28,14 +30,25 @@
 				<input type="radio" name="tool" id="tool_eraser" value="eraser">
 				<label for="tool_eraser">Eraser</label>
 			</span>
+
+			<!-- Color Options -->
 			<span class="colors">
 				<input type="color" name="stroke-color" value="#000000">
 				<input type="color" name="fill-color" value="#ffffff">
 			</span>
-			<input type="range" name="size" min="1" max="25" value="1">
+
+			<!-- Tool Size Slider -->
+			<input type="range" name="size" min="1" max="25" value="5">
+		</div>
+
+		<!-- Action Menu -->
+		<div id="actions" hidden>
+			<button name="clear">Clear Canvas</button>
+			<button name="save">Save Image</button>
 		</div>
 	</header>
 
+	<!-- Login Form -->
 	<form id="user-login">
 		<label for="name">Hey, so, enter your username:</label>
 		<input type="text" name="name">
@@ -43,7 +56,9 @@
 		<p class="error"></p>
 	</form>
 
+	<!-- Canvases -->
 	<div id="canvases" style="width:{{canvasWidth}}px; height:{{canvasHeight}}px;" hidden>
+		<!-- Canvas Layers -->
 		<div id="layers">
 			<div id="layer-1" class="layer">
 				<canvas class="canvas-final" width="{{canvasWidth}}" height="{{canvasHeight}}"></canvas>
@@ -51,6 +66,7 @@
 			</div>
 		</div>
 
+		<!-- User Cursor Display -->
 		<!-- <canvas id="user-canvas" width="{{canvasWidth}}" height="{{canvasHeight}}">
 			Yo, your browser doesn't support canvas. Get on that.
 		</canvas> -->

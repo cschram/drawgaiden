@@ -22,7 +22,8 @@ function ( App, Component, Logging, PencilTool ) {
 		this.drawing  = false;
 
 		this.after('initialize', function () {
-			var finalCanvas = this.$node.find('.canvas-final')[0],
+			var self        = this,
+				finalCanvas = this.$node.find('.canvas-final')[0],
 				draftCanvas = this.$node.find('.canvas-draft')[0],
 				width       = finalCanvas.width,
 				height      = finalCanvas.height;
@@ -37,38 +38,81 @@ function ( App, Component, Logging, PencilTool ) {
 			};
 			this.tool = 'pencil';
 
-			//
-			// Mouse action event handlers
-			//
-			this.on(document, 'canvas.mouse.down', function ( e, coord ) {
-				this.tools[ this.tool ].mouseDown( coord );
-			});
+			// Functions
 
-			this.on(document, 'canvas.mouse.up', function ( e ) {
-				var tool = this.tools [ this.tool ],
+			function mouseUp() {
+				var tool = self.tools [ self.tool ],
 					path = tool.mouseUp();
 
 				// Send to other users
 				App.draw({
-					tool     : this.tool,
+					tool     : self.tool,
 					settings : tool.settings,
 					path     : path
 				});
 
 				// Clear draft canvas
-				this.draftCtx.clearRect(0, 0, width, height);
+				self.draftCtx.clearRect(0, 0, width, height);
+			}
+
+			function colorChange( color, type ) {
+				for (var name in self.tools) {
+					if ( self.tools.hasOwnProperty( name ) ) {
+						self.tools[ name ].settings[ type + 'Style' ] = color;
+					}
+				}
+			}
+
+			//
+			// Mouse action event handlers
+			//
+
+			this.on( document, 'canvas.mouse.down', function ( e, coord ) {
+				this.tools[ this.tool ].mouseDown( coord );
 			});
 
-			this.on(document, 'canvas.mouse.move', function ( e, coord ) {
+			this.on( document, 'canvas.mouse.up', mouseUp );
+
+			this.on( document, 'canvas.mouse.out', function ( e, coord ) {
+				var tool = this.tools[ this.tool ];
+				if ( tool.active ) {
+					tool.mouseMove( coord );
+					mouseUp();
+				}
+			});
+
+			this.on( document, 'canvas.mouse.move', function ( e, coord ) {
 				this.tools[ this.tool ].mouseMove( coord );
+			});
+
+			//
+			// Tool event handlers
+			//
+
+			this.on( document, 'tool.color.stroke.change', function ( e, data ) {
+				colorChange( data.color, 'stroke' );
+			});
+
+			this.on( document, 'tool.color.fill.change', function ( e, data ) {
+				colorChange( data.color, 'fill' );
+			});
+
+			this.on( document, 'tool.size.change', function ( e, size ) {
+				for (var name in this.tools) {
+					if ( this.tools.hasOwnProperty( name ) ) {
+						this.tools[ name ].settings.lineWidth = size;
+					}
+				}
 			});
 
 			//
 			// Drawing event handlers
 			//
-			this.on('canvas.draw', function ( e, data ) {
+
+			this.on( 'canvas.draw', function ( e, data ) {
 				this.tools[ data.tool ].draw( data.path, data.settings );
 			});
+
 		});
 	}
 
