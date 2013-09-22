@@ -8,31 +8,46 @@ function ( Tool, simplify ) {
 
 	var PencilTool = Tool.extend({
 
-		//
-		// Draw a series of lines
-		// If there are more than two points it will run the points through simplify to improve line
-		// fluidity.
-		//
-		// @param {Context} [context] Canvas context
-		// @param {Array} [coords] Array containing objects representing x/y coordinates of line points
-		//
-		draw: function (context, coords) {
-			// Reset styling
-			this._super(context);
+		mouseMove: function ( coord ) {
+			this._super( coord );
 
-			// Run through simplify if necessary
-			if (coords.length > 2) {
-				coords = simplify(coords, 0.8, true);
+			if (this.active) {
+				this.draftCtx.beginPath();
+
+				this.draftCtx.moveTo( this.lastCoord.x, this.lastCoord.y );
+				this.draftCtx.lineTo( coord.x, coord.y );
+
+				this.resetCtx( this.draftCtx, this.settings );
+				this.draftCtx.stroke();
+				this.draftCtx.closePath();
+
+				this.lastCoord = coord;
+			}
+		},
+
+		draw: function ( path, settings ) {
+			if (path.length === 0) {
+				return;
 			}
 
-			// Draw lines
-			context.beginPath();
-			context.moveTo(coords[0].x, coords[0].y);
-			for (var i = 1, len = coords.length; i < len; i++) {
-				context.lineTo(coords[i].x, coords[i].y);
+			settings = settings || this.settings;
+
+			this.finalCtx.beginPath();
+			this.resetCtx( this.finalCtx, settings );
+
+			if (path.length === 1) {
+				// Do something here
+			} else {
+				path = simplify( path, 0.2, true );
+
+				for (var i = 1, len = path.length; i < len; i++) {
+					this.finalCtx.moveTo( path[i - 1].x, path[i - 1].y );
+					this.finalCtx.lineTo( path[i].x,     path[i].y );
+				}
 			}
-			context.stroke();
-			context.closePath();
+
+			this.finalCtx.stroke();
+			this.finalCtx.closePath();
 		}
 
 	});

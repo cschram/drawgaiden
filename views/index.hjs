@@ -2,7 +2,7 @@
 <html>
 <head>
 
-	<title>Get Up And Draw Gaiden 2: Shut Up And Sketch</title>
+	<title>Get Up And Draw Gaiden: 2, Shut Up And Sketch, Episode 1 of the Draw SaGa</title>
 
 	<!--[if IE]><script src="js/contrib/excanvas/excanvas.js"></script><![endif]-->
 
@@ -13,8 +13,7 @@
 <body>
 
 	<header>
-		<h1>Get Up And Draw Gaiden 2</h1>
-		<h2>Shut Up And Sketch, Episode 1 of the Draw SaGa</h2>
+		<!-- Tool bar -->
 	</header>
 
 	<form id="user-login">
@@ -32,9 +31,9 @@
 			</div>
 		</div>
 
-		<canvas id="user-canvas" width="{{canvasWidth}}" height="{{canvasHeight}}">
+		<!-- <canvas id="user-canvas" width="{{canvasWidth}}" height="{{canvasHeight}}">
 			Yo, your browser doesn't support canvas. Get on that.
-		</canvas>
+		</canvas> -->
 	</div>
 
 	<script src="js/contrib/es5-shim/es5-shim.js"></script>

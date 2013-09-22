@@ -22,7 +22,7 @@ app.configure('development', function () {
   app.use(express.errorHandler());
 });
 
-app.get('/', function (req, res) {
+app.get('/', function ( req, res ) {
   res.render('index', config);
 });
 
@@ -30,11 +30,11 @@ server.listen(app.get('port'), function () {
   console.log("Express server listening on port " + app.get('port'));
 });
 
-io.sockets.on("connection", function (socket) {
+io.sockets.on("connection", function ( socket ) {
 
   console.log("Socket.io Connection.");
 
-  socket.on('login', function (name, done) {
+  socket.on('login', function ( name, done ) {
 
     if (state.users.indexOf(name) > -1) {
 
@@ -50,6 +50,10 @@ io.sockets.on("connection", function (socket) {
 
     }
 
+  });
+
+  socket.on('draw', function ( options ) {
+    socket.broadcast.emit( 'draw', options );
   });
     
 });

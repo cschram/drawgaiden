@@ -11,9 +11,11 @@ function ( App, Component, Logging, Canvas, UserCanvas ) {
 
 	function Canvases() {
 		this.after('initialize', function () {
-			this.on(document, 'loginSuccess', function () {
+			var layers = this.$node.find( '.layer' );
+
+			this.on(document, 'login.success', function () {
 				// Initialize Layers
-				this.$node.find('.layer').each(function () {
+				layers.each(function () {
 					Canvas.attachTo(this, {
 						canvasGroup: this.node
 					});
@@ -24,21 +26,30 @@ function ( App, Component, Logging, Canvas, UserCanvas ) {
 
 			// Fire off mouse events to 
 			this.on('mousedown', function (e) {
-				this.trigger('canvasMouseDown', {
+				this.trigger( document, 'canvas.mouse.down', {
 					x: e.offsetX,
 					y: e.offsetY
 				});
 			});
 			this.on('mouseup', function (e) {
-				this.trigger('canvasMouseUp', {
+				this.trigger( document, 'canvas.mouse.up' );
+			});
+			this.on('mousemove', function (e) {
+				this.trigger( document, 'canvas.mouse.move', {
 					x: e.offsetX,
 					y: e.offsetY
 				});
 			});
-			this.on('mousemove', function (e) {
-				this.trigger('canvasMouseMove', {
-					x: e.offsetX,
-					y: e.offsetY
+
+
+			//
+			// IO Events
+			//
+			this.on( document, 'io.draw', function ( e, data ) {
+				var self = this;
+
+				layers.each(function () {
+					self.trigger( this, 'canvas.draw', data );
 				});
 			});
 		});

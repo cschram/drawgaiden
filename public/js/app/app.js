@@ -12,12 +12,16 @@ function ( io, Logger ) {
 
 		init: function () {
 			this.socket = io.connect('/');
+
+			this.socket.on('draw', function ( data ) {
+				$( document ).trigger( 'io.draw', data );
+			});
 		},
 
-		login: function (name) {
+		login: function ( name ) {
 			var def = $.Deferred();
 
-			this.socket.emit('login', name, function (err, data) {
+			this.socket.emit('login', name, function ( err, data ) {
 				if (err) {
 					def.reject(err);
 				} else {
@@ -28,6 +32,10 @@ function ( io, Logger ) {
 			});
 
 			return def.promise();
+		},
+
+		draw: function ( opts ) {
+			this.socket.emit( 'draw', opts );
 		}
 
 	};

@@ -19,7 +19,7 @@ function ( App, Component, Logging ) {
 
 			this.log('Initialized');
 
-			this.on('submit', function (e) {
+			this.on('submit', function ( e ) {
 				var name = this.$node.find('input[name="name"]').val();
 
 				e.preventDefault();
@@ -27,17 +27,17 @@ function ( App, Component, Logging ) {
 				this.$error.text('');
 
 				if (name.length) {
-					this.log('Logging in with "' + name + '".');
+					this.log( 'Logging in with "' + name + '".' );
 
-					App.login(name).then(function () {
+					App.login( name ).then(function () {
 						self.$node.hide();
-						self.trigger(document, 'loginSuccess');
+						self.trigger( document, 'login.success' );
 						self.teardown();
-					}, function (err) {
-						self.$error.text(err);
+					}, function ( err ) {
+						self.$error.text( err );
 					});
 				} else {
-					this.$error.text('Please enter a name');
+					this.$error.text( 'Please enter a name' );
 				}
 			});
 		});
