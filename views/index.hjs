@@ -25,7 +25,12 @@
 	</form>
 
 	<div id="canvases" style="width:{{canvasWidth}}px; height:{{canvasHeight}}px;" hidden>
-		<canvas id="canvas" width="{{canvasWidth}}" height="{{canvasHeight}}"></canvas>
+		<div id="layers">
+			<div id="layer-1" class="layer">
+				<canvas class="canvas-final" width="{{canvasWidth}}" height="{{canvasHeight}}"></canvas>
+				<canvas class="canvas-draft" width="{{canvasWidth}}" height="{{canvasHeight}}"></canvas>
+			</div>
+		</div>
 
 		<canvas id="user-canvas" width="{{canvasWidth}}" height="{{canvasHeight}}">
 			Yo, your browser doesn't support canvas. Get on that.

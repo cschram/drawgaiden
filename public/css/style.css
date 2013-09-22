@@ -23,11 +23,11 @@ header {
 header h1,
 header h2 {
 	margin: 0;
-	padding: 5px 20px;
+	padding: 1px 8px;
 	text-shadow: none;
 }
-header h1 { font-size: 26px; }
-header h2 { font-size: 18px; }
+header h1 { font-size: 20px; }
+header h2 { font-size: 14px; }
 
 label { padding: 0 0 0 3px; }
 
@@ -72,8 +72,7 @@ input[type="submit"] {
 	position: relative;
 }
 
-canvas {
-	background: transparent;
+#user-canvas, .layer {
 	left: 0;
 	position: absolute;
 	top: 0;

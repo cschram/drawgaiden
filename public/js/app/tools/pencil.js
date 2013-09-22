@@ -27,10 +27,8 @@ function ( Tool, simplify ) {
 
 			// Draw lines
 			context.beginPath();
-			console.log(coords[0].x + ', ' + coords[0].y);
 			context.moveTo(coords[0].x, coords[0].y);
 			for (var i = 1, len = coords.length; i < len; i++) {
-				console.log(coords[i].x + ', ' + coords[i].y);
 				context.lineTo(coords[i].x, coords[i].y);
 			}
 			context.stroke();
