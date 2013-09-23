@@ -36,17 +36,27 @@ function ( Tool, simplify ) {
 			this.resetCtx( this.finalCtx, settings );
 
 			if (path.length === 1) {
-				// Do something here
+				this.finalCtx.fillStyle = settings.strokeStyle;
+				this.finalCtx.arc(
+					path[0].x,
+					path[0].y,
+					settings.lineWidth / 2,
+					0,
+					2 * Math.PI,
+					false
+				);
+				this.finalCtx.fill();
 			} else {
-				path = simplify( path, 0.2, true );
+				path = simplify( path, 0.8, true );
 
 				for (var i = 1, len = path.length; i < len; i++) {
 					this.finalCtx.moveTo( path[i - 1].x, path[i - 1].y );
 					this.finalCtx.lineTo( path[i].x,     path[i].y );
 				}
+
+				this.finalCtx.stroke();
 			}
 
-			this.finalCtx.stroke();
 			this.finalCtx.closePath();
 		}
 
