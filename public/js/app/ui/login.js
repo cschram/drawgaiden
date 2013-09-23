@@ -29,9 +29,11 @@ function ( App, Component, Logging ) {
 				if (name.length) {
 					this.log( 'Logging in with "' + name + '".' );
 
-					App.login( name ).then(function () {
+					App.login( name ).then(function ( data ) {
 						self.$node.hide();
-						self.trigger( document, 'login.success' );
+						self.trigger( document, 'login.success', {
+							canvasData : data
+						});
 						self.teardown();
 					}, function ( err ) {
 						self.$error.text( err );

@@ -104,12 +104,15 @@ header input[type="radio"]:checked + label {
  ******************************************************************************/
 
 #canvases {
-	background: #fff;
 	border: 1px solid #001133;
 	margin: 0 auto 20px auto;
+	overflow: hidden;
 	position: relative;
 }
 
+.layer {
+	background: #fff;
+}
 #user-canvas, .layer, .canvas-draft {
 	left: 0;
 	position: absolute;

@@ -13,8 +13,12 @@ function ( io, Logger ) {
 		init: function () {
 			this.socket = io.connect('/');
 
-			this.socket.on('draw', function ( data ) {
+			this.socket.on( 'draw', function ( data ) {
 				$( document ).trigger( 'io.draw', data );
+			});
+
+			this.socket.on( 'clear', function () {
+				$( document ).trigger( 'actions.clear' );
 			});
 		},
 
@@ -23,11 +27,9 @@ function ( io, Logger ) {
 
 			this.socket.emit('login', name, function ( err, data ) {
 				if (err) {
-					def.reject(err);
+					def.reject( err );
 				} else {
-					// Do something with data
-
-					def.resolve();
+					def.resolve( data );
 				}
 			});
 
@@ -36,6 +38,10 @@ function ( io, Logger ) {
 
 		draw: function ( opts ) {
 			this.socket.emit( 'draw', opts );
+		},
+
+		clear: function () {
+			this.socket.emit( 'clear' );
 		}
 
 	};

@@ -17,15 +17,17 @@ require([
 
 	'app/app',
 	'app/ui/tools',
+	'app/ui/actions',
 	'app/ui/login',
 	'app/ui/canvases',
 
-], function ( App, Tools, Login, Canvases ) {
+], function ( App, Tools, Actions, Login, Canvases ) {
 	
 	App.init();
 
 	// Attach components
 	Tools.attachTo( '#tools' );
+	Actions.attachTo( '#actions' );
 	Login.attachTo( '#user-login' );
 	Canvases.attachTo( '#canvases' );
 

@@ -18,6 +18,12 @@ function ( App, Component, Logging ) {
 				this.$node.show();
 			});
 
+			this.on( toolOptions, 'change', function () {
+				this.trigger( document, 'tool.change', {
+					toolName : toolOptions.filter(':checked').val()
+				})
+			});
+
 			this.on( strokeColor, 'change', function () {
 				this.trigger( document, 'tool.color.stroke.change', {
 					color : strokeColor.val()

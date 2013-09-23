@@ -10,8 +10,9 @@ function ( App, Component, Logging, PencilTool ) {
 
 	function Canvas() {
 		this.defaultAttrs({
-			logGroup: 'Canvas',
-			canvasGroup: document
+			logGroup    : 'Canvas',
+			canvasGroup : document,
+			canvasData  : null
 		});
 
 		this.finalCtx = null;
@@ -40,6 +41,10 @@ function ( App, Component, Logging, PencilTool ) {
 
 			// Functions
 
+			function clearCtx( ctx ) {
+				ctx.clearRect( 0, 0, width, height );
+			}
+
 			function mouseUp() {
 				var tool = self.tools [ self.tool ],
 					path = tool.mouseUp();
@@ -52,7 +57,7 @@ function ( App, Component, Logging, PencilTool ) {
 				});
 
 				// Clear draft canvas
-				self.draftCtx.clearRect(0, 0, width, height);
+				clearCtx( self.draftCtx );
 			}
 
 			function colorChange( color, type ) {
@@ -62,6 +67,20 @@ function ( App, Component, Logging, PencilTool ) {
 					}
 				}
 			}
+
+			function draw( tool, path, settings ) {
+				self.tools[ tool ].draw( path, settings );
+			}
+
+
+			// Draw initial canvas data
+			var canvasData = this.attr.canvasData,
+				i          = 0,
+				len        = canvasData.length;
+			for (; i < len; i++) {
+				draw( canvasData[ i ].tool, canvasData[ i ].path, canvasData[ i ].settings );
+			}
+
 
 			//
 			// Mouse action event handlers
@@ -89,6 +108,12 @@ function ( App, Component, Logging, PencilTool ) {
 			// Tool event handlers
 			//
 
+			this.on( document, 'tool.change', function ( e, data ) {
+				if ( this.tools.hasOwnProperty( data.toolName ) ) {
+					this.tool = data.toolName;
+				}
+			});
+
 			this.on( document, 'tool.color.stroke.change', function ( e, data ) {
 				colorChange( data.color, 'stroke' );
 			});
@@ -106,11 +131,25 @@ function ( App, Component, Logging, PencilTool ) {
 			});
 
 			//
+			// Action event handlers
+			//
+
+			this.on( document, 'actions.clear', function () {
+				clearCtx( this.finalCtx );
+				clearCtx( this.draftCtx );
+			});
+
+			this.on( document, 'actions.save', function () {
+				var data = finalCanvas.toDataURL( 'image/png' );
+				window.open( data, '_blank' );
+			});
+
+			//
 			// Drawing event handlers
 			//
 
 			this.on( 'canvas.draw', function ( e, data ) {
-				this.tools[ data.tool ].draw( data.path, data.settings );
+				draw( data.tool, data.path, data.settings );
 			});
 
 		});

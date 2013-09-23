@@ -13,11 +13,12 @@ function ( App, Component, Logging, Canvas, UserCanvas ) {
 		this.after('initialize', function () {
 			var layers = this.$node.find( '.layer' );
 
-			this.on(document, 'login.success', function () {
+			this.on(document, 'login.success', function ( e, data ) {
 				// Initialize Layers
 				layers.each(function () {
 					Canvas.attachTo(this, {
-						canvasGroup: this.node
+						canvasGroup : this.node,
+						canvasData  : data.canvasData || []
 					});
 				});
 

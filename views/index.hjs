@@ -22,14 +22,14 @@
 				<input type="radio" name="tool" id="tool_pencil" value="pencil" checked="checked">
 				<label for="tool_pencil">Pencil</label>
 			</span>
-			<span class="tool">
+			<!-- <span class="tool">
 				<input type="radio" name="tool" id="tool_rectangle" value="rectangle">
 				<label for="tool_rectangle">Rectangle</label>
 			</span>
 			<span class="tool">
 				<input type="radio" name="tool" id="tool_eraser" value="eraser">
 				<label for="tool_eraser">Eraser</label>
-			</span>
+			</span> -->
 
 			<!-- Color Options -->
 			<span class="colors">
@@ -43,8 +43,8 @@
 
 		<!-- Action Menu -->
 		<div id="actions" hidden>
-			<button name="clear">Clear Canvas</button>
-			<button name="save">Save Image</button>
+			<button name="clear">Clear</button>
+			<button name="save">Save</button>
 		</div>
 	</header>
 
