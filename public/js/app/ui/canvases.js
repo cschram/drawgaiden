@@ -13,6 +13,14 @@ function ( App, Component, Logging, Canvas, UserCanvas ) {
 		this.after('initialize', function () {
 			var layers = this.$node.find( '.layer' );
 
+			function pos( e ) {
+				var tp = $(e.target).offset();
+				return {
+					x : e.pageX - tp.left,
+					y : e.pageY - tp.top
+				};
+			}
+
 			this.on(document, 'login.success', function ( e, data ) {
 				// Initialize Layers
 				layers.each(function () {
@@ -27,25 +35,16 @@ function ( App, Component, Logging, Canvas, UserCanvas ) {
 
 			// Fire off mouse events to 
 			this.on('mousedown', function (e) {
-				this.trigger( document, 'canvas.mouse.down', {
-					x : e.offsetX,
-					y : e.offsetY
-				});
+				this.trigger( document, 'canvas.mouse.down', pos( e ));
 			});
 			this.on('mouseup', function (e) {
 				this.trigger( document, 'canvas.mouse.up' );
 			});
 			this.on('mouseout', function (e) {
-				this.trigger( document, 'canvas.mouse.out', {
-					x : e.offsetX,
-					y : e.offsetY
-				});
+				this.trigger( document, 'canvas.mouse.out', pos( e ));
 			});
 			this.on('mousemove', function (e) {
-				this.trigger( document, 'canvas.mouse.move', {
-					x : e.offsetX,
-					y : e.offsetY
-				});
+				this.trigger( document, 'canvas.mouse.move', pos( e ));
 			});
 
 

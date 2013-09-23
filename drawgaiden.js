@@ -32,6 +32,14 @@ server.listen( app.get( 'port' ), function () {
 
 io.sockets.on( 'connection', function ( socket ) {
 
+  socket.on( 'disconnect', function () {
+    socket.get( 'name', function ( e, name ) {
+      if ( !e && state.users.indexOf( name ) > -1 ) {
+        state.users.splice( state.users.indexOf( name ), 1 );
+      }
+    });
+  });
+
   socket.on( 'login', function ( name, done ) {
 
     if ( state.users.indexOf( name ) > -1 ) {
