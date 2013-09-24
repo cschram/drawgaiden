@@ -1,15 +1,26 @@
-Get Up And Draw Gaiden: 2, Shut Up And Sketch
-===
+# Get Up And Draw Gaiden: 2
 
 Draw Gaiden is a collaborative drawing web application. With it you can draw on a shared canvas in with friends. Using it is easy:
 
-	$ git clone https://github.com/abjorn/drawgaiden.git
-	$ cd drawgaiden
-	$ npm install
-	$ node drawgaiden.js
+	git clone https://github.com/abjorn/drawgaiden.git
+	cd drawgaiden
+	npm install
+	node drawgaiden.js
 
-To Do
-===
+You can tweak individual settings in `config.js`.
+
+# Features
+
+* Real-time web-socket collaboration
+* Pencil tool allowing you to draw with any color and multiple line widths
+* Clear and Save buttons
+
+Currently all of the canvas state is stored in memory in the Node application, so if you kill the process and start it up all of your data is lost.
+
+**Note:** There are two color switchers in the tool bar at the moment. The first is the stroke color, the second is the fill color. Since there is no tool implemented yet that uses the fill color, the second color switcher won't have any effect on anything.
+
+# To Do
+
 * Custom cursors (pencil for pencil tool, etc)
 * Additional tools
 	+ Rectangle
@@ -17,12 +28,12 @@ To Do
 	+ Eraser
 * Cursor overlay showing where each user's cursor is
 	+ Undecided whether only while drawing or not
+* Persistent storage for canvas data
 * Undo stack
 * Ability to clear only your work, instead of everyone's
 * Chat / action window so users can talk to each other and see users logging in and out
 
-License
-===
+# License
 
 Copyright (c) 2012 Corey Schram
 
