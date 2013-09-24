@@ -1,7 +1,25 @@
-Cheer's Chef Boyardee Presents Abjorn's Get Up And Draw Gaiden: 2, Shut Up And Sketch, Episode 1 of the Draw SaGa 
+Get Up And Draw Gaiden: 2, Shut Up And Sketch
 ===
 
-Draw Gaiden is a collaborative drawing web application. The idea is you spin up the Node.js server and you and your friends can draw together on a canvas. Simple, eh?
+Draw Gaiden is a collaborative drawing web application. With it you can draw on a shared canvas in with friends. Using it is easy:
+
+	$ git clone https://github.com/abjorn/drawgaiden.git
+	$ cd drawgaiden
+	$ npm install
+	$ node drawgaiden.js
+
+To Do
+===
+* Custom cursors (pencil for pencil tool, etc)
+* Additional tools
+	+ Rectangle
+	+ Circle
+	+ Eraser
+* Cursor overlay showing where each user's cursor is
+	+ Undecided whether only while drawing or not
+* Undo stack
+* Ability to clear only your work, instead of everyone's
+* Chat / action window so users can talk to each other and see users logging in and out
 
 License
 ===
