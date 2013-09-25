@@ -17,8 +17,6 @@ You can tweak individual settings in `config.js`.
 
 Currently all of the canvas state is stored in memory in the Node application, so if you kill the process and start it up all of your data is lost.
 
-**Note:** There are two color switchers in the tool bar at the moment. The first is the stroke color, the second is the fill color. Since there is no tool implemented yet that uses the fill color, the second color switcher won't have any effect on anything.
-
 # To Do
 
 * Additional tools
