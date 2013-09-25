@@ -21,7 +21,6 @@ Currently all of the canvas state is stored in memory in the Node application, s
 
 # To Do
 
-* Custom cursors (pencil for pencil tool, etc)
 * Additional tools
 	+ Rectangle
 	+ Circle

@@ -22,14 +22,14 @@
 				<input type="radio" name="tool" id="tool_pencil" value="pencil" checked="checked">
 				<label for="tool_pencil">Pencil</label>
 			</span>
-			<!-- <span class="tool">
+			<span class="tool">
 				<input type="radio" name="tool" id="tool_rectangle" value="rectangle">
 				<label for="tool_rectangle">Rectangle</label>
 			</span>
 			<span class="tool">
-				<input type="radio" name="tool" id="tool_eraser" value="eraser">
-				<label for="tool_eraser">Eraser</label>
-			</span> -->
+				<input type="radio" name="tool" id="tool_circle" value="circle">
+				<label for="tool_circle">Circle</label>
+			</span>
 
 			<!-- Color Options -->
 			<span class="colors">
@@ -38,7 +38,7 @@
 			</span>
 
 			<!-- Tool Size Slider -->
-			<input type="range" name="size" min="1" max="25" value="5">
+			<input type="range" name="size" min="1" max="25" value="1">
 		</div>
 
 		<!-- Action Menu -->
@@ -57,7 +57,7 @@
 	</form>
 
 	<!-- Canvases -->
-	<div id="canvases" style="width:{{canvasWidth}}px; height:{{canvasHeight}}px;" hidden>
+	<div id="canvases" class="tool-pencil" style="width:{{canvasWidth}}px; height:{{canvasHeight}}px;" hidden>
 		<!-- Canvas Layers -->
 		<div id="layers">
 			<div id="layer-1" class="layer">

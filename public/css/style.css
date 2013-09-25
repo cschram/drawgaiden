@@ -110,6 +110,11 @@ header input[type="radio"]:checked + label {
 	position: relative;
 }
 
+#canvases.tool-pencil { cursor: url(/images/cursors/pencil.png), crosshair; }
+#canvases.tool-rectangle,
+#canvases.tool-circle { cursor: crosshair; }
+#canvases.tool-eraser { cursor: url(/images/cursors/eraser.png), crosshair; }
+
 .layer {
 	background: #fff;
 }

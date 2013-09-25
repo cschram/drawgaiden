@@ -3,10 +3,12 @@ define([
 	'app/app',
 	'flight/component',
 	'app/mixins/logging',
-	'app/tools/pencil'
+	'app/tools/pencil',
+	'app/tools/rectangle',
+	'app/tools/circle'
 
 ],
-function ( App, Component, Logging, PencilTool ) {
+function ( App, Component, Logging, PencilTool, RectangleTool, CircleTool ) {
 
 	function Canvas() {
 		this.defaultAttrs({
@@ -25,9 +27,7 @@ function ( App, Component, Logging, PencilTool ) {
 		this.after('initialize', function () {
 			var self        = this,
 				finalCanvas = this.$node.find('.canvas-final')[0],
-				draftCanvas = this.$node.find('.canvas-draft')[0],
-				width       = finalCanvas.width,
-				height      = finalCanvas.height;
+				draftCanvas = this.$node.find('.canvas-draft')[0];
 
 			// Get contexts
 			this.finalCtx = finalCanvas.getContext('2d');
@@ -35,15 +35,15 @@ function ( App, Component, Logging, PencilTool ) {
 
 			// Setup tools
 			this.tools = {
-				'pencil' : new PencilTool( this.finalCtx, this.draftCtx )
+				'pencil'    : new PencilTool( this.finalCtx, this.draftCtx ),
+				'rectangle' : new RectangleTool( this.finalCtx, this.draftCtx ),
+				'circle'    : new CircleTool( this.finalCtx, this.draftCtx )
 			};
 			this.tool = 'pencil';
 
+			//
 			// Functions
-
-			function clearCtx( ctx ) {
-				ctx.clearRect( 0, 0, width, height );
-			}
+			//
 
 			function mouseUp() {
 				var tool = self.tools [ self.tool ],
@@ -57,7 +57,7 @@ function ( App, Component, Logging, PencilTool ) {
 				});
 
 				// Clear draft canvas
-				clearCtx( self.draftCtx );
+				self.draftCtx.clearRect( 0, 0, self.draftCtx.canvas.width, self.draftCtx.canvas.height );
 			}
 
 			function colorChange( color, type ) {
@@ -86,13 +86,13 @@ function ( App, Component, Logging, PencilTool ) {
 			// Mouse action event handlers
 			//
 
-			this.on( document, 'canvas.mouse.down', function ( e, coord ) {
+			this.on( document, 'canvas:mouse:down', function ( e, coord ) {
 				this.tools[ this.tool ].mouseDown( coord );
 			});
 
-			this.on( document, 'canvas.mouse.up', mouseUp );
+			this.on( document, 'canvas:mouse:up', mouseUp );
 
-			this.on( document, 'canvas.mouse.out', function ( e, coord ) {
+			this.on( document, 'canvas:mouse:out', function ( e, coord ) {
 				var tool = this.tools[ this.tool ];
 				if ( tool.active ) {
 					tool.mouseMove( coord );
@@ -100,7 +100,7 @@ function ( App, Component, Logging, PencilTool ) {
 				}
 			});
 
-			this.on( document, 'canvas.mouse.move', function ( e, coord ) {
+			this.on( document, 'canvas:mouse:move', function ( e, coord ) {
 				this.tools[ this.tool ].mouseMove( coord );
 			});
 
@@ -108,21 +108,21 @@ function ( App, Component, Logging, PencilTool ) {
 			// Tool event handlers
 			//
 
-			this.on( document, 'tool.change', function ( e, data ) {
+			this.on( document, 'tool:change', function ( e, data ) {
 				if ( this.tools.hasOwnProperty( data.toolName ) ) {
 					this.tool = data.toolName;
 				}
 			});
 
-			this.on( document, 'tool.color.stroke.change', function ( e, data ) {
+			this.on( document, 'tool:color:stroke:change', function ( e, data ) {
 				colorChange( data.color, 'stroke' );
 			});
 
-			this.on( document, 'tool.color.fill.change', function ( e, data ) {
+			this.on( document, 'tool:color:fill:change', function ( e, data ) {
 				colorChange( data.color, 'fill' );
 			});
 
-			this.on( document, 'tool.size.change', function ( e, size ) {
+			this.on( document, 'tool:size:change', function ( e, size ) {
 				for (var name in this.tools) {
 					if ( this.tools.hasOwnProperty( name ) ) {
 						this.tools[ name ].settings.lineWidth = size;
@@ -134,12 +134,12 @@ function ( App, Component, Logging, PencilTool ) {
 			// Action event handlers
 			//
 
-			this.on( document, 'actions.clear', function () {
-				clearCtx( this.finalCtx );
-				clearCtx( this.draftCtx );
+			this.on( document, 'actions:clear', function () {
+				self.finalCtx.clearRect( 0, 0, self.finalCtx.canvas.width, self.finalCtx.canvas.height );
+				self.draftCtx.clearRect( 0, 0, self.draftCtx.canvas.width, self.draftCtx.canvas.height );
 			});
 
-			this.on( document, 'actions.save', function () {
+			this.on( document, 'actions:save', function () {
 				var data = finalCanvas.toDataURL( 'image/png' );
 				window.open( data, '_blank' );
 			});
@@ -148,7 +148,7 @@ function ( App, Component, Logging, PencilTool ) {
 			// Drawing event handlers
 			//
 
-			this.on( 'canvas.draw', function ( e, data ) {
+			this.on( 'canvas:draw', function ( e, data ) {
 				draw( data.tool, data.path, data.settings );
 			});
 

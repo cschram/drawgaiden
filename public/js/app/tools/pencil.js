@@ -17,7 +17,7 @@ function ( Tool, simplify ) {
 				this.draftCtx.moveTo( this.lastCoord.x, this.lastCoord.y );
 				this.draftCtx.lineTo( coord.x, coord.y );
 
-				this.resetCtx( this.draftCtx, this.settings );
+				this._resetCtx( this.draftCtx, this.settings );
 				this.draftCtx.stroke();
 				this.draftCtx.closePath();
 
@@ -33,7 +33,7 @@ function ( Tool, simplify ) {
 			settings = settings || this.settings;
 
 			this.finalCtx.beginPath();
-			this.resetCtx( this.finalCtx, settings );
+			this._resetCtx( this.finalCtx, settings );
 
 			if (path.length === 1) {
 				this.finalCtx.fillStyle = settings.strokeStyle;

@@ -9,6 +9,8 @@ define([
 ],
 function ( App, Component, Logging, Canvas, UserCanvas ) {
 
+	// TODO: Implement "active" layer, and fire mouse events only on that layer
+	
 	function Canvases() {
 		this.after('initialize', function () {
 			var layers = this.$node.find( '.layer' );
@@ -21,7 +23,7 @@ function ( App, Component, Logging, Canvas, UserCanvas ) {
 				};
 			}
 
-			this.on(document, 'login.success', function ( e, data ) {
+			this.on(document, 'login:success', function ( e, data ) {
 				// Initialize Layers
 				layers.each(function () {
 					Canvas.attachTo(this, {
@@ -33,29 +35,34 @@ function ( App, Component, Logging, Canvas, UserCanvas ) {
 				this.$node.show();
 			});
 
+			this.on( document, 'tool:change', function ( e, data ) {
+				this.$node.attr( 'class', 'tool-' + data.toolName );
+			});
+
 			// Fire off mouse events to 
 			this.on('mousedown', function (e) {
-				this.trigger( document, 'canvas.mouse.down', pos( e ));
+				e.preventDefault();
+				this.trigger( document, 'canvas:mouse:down', pos( e ));
 			});
 			this.on('mouseup', function (e) {
-				this.trigger( document, 'canvas.mouse.up' );
+				this.trigger( document, 'canvas:mouse:up' );
 			});
 			this.on('mouseout', function (e) {
-				this.trigger( document, 'canvas.mouse.out', pos( e ));
+				this.trigger( document, 'canvas:mouse:out', pos( e ));
 			});
 			this.on('mousemove', function (e) {
-				this.trigger( document, 'canvas.mouse.move', pos( e ));
+				this.trigger( document, 'canvas:mouse:move', pos( e ));
 			});
 
 
 			//
 			// IO Events
 			//
-			this.on( document, 'io.draw', function ( e, data ) {
+			this.on( document, 'io:draw', function ( e, data ) {
 				var self = this;
 
 				layers.each(function () {
-					self.trigger( this, 'canvas.draw', data );
+					self.trigger( this, 'canvas:draw', data );
 				});
 			});
 		});

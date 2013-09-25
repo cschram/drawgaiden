@@ -14,11 +14,11 @@ function ( io, Logger ) {
 			this.socket = io.connect('/');
 
 			this.socket.on( 'draw', function ( data ) {
-				$( document ).trigger( 'io.draw', data );
+				$( document ).trigger( 'io:draw', data );
 			});
 
 			this.socket.on( 'clear', function () {
-				$( document ).trigger( 'actions.clear' );
+				$( document ).trigger( 'actions:clear' );
 			});
 		},
 

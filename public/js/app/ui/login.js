@@ -17,8 +17,6 @@ function ( App, Component, Logging ) {
 
 			this.$error = this.$node.find('p.error');
 
-			this.log('Initialized');
-
 			this.on('submit', function ( e ) {
 				var name = this.$node.find('input[name="name"]').val();
 
@@ -31,7 +29,7 @@ function ( App, Component, Logging ) {
 
 					App.login( name ).then(function ( data ) {
 						self.$node.hide();
-						self.trigger( document, 'login.success', {
+						self.trigger( document, 'login:success', {
 							canvasData : data
 						});
 						self.teardown();
