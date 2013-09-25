@@ -12,7 +12,7 @@ You can tweak individual settings in `config.js`.
 # Features
 
 * Real-time web-socket collaboration
-* Pencil tool allowing you to draw with any color and multiple line widths
+* Pencil, Rectangle, and Circle tools
 * Clear and Save buttons
 
 Currently all of the canvas state is stored in memory in the Node application, so if you kill the process and start it up all of your data is lost.
@@ -22,8 +22,6 @@ Currently all of the canvas state is stored in memory in the Node application, s
 # To Do
 
 * Additional tools
-	+ Rectangle
-	+ Circle
 	+ Eraser
 * Cursor overlay showing where each user's cursor is
 	+ Undecided whether only while drawing or not
