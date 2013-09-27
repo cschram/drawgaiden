@@ -20,8 +20,9 @@ require([
 	'app/ui/actions',
 	'app/ui/login',
 	'app/ui/canvases',
+	'app/ui/usercanvas'
 
-], function ( App, Tools, Actions, Login, Canvases ) {
+], function ( App, Tools, Actions, Login, Canvases, UserCanvas ) {
 	
 	App.init();
 
@@ -30,5 +31,6 @@ require([
 	Actions.attachTo( '#actions' );
 	Login.attachTo( '#user-login' );
 	Canvases.attachTo( '#canvases' );
+	UserCanvas.attachTo( '#user-canvas' );
 
 });

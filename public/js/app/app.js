@@ -20,6 +20,12 @@ function ( io, Logger ) {
 			this.socket.on( 'clear', function () {
 				$( document ).trigger( 'actions:clear' );
 			});
+
+			this.socket.on( 'users:update', function ( data ) {
+				$( '#user-canvas' ).trigger( 'users:update', {
+					users: data
+				});
+			});
 		},
 
 		login: function ( name ) {
@@ -42,6 +48,15 @@ function ( io, Logger ) {
 
 		clear: function () {
 			this.socket.emit( 'clear' );
+		},
+
+		updateUser: function ( active, coords ) {
+			coords = coords || { x: 0, y: 0 };
+			this.socket.emit('user:update', {
+				active : active,
+				x      : coords.x,
+				y      : coords.y
+			});
 		}
 
 	};

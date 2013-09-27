@@ -13,7 +13,10 @@ function ( App, Component, Logging, Canvas, UserCanvas ) {
 	
 	function Canvases() {
 		this.after('initialize', function () {
-			var layers = this.$node.find( '.layer' );
+			var layers = this.$node.find( '.layer' ),
+				active = false;
+
+			this.activeLayer = 0;
 
 			function pos( e ) {
 				var tp = $(e.target).offset();
@@ -23,10 +26,11 @@ function ( App, Component, Logging, Canvas, UserCanvas ) {
 				};
 			}
 
-			this.on(document, 'login:success', function ( e, data ) {
+			this.on( document, 'login:success', function ( e, data ) {
 				// Initialize Layers
-				layers.each(function () {
+				layers.each(function ( i ) {
 					Canvas.attachTo(this, {
+						id          : i,
 						canvasGroup : this.node,
 						canvasData  : data.canvasData || []
 					});
@@ -40,18 +44,40 @@ function ( App, Component, Logging, Canvas, UserCanvas ) {
 			});
 
 			// Fire off mouse events to 
-			this.on('mousedown', function (e) {
+			this.on('mousedown', function ( e ) {
+				var p = pos( e );
+
 				e.preventDefault();
-				this.trigger( document, 'canvas:mouse:down', pos( e ));
+
+				active = true;
+				
+				App.updateUser( true, p );
+
+				this.trigger( layers.eq( this.activeLayer ), 'canvas:mouse:down', p );
 			});
-			this.on('mouseup', function (e) {
-				this.trigger( document, 'canvas:mouse:up' );
+			this.on('mouseup', function ( e ) {
+				active = false;
+
+				App.updateUser( false );
+
+				this.trigger( layers.eq( this.activeLayer ), 'canvas:mouse:up' );
 			});
-			this.on('mouseout', function (e) {
-				this.trigger( document, 'canvas:mouse:out', pos( e ));
+			this.on('mouseout', function ( e ) {
+				if ( active ) {
+					active = false;
+					App.updateUser( false );
+
+					this.trigger( layers.eq( this.activeLayer ), 'canvas:mouse:out', pos( e ) );
+				}
 			});
-			this.on('mousemove', function (e) {
-				this.trigger( document, 'canvas:mouse:move', pos( e ));
+			this.on('mousemove', function ( e ) {
+				var p = pos( e );
+
+				if ( active ) {
+					App.updateUser( true, p );
+				}
+
+				this.trigger( layers.eq( this.activeLayer ), 'canvas:mouse:move', p );
 			});
 
 

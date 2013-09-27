@@ -5,10 +5,11 @@ define([
 	'app/mixins/logging',
 	'app/tools/pencil',
 	'app/tools/rectangle',
-	'app/tools/circle'
+	'app/tools/circle',
+	'app/tools/eraser'
 
 ],
-function ( App, Component, Logging, PencilTool, RectangleTool, CircleTool ) {
+function ( App, Component, Logging, PencilTool, RectangleTool, CircleTool, EraserTool ) {
 
 	function Canvas() {
 		this.defaultAttrs({
@@ -37,7 +38,8 @@ function ( App, Component, Logging, PencilTool, RectangleTool, CircleTool ) {
 			this.tools = {
 				'pencil'    : new PencilTool( this.finalCtx, this.draftCtx ),
 				'rectangle' : new RectangleTool( this.finalCtx, this.draftCtx ),
-				'circle'    : new CircleTool( this.finalCtx, this.draftCtx )
+				'circle'    : new CircleTool( this.finalCtx, this.draftCtx ),
+				'eraser'    : new EraserTool( this.finalCtx, this.draftCtx )
 			};
 			this.tool = 'pencil';
 
@@ -86,13 +88,13 @@ function ( App, Component, Logging, PencilTool, RectangleTool, CircleTool ) {
 			// Mouse action event handlers
 			//
 
-			this.on( document, 'canvas:mouse:down', function ( e, coord ) {
+			this.on('canvas:mouse:down', function ( e, coord ) {
 				this.tools[ this.tool ].mouseDown( coord );
 			});
 
-			this.on( document, 'canvas:mouse:up', mouseUp );
+			this.on('canvas:mouse:up', mouseUp );
 
-			this.on( document, 'canvas:mouse:out', function ( e, coord ) {
+			this.on('canvas:mouse:out', function ( e, coord ) {
 				var tool = this.tools[ this.tool ];
 				if ( tool.active ) {
 					tool.mouseMove( coord );
@@ -100,7 +102,7 @@ function ( App, Component, Logging, PencilTool, RectangleTool, CircleTool ) {
 				}
 			});
 
-			this.on( document, 'canvas:mouse:move', function ( e, coord ) {
+			this.on('canvas:mouse:move', function ( e, coord ) {
 				this.tools[ this.tool ].mouseMove( coord );
 			});
 

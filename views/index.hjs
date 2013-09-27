@@ -30,6 +30,10 @@
 				<input type="radio" name="tool" id="tool_circle" value="circle">
 				<label for="tool_circle">Circle</label>
 			</span>
+			<span class="tool">
+				<input type="radio" name="tool" id="tool_eraser" value="eraser">
+				<label for="tool_eraser">Eraser</label>
+			</span>
 
 			<!-- Color Options -->
 			<span class="colors">
@@ -60,16 +64,14 @@
 	<div id="canvases" class="tool-pencil" style="width:{{canvasWidth}}px; height:{{canvasHeight}}px;" hidden>
 		<!-- Canvas Layers -->
 		<div id="layers">
-			<div id="layer-1" class="layer">
+			<div class="layer">
 				<canvas class="canvas-final" width="{{canvasWidth}}" height="{{canvasHeight}}"></canvas>
 				<canvas class="canvas-draft" width="{{canvasWidth}}" height="{{canvasHeight}}"></canvas>
 			</div>
 		</div>
 
 		<!-- User Cursor Display -->
-		<!-- <canvas id="user-canvas" width="{{canvasWidth}}" height="{{canvasHeight}}">
-			Yo, your browser doesn't support canvas. Get on that.
-		</canvas> -->
+		<canvas id="user-canvas" width="{{canvasWidth}}" height="{{canvasHeight}}"></canvas>
 	</div>
 
 	<!-- Base Dependencies -->
