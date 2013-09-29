@@ -9,6 +9,8 @@ Draw Gaiden is a collaborative drawing web application. With it you can draw on 
 
 You can tweak individual settings in `config.js`.
 
+If you just want to see it in action, you can check out the instance running at http://drawgaiden.com.
+
 # Features
 
 * Real-time web-socket collaboration
