@@ -8,7 +8,8 @@ function ( io, Logger ) {
 	
 	var App = {
 
-		socket: null,
+		socket   : null,
+		userName : '',
 
 		init: function () {
 			this.socket = io.connect('/');
@@ -29,12 +30,14 @@ function ( io, Logger ) {
 		},
 
 		login: function ( name ) {
-			var def = $.Deferred();
+			var self = this,
+				def  = $.Deferred();
 
 			this.socket.emit('login', name, function ( err, data ) {
 				if (err) {
 					def.reject( err );
 				} else {
+					self.userName = name;
 					def.resolve( data );
 				}
 			});

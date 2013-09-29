@@ -15,8 +15,11 @@ function ( App, Component, Logging ) {
 		this.after('initialize', function () {
 			var self = this;
 
-			this.ctx = this.node.getContext( '2d' );
-			this.ctx.font = '10pt Arial';
+			this.ctx               = this.node.getContext( '2d' );
+			this.ctx.font          = '10pt Arial';
+			this.ctx.shadowColor   = "white";
+			this.ctx.shadowOffsetX = 1;
+			this.ctx.shadowOffsetY = 1;
 
 			this.on('users:update', function ( e, data ) {
 				this.ctx.clearRect( 0, 0, this.node.width, this.node.height );
@@ -25,7 +28,9 @@ function ( App, Component, Logging ) {
 					len = data.users.length;
 
 				for (; i < len; i++) {
-					this.ctx.fillText( data.users[i].name, data.users[i].x, data.users[i].y );
+					if ( data.users[i].name !== App.userName ) {
+						this.ctx.fillText( data.users[i].name, data.users[i].x, data.users[i].y );
+					}
 				}
 			});
 

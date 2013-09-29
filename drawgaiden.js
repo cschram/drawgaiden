@@ -98,7 +98,7 @@ io.sockets.on( 'connection', function ( socket ) {
                 // Make a copy of state.users that doesn't include the current user
                 var d = [];
                 for (var n in state.users) {
-                    if ( state.users.hasOwnProperty( n ) ) {
+                    if ( state.users.hasOwnProperty( n ) && state.users[ n ].active ) {
                         d.push({
                             name : name,
                             x    : state.users[ n ].x,
@@ -106,6 +106,7 @@ io.sockets.on( 'connection', function ( socket ) {
                         });
                     }
                 }
+
                 socket.broadcast.emit( 'users:update', d );
             }
         });
