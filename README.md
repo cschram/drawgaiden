@@ -1,4 +1,4 @@
-# Get Up And Draw Gaiden: 2
+# Draw Gaiden
 
 Draw Gaiden is a collaborative drawing web application. With it you can draw on a shared canvas with friends. Using it is easy:
 
