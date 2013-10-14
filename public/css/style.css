@@ -78,14 +78,14 @@ header input[type="range"] {
 }
 header input[type="radio"] { display: none; }
 header input[type="radio"]:checked + label {
-	font-weight: bold;
+	font-weight: bolder;
 }
 
 #tools { float: left; }
 #actions { float: right; }
 
 .tool { padding-right: 5px; }
-.tool label { vertical-align: middle; }
+.tool label { cursor: pointer; vertical-align: middle; }
 .colors { margin: 0 5px 0 0; }
 
 /******************************************************************************
