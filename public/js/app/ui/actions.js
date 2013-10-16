@@ -9,16 +9,14 @@ function ( App, Component, Logging ) {
 
 	function Actions() {
 		this.after('initialize', function () {
-			this.on( document, 'login:success', function () {
-				this.$node.show();
-			});
-
-			this.on( '[name=clear]', 'click', function () {
+			this.on( '[name=clear]', 'click', function ( e ) {
+				e.preventDefault();
 				this.trigger( document, 'actions:clear' );
 				App.clear();
 			});
 
-			this.on( '[name=save]', 'click', function () {
+			this.on( '[name=save]', 'click', function ( e ) {
+				e.preventDefault();
 				this.trigger( document, 'actions:save' );
 			});
 		});

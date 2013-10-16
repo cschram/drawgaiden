@@ -14,9 +14,9 @@
 </head>
 <body>
 
-	<header class="cf">
+	<header class="cf" hidden>
 		<!-- Toolbar -->
-		<div id="tools" hidden>
+		<div id="tools">
 			<!-- Tool Select -->
 			<span class="tool">
 				<input type="radio" name="tool" id="tool_pencil" value="pencil" checked="checked">
@@ -46,15 +46,18 @@
 		</div>
 
 		<!-- Action Menu -->
-		<div id="actions" hidden>
-			<button name="clear">Clear</button>
-			<button name="save">Save</button>
+		<div id="actions">
+			<a href="#" id="action-anchor">More</a>
+			<ul id="action-menu">
+				<li><a href="#" name="clear">Clear</a></li>
+				<li><a href="#" name="save">Save</a></li>
+			</ul>
 		</div>
 	</header>
 
 	<!-- Login Form -->
 	<form id="user-login">
-		<label for="name">Hey, so, enter your username:</label>
+		<label for="name">What's your name?</label>
 		<input type="text" name="name">
 		<input type="submit" value="Start Drawing">
 		<p class="error"></p>

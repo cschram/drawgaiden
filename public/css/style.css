@@ -1,9 +1,12 @@
 /******************************************************************************
  * Palette                                                                    *
- *   Blue: #003366                                                            *
- *   Dark Blue: #001133                                                       *
- *   Grey: #cccccc                                                            *
- *   Yellow: #ffcc00                                                          *
+ *   Aqua: #2fb59a                                                            *
+ *   Light Aqua: #49cdb2                                                      *
+ *   Lighter Aqua: #6beed3                                                    *
+ *   Dark Aqua: #1da58a                                                       *
+ *   Darker Aqua: #029277                                                     *
+ *   Dark Grey: #5a6673                                                       *
+ *   Light Grey: #f3f3f3                                                      *
  ******************************************************************************/
 
 /******************************************************************************
@@ -30,21 +33,12 @@
 }
 
 body {
-	background: #003366;
-	color: #cccccc;
-	font-family: Helvetica, arial, freesans, clean, sans-serif;
+	background: #f6f8f8;
+	color: #5A6673;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 label { padding: 0 0 0 3px; }
-
-input[name="name"] {
-	color: #000;
-	height: 22px;
-	margin: 0 0 0 4px;
-	padding: 2px 3px;
-	vertical-align: middle;
-	width: 170px;
-}
 
 input[type="submit"] {
 	font-size: 15px;
@@ -53,20 +47,51 @@ input[type="submit"] {
 	width: 100%;
 }
 
+input[type="submit"],
+button {
+	background: #2fb59a;
+	border: none;
+	border-bottom: 2px solid #029277;
+	border-radius: 3px;
+	color: #ffffff;
+	font-weight: normal;
+	margin: 14px 0 0 0;
+	padding: 12px 0;
+	text-shadow: none;
+}
+input[type="submit"]:hover,
+button:hover {
+	background: #49cdb2;
+	border-bottom: 2px solid #2fb59a;
+}
+
+input[type="submit"]:active,
+button:active {
+	background: #029277;
+	border-bottom: 2px solid #029277;
+}
+
 /******************************************************************************
  * Header
  ******************************************************************************/
 
 header {
-	background: #ffcc00;
-	border-bottom: 2px solid #001133;
-	color: #003366;
+	background: #2fb59a;
+	color: #ffffff;
+	height: 38px;
 	margin-bottom: 20px;
 	padding: 7px;
+	position: relative;
+}
+
+header a {
+	color: #ffffff;
+	text-decoration: none;
 }
 
 header input,
-header button { vertical-align: middle; }
+header button,
+header a { vertical-align: middle; }
 
 header input[type="color"] {
 	padding: 0;
@@ -79,23 +104,85 @@ header input[type="range"] {
 header input[type="radio"] { display: none; }
 header input[type="radio"]:checked + label {
 	font-weight: bolder;
+	text-shadow: 1px 1px 0 #1da58a;
 }
 
+/* Tools Menu */
+
 #tools { float: left; }
-#actions { float: right; }
 
 .tool { padding-right: 5px; }
 .tool label { cursor: pointer; vertical-align: middle; }
 .colors { margin: 0 5px 0 0; }
+
+/* Actions Menu */
+
+#actions {
+	border-left: 1px solid #1da58a;
+	height: 100%;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+#actions > a {
+	border-left: 1px solid #49cdb2;
+	display: inline-block;
+	height: 100%;
+	padding: 9px 12px 0 12px;
+}
+#actions:hover > a {
+	background: #ffffff;
+	border-left: none;
+	color: #029277;
+}
+
+#action-menu {
+	background: #fff;
+	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
+	display: none;
+	margin: 0;
+	list-style: none;
+	padding: 0;
+	position: absolute;
+	right: 0;
+	top: 100%;
+	width: 120px;
+	z-index: 2;
+}
+#actions:hover #action-menu { display: block; }
+#action-menu a {
+	border-bottom: 1px solid #f3f3f3;
+	color: #029277;
+	display: inline-block;
+	padding: 10px 15px;
+	width: 100%;
+}
+#action-menu li:last-child a { border-bottom: none; }
+#action-menu a:hover {
+	background: #2fb59a;
+	color: #ffffff;
+}
 
 /******************************************************************************
  * Login
  ******************************************************************************/
 
 #user-login {
-	font-size: 14px;
+	font-size: 19px;
 	margin: 40px auto;
+	text-align: center;
 	width: 375px;
+}
+
+input[name="name"] {
+	border-radius: 3px;
+	color: #000;
+	height: 30px;
+	font-size: 17px;
+	margin: 14px 0 0 0;
+	padding: 2px 6px;
+	vertical-align: middle;
+	width: 100%;
 }
 
 .error { color: #ff0000; }
@@ -105,7 +192,8 @@ header input[type="radio"]:checked + label {
  ******************************************************************************/
 
 #canvases {
-	border: 1px solid #001133;
+	border: 1px solid #5a6673;
+	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
 	margin: 0 auto 20px auto;
 	overflow: hidden;
 	position: relative;

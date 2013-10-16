@@ -18,10 +18,6 @@ function ( App, Component, Logging ) {
 				fillColor   = this.$node.find( '[name=fill-color]' ),
 				toolSize    = this.$node.find( '[name=size]' );
 
-			this.on( document, 'login:success', function () {
-				this.$node.show();
-			});
-
 			this.on( toolOptions, 'change', function () {
 				var t = toolOptions.filter(':checked').val();
 

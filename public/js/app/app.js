@@ -38,6 +38,10 @@ function ( io, Logger ) {
 					def.reject( err );
 				} else {
 					self.userName = name;
+
+					// XXX: Until I find a better place to put this
+					$( 'header ').show();
+					
 					def.resolve( data );
 				}
 			});
