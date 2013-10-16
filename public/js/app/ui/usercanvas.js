@@ -17,9 +17,8 @@ function ( App, Component, Logging ) {
 
 			this.ctx               = this.node.getContext( '2d' );
 			this.ctx.font          = '10pt Arial';
-			this.ctx.shadowColor   = "white";
-			this.ctx.shadowOffsetX = 1;
-			this.ctx.shadowOffsetY = 1;
+			this.ctx.strokeStyle   = 'white';
+			this.ctx.lineWidth     = 1;
 
 			this.on('users:update', function ( e, data ) {
 				this.ctx.clearRect( 0, 0, this.node.width, this.node.height );

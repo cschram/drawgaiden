@@ -5,6 +5,7 @@ Draw Gaiden is a collaborative drawing web application. With it you can draw on 
 	git clone https://github.com/abjorn/drawgaiden.git
 	cd drawgaiden
 	npm install
+	cp config.sample.js config.js
 	node drawgaiden.js
 
 You can tweak individual settings in `config.js`.

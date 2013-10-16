@@ -11,11 +11,12 @@ function ( Class ) {
 		// Default settings
 		//
 		defaults: {
-			strokeStyle : '#000000',
-			fillStyle   : '#ffffff',
-			lineWidth   : 1,
-			lineCap     : 'round',
-			lineJoin    : 'round'
+			strokeStyle              : '#000000',
+			fillStyle                : '#ffffff',
+			lineWidth                : 1,
+			lineCap                  : 'round',
+			lineJoin                 : 'round',
+			globalCompositeOperation : 'source-over'
 		},
 
 		// Active flag, determining whether the tool is currently in use
@@ -75,12 +76,12 @@ function ( Class ) {
 		//
 		_resetCtx: function ( ctx, settings, clear ) {
 			// Reset context styling
-			ctx.strokeStyle = settings.strokeStyle;
-			ctx.fillStyle   = settings.fillStyle;
-			ctx.lineWidth   = settings.lineWidth;
-			ctx.lineCap     = settings.lineCap;
-			ctx.lineJoin    = settings.lineJoin;
-
+			ctx.strokeStyle              = settings.strokeStyle;
+			ctx.fillStyle                = settings.fillStyle;
+			ctx.lineWidth                = settings.lineWidth;
+			ctx.lineCap                  = settings.lineCap;
+			ctx.lineJoin                 = settings.lineJoin
+			ctx.globalCompositeOperation = settings.globalCompositeOperation;
 			// Clear context
 			if ( clear ) {
 				ctx.clearRect( 0, 0, ctx.canvas.width, ctx.canvas.height );
