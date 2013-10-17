@@ -57,6 +57,7 @@
 
 	<!-- Login Form -->
 	<form id="user-login">
+		<h1>Draw Gaiden</h1>
 		<label for="name">What's your name?</label>
 		<input type="text" name="name">
 		<input type="submit" value="Start Drawing">

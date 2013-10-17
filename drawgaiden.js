@@ -3,8 +3,16 @@ var express = require( 'express' ),
     server  = require( 'http' ).createServer( app ),
     io      = require( 'socket.io' ).listen( server ),
     path    = require( 'path' ),
-    config  = require( './config' ),
-    state   = require( './lib/state' );
+    r       = require( 'rethinkdb' );
+
+var config  = require( './config' ),
+    state   = require( './lib/state' ),
+    db      = require( './lib/db' );
+
+var modules = [
+    'login',
+    'canvas'
+];
 
 app.configure(function () {
     app.set( 'port', process.env.PORT || 3000 );
@@ -26,90 +34,35 @@ app.get( '/', function ( req, res ) {
     res.render( 'index', config );
 });
 
-server.listen( app.get( 'port' ), function () {
-    console.log( 'Express server listening on port ' + app.get( 'port' ) );
-});
+db.connect(config.dbconfig, function ( err ) {
 
-io.sockets.on( 'connection', function ( socket ) {
+    if ( err ) throw err;
 
-    socket.on( 'disconnect', function () {
-        socket.get( 'name', function ( e, name ) {
-            if ( e ) {
-                console.error( 'Error getting name: ' + e );
-                return;
-            }
+    db.get('default', function ( err, canvas ) {
 
-            if ( state.users.hasOwnProperty( name ) ) {
-                delete state.users[ name ];
-                socket.emit( 'users:update', state.users );
-            }
+        if ( err ) throw err;
+
+        state.canvas       = canvas;
+        state.canvas.users = [];
+
+        modules = modules.map(function ( moduleName ) {
+            var module = require( './lib/modules/' + moduleName );
+
+            module.init();
+
+            return module;
         });
-    });
 
-    socket.on( 'login', function ( name, done ) {
+        server.listen(app.get( 'port' ), function () {
+            console.log( 'Express server listening on port ' + app.get( 'port' ) );
+        });
 
-        if ( state.users.hasOwnProperty( name ) ) {
-
-            done( 'A user with that name is already logged in.' );
-
-        } else {
-
-            socket.set( 'name', name, function () {
-                state.users[ name ] = {
-                    active : false,
-                    x      : 0,
-                    y      : 0
-                };
-                done( null, state.operations );
+        io.sockets.on( 'connection', function ( socket ) {
+            modules.forEach(function ( module ) {
+                module.connect( socket );
             });
-
-        }
-
-    });
-
-    socket.on( 'draw', function ( data ) {
-        socket.get('name', function ( e, name ) {
-            if ( e ) {
-                console.error( 'Error getting name: ' + e );
-                return;
-            }
-
-            data.user = name;
-            state.operations.push( data );
-            socket.broadcast.emit( 'draw', data );
         });
-    });
-
-    socket.on( 'clear', function () {
-        state.operations = [];
-        socket.broadcast.emit( 'clear' );
-    });
-
-    socket.on('user:update', function ( data ) {
-        socket.get('name', function ( e, name ) {
-            if ( e ) {
-                console.error( 'Error getting name: ' + e );
-                return;
-            }
-
-            if ( state.users.hasOwnProperty( name ) ) {
-                state.users[ name ] = data;
-
-                // Make a copy of state.users that doesn't include the current user
-                var d = [];
-                for (var n in state.users) {
-                    if ( state.users.hasOwnProperty( n ) && state.users[ n ].active ) {
-                        d.push({
-                            name : name,
-                            x    : state.users[ n ].x,
-                            y    : state.users[ n ].y
-                        });
-                    }
-                }
-
-                socket.broadcast.emit( 'users:update', d );
-            }
-        });
-    });
         
+    });
+
 });

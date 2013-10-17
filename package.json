@@ -9,6 +9,7 @@
     "express": "~3.4.0",
     "hjs": "*",
     "socket.io": "~0.9.16",
-    "rethinkdb": "~1.10.0"
+    "rethinkdb": "~1.10.0",
+    "async": "~0.2.9"
   }
 }
