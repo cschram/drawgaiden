@@ -11,8 +11,12 @@ function ( App, Component, Logging ) {
 		this.after('initialize', function () {
 			this.on( '[name=clear]', 'click', function ( e ) {
 				e.preventDefault();
-				this.trigger( document, 'actions:clear' );
 				App.clear();
+			})
+			this.on( '[name=clear-all]', 'click', function ( e ) {
+				e.preventDefault();
+				this.trigger( document, 'actions:clear-all' );
+				App.clearAll();
 			});
 
 			this.on( '[name=save]', 'click', function ( e ) {

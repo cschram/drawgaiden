@@ -18,8 +18,16 @@ function ( io, Logger ) {
 				$( document ).trigger( 'io:draw', data );
 			});
 
+			this.socket.on( 'redraw', function ( data ) {
+				console.log('redraw');
+				console.log(data);
+				$( document ).trigger('canvas:redraw', {
+					canvasData: data
+				});
+			});
+
 			this.socket.on( 'clear', function () {
-				$( document ).trigger( 'actions:clear' );
+				$( document ).trigger( 'actions:clear-all' );
 			});
 
 			this.socket.on( 'users:update', function ( data ) {
@@ -54,7 +62,15 @@ function ( io, Logger ) {
 		},
 
 		clear: function () {
-			this.socket.emit( 'clear' );
+			this.socket.emit( 'clear', function ( data ) {
+				$( document ).trigger('canvas:redraw', {
+					canvasData: data
+				});
+			});
+		},
+
+		clearAll: function () {
+			this.socket.emit( 'clear-all' );
 		},
 
 		updateUser: function ( active, coords ) {

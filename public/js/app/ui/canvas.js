@@ -76,12 +76,19 @@ function ( App, Component, Logging, PencilTool, RectangleTool, CircleTool, Erase
 
 
 			// Draw initial canvas data
-			var canvasData = this.attr.canvasData,
-				i          = 0,
-				len        = canvasData.length;
-			for (; i < len; i++) {
-				draw( canvasData[ i ].tool, canvasData[ i ].path, canvasData[ i ].settings );
+			function redraw( canvasData ) {
+				var i   = 0,
+					len = canvasData.length;
+
+				self.finalCtx.clearRect( 0, 0, self.finalCtx.canvas.width, self.finalCtx.canvas.height );
+				self.draftCtx.clearRect( 0, 0, self.draftCtx.canvas.width, self.draftCtx.canvas.height );
+
+				for (; i < len; i++) {
+					draw( canvasData[ i ].tool, canvasData[ i ].path, canvasData[ i ].settings );
+				}
 			}
+
+			redraw( this.attr.canvasData );
 
 
 			//
@@ -136,7 +143,7 @@ function ( App, Component, Logging, PencilTool, RectangleTool, CircleTool, Erase
 			// Action event handlers
 			//
 
-			this.on( document, 'actions:clear', function () {
+			this.on( document, 'actions:clear-all', function () {
 				self.finalCtx.clearRect( 0, 0, self.finalCtx.canvas.width, self.finalCtx.canvas.height );
 				self.draftCtx.clearRect( 0, 0, self.draftCtx.canvas.width, self.draftCtx.canvas.height );
 			});
@@ -152,6 +159,10 @@ function ( App, Component, Logging, PencilTool, RectangleTool, CircleTool, Erase
 
 			this.on( 'canvas:draw', function ( e, data ) {
 				draw( data.tool, data.path, data.settings );
+			});
+
+			this.on( document, 'canvas:redraw', function ( e, data ) {
+				redraw( data.canvasData );
 			});
 
 		});
