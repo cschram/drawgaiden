@@ -5,6 +5,12 @@ define([
 
 ],
 function ( io, Logger ) {
+
+	$.notify.defaults({
+		autoHide       : false,
+		globalPosition : 'bottom left',
+		className      : 'error'
+	});
 	
 	var App = {
 
@@ -14,13 +20,19 @@ function ( io, Logger ) {
 		init: function () {
 			this.socket = io.connect('/');
 
+			this.socket.on( 'error', function ( err ) {
+				$.notify( err );
+			});
+
+			this.socket.on( 'disconnect', function () {
+				$.notify( 'Oops! Lost connection to the server. :( Try refreshing.' );
+			});
+
 			this.socket.on( 'draw', function ( data ) {
 				$( document ).trigger( 'io:draw', data );
 			});
 
 			this.socket.on( 'redraw', function ( data ) {
-				console.log('redraw');
-				console.log(data);
 				$( document ).trigger('canvas:redraw', {
 					canvasData: data
 				});

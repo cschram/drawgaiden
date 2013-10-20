@@ -89,6 +89,7 @@
 	<script src="/js/contrib/formalize/jquery.formalize.js"></script>
 	<script src="/js/contrib/spectrum/spectrum.js"></script>
 	<script src="/js/contrib/html5slider/html5slider.js"></script>
+	<script src="/js/contrib/notifyjs/notify.min.js"></script>
 
 	<!-- App -->
 	<script data-main="/js/main" src="/js/contrib/requirejs/require.js"></script>
