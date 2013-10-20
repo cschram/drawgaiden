@@ -16,6 +16,7 @@ function ( App, Component, Logging ) {
 			var toolOptions = this.$node.find( '[name=tool]' ),
 				strokeColor = this.$node.find( '[name=stroke-color]' ),
 				fillColor   = this.$node.find( '[name=fill-color]' ),
+				colorSwitch = this.$node.find( '[name=color-switch]'),
 				toolSize    = this.$node.find( '[name=size]' );
 
 			this.on( toolOptions, 'change', function () {
@@ -45,6 +46,26 @@ function ( App, Component, Logging ) {
 				
 				this.trigger( document, 'tool:color:fill:change', {
 					color : c
+				});
+			});
+
+			this.on( colorSwitch, 'click', function ( e ) {
+				e.preventDefault();
+
+				var stroke = strokeColor.val(),
+					fill   = fillColor.val();
+
+				strokeColor.val(fill);
+				fillColor.val(stroke);
+
+				this.log('Colors switched.');
+
+				this.trigger( document, 'tool:color:stroke:change', {
+					color: fill
+				});
+
+				this.trigger( document, 'tool:color:fill:change', {
+					color: stroke
 				});
 			});
 

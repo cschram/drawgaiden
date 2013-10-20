@@ -80,8 +80,9 @@ function ( Class ) {
 			ctx.fillStyle                = settings.fillStyle;
 			ctx.lineWidth                = settings.lineWidth;
 			ctx.lineCap                  = settings.lineCap;
-			ctx.lineJoin                 = settings.lineJoin
+			ctx.lineJoin                 = settings.lineJoin;
 			ctx.globalCompositeOperation = settings.globalCompositeOperation;
+
 			// Clear context
 			if ( clear ) {
 				ctx.clearRect( 0, 0, ctx.canvas.width, ctx.canvas.height );

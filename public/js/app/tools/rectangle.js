@@ -13,7 +13,7 @@ function ( Tool, simplify ) {
 			fillStyle   : '#ffffff',
 			lineWidth   : 1,
 			lineCap     : 'butt',
-			lineJoin    : 'butt'
+			lineJoin    : 'miter'
 		},
 
 		_draw: function ( path, ctx ) {

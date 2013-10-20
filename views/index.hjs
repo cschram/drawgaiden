@@ -38,6 +38,7 @@
 			<!-- Color Options -->
 			<span class="colors">
 				<input type="color" name="stroke-color" value="#000000">
+				<a href="#" name="color-switch">↔</a>
 				<input type="color" name="fill-color" value="#ffffff">
 			</span>
 
