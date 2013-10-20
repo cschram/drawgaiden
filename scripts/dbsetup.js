@@ -13,23 +13,26 @@ r.connect(config.dbconfig, function ( err, conn ) {
 
 		async.parallel([
 			function ( callback ) {
-				r.tableCreate( 'canvases' ).run( conn, callback );
+				r.tableCreate( 'canvases' ).run( conn, function ( err ) {
+					if ( err ) {
+						callback( err );
+					} else {
+						r.table( 'canvases' ).insert([
+							{
+								id: 'default'
+							}
+						]).run(conn, callback);
+					}
+				});
 			},
 			function ( callback ) {
 				r.tableCreate( 'history' ).run( conn, callback );
 			}
-		], function ( err, results ) {
+		], function ( err ) {
 			if ( err ) throw err;
 
-			r.table( 'canvases' ).insert([
-				{
-					id: "default"
-				}
-			]).run(conn, function ( err ) {
-				if ( err ) throw err;
-				console.log("Finished setting up database. You're good to go!");
-				conn.close();
-			});
+			console.log("Finished setting up database. You're good to go!");
+			conn.close();
 		});
 	});
 });

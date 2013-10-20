@@ -34,22 +34,16 @@ app.get( '/', function ( req, res ) {
     res.render( 'index', config );
 });
 
-db.connect(config.dbconfig, function ( err ) {
+db.connect(config.dbconfig).then(function () {
 
-    if ( err ) throw err;
-
-    db.get('default', function ( err, canvas ) {
-
-        if ( err ) throw err;
+    db.get('default').then(function ( canvas ) {
 
         state.canvas       = canvas;
         state.canvas.users = [];
 
         modules = modules.map(function ( moduleName ) {
             var module = require( './lib/modules/' + moduleName );
-
             module.init();
-
             return module;
         });
 
@@ -63,6 +57,10 @@ db.connect(config.dbconfig, function ( err ) {
             });
         });
         
+    }, function ( err ) {
+        throw err;
     });
 
+}, function ( err ) {
+    throw err;
 });
