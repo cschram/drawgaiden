@@ -47,21 +47,6 @@ function ( App, Component, Logging, PencilTool, RectangleTool, CircleTool, Erase
 			// Functions
 			//
 
-			function mouseUp() {
-				var tool = self.tools [ self.tool ],
-					path = tool.mouseUp();
-
-				// Send to other users
-				App.draw({
-					tool     : self.tool,
-					settings : tool.settings,
-					path     : path
-				});
-
-				// Clear draft canvas
-				self.draftCtx.clearRect( 0, 0, self.draftCtx.canvas.width, self.draftCtx.canvas.height );
-			}
-
 			function colorChange( color, type ) {
 				for (var name in self.tools) {
 					if ( self.tools.hasOwnProperty( name ) ) {
@@ -99,14 +84,21 @@ function ( App, Component, Logging, PencilTool, RectangleTool, CircleTool, Erase
 				this.tools[ this.tool ].mouseDown( coord );
 			});
 
-			this.on('canvas:mouse:up', mouseUp );
+			this.on('canvas:mouse:up', function ( e, coord ) {
+				var tool = this.tools[ this.tool ],
+					path = tool.mouseUp();
 
-			this.on('canvas:mouse:out', function ( e, coord ) {
-				var tool = this.tools[ this.tool ];
-				if ( tool.active ) {
-					tool.mouseMove( coord );
-					mouseUp();
+				// Send to other users
+				if ( path.length > 0 ) {
+					App.draw({
+						tool     : this.tool,
+						settings : tool.settings,
+						path     : path
+					});
 				}
+
+				// Clear draft canvas
+				this.draftCtx.clearRect( 0, 0, this.draftCtx.canvas.width, this.draftCtx.canvas.height );
 			});
 
 			this.on('canvas:mouse:move', function ( e, coord ) {

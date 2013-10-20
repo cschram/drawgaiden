@@ -13,16 +13,17 @@ function ( App, Component, Logging, Canvas, UserCanvas ) {
 	
 	function Canvases() {
 		this.after('initialize', function () {
-			var layers = this.$node.find( '.layer' ),
+			var self   = this,
+				layers = this.$node.find( '.layer' ),
 				active = false;
 
 			this.activeLayer = 0;
 
 			function pos( e ) {
-				var tp = $(e.target).offset();
+				var off = self.$node.offset();
 				return {
-					x : e.pageX - tp.left,
-					y : e.pageY - tp.top
+					x : e.pageX - off.left,
+					y : e.pageY - off.top
 				};
 			}
 
@@ -55,22 +56,32 @@ function ( App, Component, Logging, Canvas, UserCanvas ) {
 
 				this.trigger( layers.eq( this.activeLayer ), 'canvas:mouse:down', p );
 			});
-			this.on('mouseup', function ( e ) {
+			this.on(document, 'mouseup', function ( e ) {
 				active = false;
 
 				App.updateUser( false );
 
 				this.trigger( layers.eq( this.activeLayer ), 'canvas:mouse:up' );
 			});
-			this.on('mouseout', function ( e ) {
-				if ( active ) {
-					active = false;
-					App.updateUser( false );
+			this.on('mouseenter', function ( e ) {
+				var p = pos( e );
 
-					this.trigger( layers.eq( this.activeLayer ), 'canvas:mouse:out', pos( e ) );
+				if ( active ) {
+					App.updateUser( true, p );
+
+					this.trigger( layers.eq( this.activeLayer ), 'canvas:mouse:enter', p );
+				}
+			})
+			this.on('mouseout', function ( e ) {
+				var p = pos( e );
+
+				if ( active ) {
+					App.updateUser( true, p );
+
+					this.trigger( layers.eq( this.activeLayer ), 'canvas:mouse:out', p );
 				}
 			});
-			this.on('mousemove', function ( e ) {
+			this.on(document, 'mousemove', function ( e ) {
 				var p = pos( e );
 
 				if ( active ) {

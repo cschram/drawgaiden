@@ -37,7 +37,7 @@ function ( Class ) {
 		// Constructor
 		//
 		init: function ( finalCtx, draftCtx, settings ) {
-			if (!finalCtx) {
+			if ( !finalCtx ) {
 				throw new Error( 'Missing final contexts in tool constructor.' );
 			}
 
@@ -58,15 +58,18 @@ function ( Class ) {
 		// Mouse up method, passed from parent component
 		//
 		mouseUp: function () {
-			this.active = false;
-			this.draw( this.path );
-			return this.path;
+			if ( this.active ) {
+				this.active = false;
+				this.draw( this.path );
+				return this.path;
+			}
+			return [];
 		},
 		//
 		// Mouse move method, passed from parent component
 		//
 		mouseMove: function ( coord ) {
-			if (this.active) {
+			if ( this.active ) {
 				this.path.push( coord );
 			}
 		},
