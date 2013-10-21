@@ -156,6 +156,20 @@ header input[type="radio"]:checked + label {
 .tool label { cursor: pointer; vertical-align: middle; }
 .colors { margin: 0 5px 0 0; }
 
+/* GitHub Link */
+
+a.github-link {
+	background: url("/images/icons/GitHub-Mark.png");
+	display: block;
+	float: right;
+	height: 26px;
+	margin-right: 65px;
+	position: relative;
+	top: -1px;
+	width: 26px;
+}
+a.github-link span { display: none; }
+
 /* Actions Menu */
 
 #actions {
