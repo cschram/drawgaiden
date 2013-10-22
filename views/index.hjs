@@ -18,21 +18,23 @@
 		<!-- Toolbar -->
 		<div id="tools">
 			<!-- Tool Select -->
-			<span class="tool">
-				<input type="radio" name="tool" id="tool_pencil" value="pencil" checked="checked">
-				<label for="tool_pencil">Pencil</label>
-			</span>
-			<span class="tool">
-				<input type="radio" name="tool" id="tool_rectangle" value="rectangle">
-				<label for="tool_rectangle">Rectangle</label>
-			</span>
-			<span class="tool">
-				<input type="radio" name="tool" id="tool_circle" value="circle">
-				<label for="tool_circle">Circle</label>
-			</span>
-			<span class="tool">
-				<input type="radio" name="tool" id="tool_eraser" value="eraser">
-				<label for="tool_eraser">Eraser</label>
+			<span class="tool-wrap">
+				<span class="tool">
+					<input type="radio" name="tool" id="tool_pencil" value="pencil" checked="checked">
+					<label for="tool_pencil">Pencil</label>
+				</span>
+				<span class="tool">
+					<input type="radio" name="tool" id="tool_rectangle" value="rectangle">
+					<label for="tool_rectangle">Rectangle</label>
+				</span>
+				<span class="tool">
+					<input type="radio" name="tool" id="tool_circle" value="circle">
+					<label for="tool_circle">Circle</label>
+				</span>
+				<span class="tool">
+					<input type="radio" name="tool" id="tool_eraser" value="eraser">
+					<label for="tool_eraser">Eraser</label>
+				</span>
 			</span>
 
 			<!-- Color Options -->
@@ -43,7 +45,9 @@
 			</span>
 
 			<!-- Tool Size Slider -->
-			<input type="range" name="size" min="1" max="25" value="1">
+			<span class="size">
+				<input type="range" name="size" min="1" max="25" value="1">
+			</span>
 		</div>
 
 		<a href="https://github.com/Abjorn/drawgaiden" target="_blank" class="github-link">

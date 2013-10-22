@@ -82,7 +82,7 @@ header {
 	color: #ffffff;
 	height: 38px;
 	margin-bottom: 20px;
-	padding: 7px;
+	/*padding: 7px;*/
 	position: relative;
 }
 
@@ -94,6 +94,27 @@ header a {
 header input,
 header button,
 header a { vertical-align: middle; }
+
+header div#tools { height: 100%; }
+
+header span.tool-wrap,
+header span.colors,
+header span.size {
+	border-right: 1px solid #1da58a;
+	display: inline-block;
+	height: 100%;
+	margin-right: -4px;
+	padding: 7px;
+}
+
+header span.colors,
+header span.size {
+	border-left: 1px solid #49cdb2;
+	padding: 7px 10px;
+}
+
+header span.colors { margin-top: -1px; }
+header span.size { border-right: none; }
 
 /* Color Input Styling */
 
@@ -132,7 +153,7 @@ header input[type="color"]::-webkit-color-swatch {
 
 header input[type="range"] {
 	padding-left: 5px;
-	width: 160px;
+	width: 130px;
 }
 header input[type="range"]:focus {
 	-webkit-box-shadow: none;
@@ -154,7 +175,6 @@ header input[type="radio"]:checked + label {
 
 .tool { padding-right: 5px; }
 .tool label { cursor: pointer; vertical-align: middle; }
-.colors { margin: 0 5px 0 0; }
 
 /* GitHub Link */
 
@@ -163,9 +183,7 @@ a.github-link {
 	display: block;
 	float: right;
 	height: 26px;
-	margin-right: 65px;
-	position: relative;
-	top: -1px;
+	margin: 5px 72px 0 0;
 	width: 26px;
 }
 a.github-link span { display: none; }

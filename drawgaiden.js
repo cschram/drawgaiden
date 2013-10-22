@@ -35,30 +35,22 @@ app.get( '/', function ( req, res ) {
 });
 
 db.connect(config.dbconfig).then(function () {
+        state.users = [];
 
-    db.get('default').then(function ( canvas ) {
+    modules = modules.map(function ( moduleName ) {
+        var module = require( './lib/modules/' + moduleName );
+        module.init();
+        return module;
+    });
 
-        state.canvas       = canvas;
-        state.canvas.users = [];
+    server.listen(app.get( 'port' ), function () {
+        console.log( 'Express server listening on port ' + app.get( 'port' ) );
+    });
 
-        modules = modules.map(function ( moduleName ) {
-            var module = require( './lib/modules/' + moduleName );
-            module.init();
-            return module;
+    io.sockets.on( 'connection', function ( socket ) {
+        modules.forEach(function ( module ) {
+            module.connect( socket );
         });
-
-        server.listen(app.get( 'port' ), function () {
-            console.log( 'Express server listening on port ' + app.get( 'port' ) );
-        });
-
-        io.sockets.on( 'connection', function ( socket ) {
-            modules.forEach(function ( module ) {
-                module.connect( socket );
-            });
-        });
-        
-    }, function ( err ) {
-        throw err;
     });
 
 }, function ( err ) {
