@@ -16,19 +16,30 @@ function ( App, Component, Logging ) {
 			var self = this;
 
 			this.ctx               = this.node.getContext( '2d' );
-			this.ctx.font          = '10pt Arial';
-			this.ctx.strokeStyle   = 'white';
-			this.ctx.lineWidth     = 1;
+			this.ctx.font          = 'bold 11px Helvetica';
 
 			this.on('users:update', function ( e, data ) {
 				this.ctx.clearRect( 0, 0, this.node.width, this.node.height );
 
 				var i = 0,
-					len = data.users.length;
+					len = data.users.length,
+					user, size;
 
 				for (; i < len; i++) {
 					if ( data.users[i].name !== App.userName ) {
-						this.ctx.fillText( data.users[i].name, data.users[i].x, data.users[i].y );
+						user = data.users[i];
+						size = this.ctx.measureText( user.name );
+
+						this.ctx.fillStyle = '#ffffff';
+						this.ctx.fillRect(
+							user.x - 2,
+							user.y - 11,
+							size.width + 4,
+							15
+						);
+
+						this.ctx.fillStyle = '#000000';
+						this.ctx.fillText( user.name, user.x, user.y );
 					}
 				}
 			});
