@@ -13,21 +13,77 @@ function ( App, Component, Logging, Canvas, UserCanvas ) {
 	
 	function Canvases() {
 		this.after('initialize', function () {
-			var self   = this,
-				layers = this.$node.find( '.layer' ),
-				active = false;
+			var self       = this,
+				$window    = $( window ),
+				layerWrap  = this.$node.find( '#layers' ),
+				layers     = this.$node.find( '.layer' ),
+				active     = false,
+				canvasSize = {
+					width  : parseInt( layers.find( 'canvas' ).eq(0).attr('width'), 10 ),
+					height : parseInt( layers.find( 'canvas' ).eq(0).attr('height'), 10 )
+				},
+				canvasOffset = { x : 0, y : 0 },
+				maxOffset    = { x : 0, y : 0};
 
 			this.activeLayer = 0;
+
+			layers.width( canvasSize.width );
+			layers.height( canvasSize.height );
+
+			// Resize view
+			function resize() {
+				var height = $window.height() - 38;
+
+				self.$node.height( height );
+				layerWrap.height( height );
+
+				var size = {
+					width: $window.width(),
+					height: height
+				};
+
+				maxOffset = {
+					x : canvasSize.width - size.width,
+					y : canvasSize.height - size.height
+				};
+
+				return size;
+			}
+
+			// Reposition canvases
+			function positionCanvases( coord ) {
+				// Check within bounds
+				coord.x = coord.x < 0 ? 0 : coord.x;
+				coord.y = coord.y < 0 ? 0 : coord.y;
+
+				coord.x = coord.x > maxOffset.x ? maxOffset.x : coord.x;
+				coord.y = coord.y > maxOffset.y ? maxOffset.y : coord.y;
+
+				// Set values
+				canvasOffset = coord;
+				layers.css( 'left', '-' + coord.x + 'px' );
+				layers.css( 'top', '-' + coord.y + 'px' );
+
+				// Notify user canvas of change
+				$( document ).trigger( 'canvas:users:reposition', coord );
+			}
 
 			function pos( e ) {
 				var off = self.$node.offset();
 				return {
-					x : e.pageX - off.left,
-					y : e.pageY - off.top
+					x : e.pageX - off.left + canvasOffset.x,
+					y : e.pageY - off.top + canvasOffset.y
 				};
 			}
 
 			this.on( document, 'login:success', function ( e, data ) {
+				var viewport = resize();
+
+				positionCanvases({
+					x : ( canvasSize.width / 2 ) - ( viewport.width / 2 ),
+					y : ( canvasSize.height / 2 ) - ( viewport.height / 2 )
+				});
+
 				// Initialize Layers
 				layers.each(function ( i ) {
 					Canvas.attachTo(this, {
@@ -40,6 +96,11 @@ function ( App, Component, Logging, Canvas, UserCanvas ) {
 				this.$node.show();
 			});
 
+			this.on( window, 'resize', function () {
+				resize();
+				positionCanvases( canvasOffset );
+			});
+
 			this.on( document, 'tool:change', function ( e, data ) {
 				this.$node.attr( 'class', 'tool-' + data.toolName );
 			});
@@ -50,18 +111,24 @@ function ( App, Component, Logging, Canvas, UserCanvas ) {
 
 				e.preventDefault();
 
-				active = true;
-				
-				App.updateUser( true, p );
+				if ( e.which === 1 ) {
+					active = true;
+					
+					App.updateUser( true, p );
 
-				this.trigger( layers.eq( this.activeLayer ), 'canvas:mouse:down', p );
+					this.trigger( layers.eq( this.activeLayer ), 'canvas:mouse:down', p );
+				}
+
+				return false;
 			});
 			this.on(document, 'mouseup', function ( e ) {
-				active = false;
+				if ( e.which === 1)  {
+					active = false;
 
-				App.updateUser( false );
+					App.updateUser( false );
 
-				this.trigger( layers.eq( this.activeLayer ), 'canvas:mouse:up' );
+					this.trigger( layers.eq( this.activeLayer ), 'canvas:mouse:up' );
+				}
 			});
 			this.on('mouseenter', function ( e ) {
 				var p = pos( e );

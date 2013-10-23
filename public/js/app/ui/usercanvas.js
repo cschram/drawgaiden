@@ -44,6 +44,11 @@ function ( App, Component, Logging ) {
 				}
 			});
 
+			this.on( document, 'canvas:users:reposition', function ( e, data ) {
+				this.$node.css( 'left', '-' + data.x + 'px' );
+				this.$node.css( 'top', '-' + data.y + 'px' );
+			});
+
 		});
 	}
 

@@ -75,7 +75,7 @@
 	</form>
 
 	<!-- Canvases -->
-	<div id="canvases" class="tool-pencil" style="width:{{canvasWidth}}px; height:{{canvasHeight}}px;" hidden>
+	<div id="canvases" class="tool-pencil" hidden>
 		<!-- Canvas Layers -->
 		<div id="layers">
 			<div class="layer">
