@@ -1,6 +1,6 @@
 # Draw Gaiden
 
-Draw Gaiden is a collaborative drawing web application. With it you can draw on a shared canvas with friends. Using it is easy. First you need to install [RethinkDB](http://www.rethinkdb.com/), then you can setup Draw Gaiden:
+Draw Gaiden is a collaborative drawing web application. With it you can draw on a shared canvas with friends. Setting it up is fairly straightforward:
 
 	git clone https://github.com/abjorn/drawgaiden.git
 	cd drawgaiden
@@ -13,12 +13,19 @@ You can tweak individual settings in `config.js`. You'll need to edit these sett
 
 If you just want to see it in action, you can check out the instance running at http://drawgaiden.com.
 
+It's suggested to use [pm2](https://github.com/Unitech/pm2) to run the server as a daemon.
+
 # Features
 
 * Real-time web-socket collaboration
 * Pencil, Rectangle, Circle, and Eraser
 * Displays the location of users cursors while they are drawing
 * Clear and Save buttons
+* Fullscreen canvas
+
+# Dependencies
+
+Draw Gaiden requires [Node.js](http://nodejs.org) and [RethinkDB](http://www.rethinkdb.com), as well as the NPM module dependencies listed in `package.json`.
 
 # License
 
