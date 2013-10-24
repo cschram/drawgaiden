@@ -9,8 +9,32 @@ define([
 ],
 function ( App, Component, Logging, Canvas, UserCanvas ) {
 
-	// TODO: Implement "active" layer, and fire mouse events only on that layer
-	
+	// requestAnimationFrame polyfill <https://gist.github.com/paulirish/1579671>
+	(function() {
+	    var lastTime = 0;
+	    var vendors = ['ms', 'moz', 'webkit', 'o'];
+	    for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+	        window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+	        window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] 
+	                                   || window[vendors[x]+'CancelRequestAnimationFrame'];
+	    }
+	 
+	    if (!window.requestAnimationFrame)
+	        window.requestAnimationFrame = function(callback, element) {
+	            var currTime = new Date().getTime();
+	            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+	            var id = window.setTimeout(function() { callback(currTime + timeToCall); }, 
+	              timeToCall);
+	            lastTime = currTime + timeToCall;
+	            return id;
+	        };
+	 
+	    if (!window.cancelAnimationFrame)
+	        window.cancelAnimationFrame = function(id) {
+	            clearTimeout(id);
+	        };
+	}());
+
 	function Canvases() {
 		this.after('initialize', function () {
 			var self       = this,
@@ -22,16 +46,21 @@ function ( App, Component, Logging, Canvas, UserCanvas ) {
 					width  : parseInt( layers.find( 'canvas' ).eq(0).attr('width'), 10 ),
 					height : parseInt( layers.find( 'canvas' ).eq(0).attr('height'), 10 )
 				},
-				canvasOffset = { x : 0, y : 0 },
-				maxOffset    = { x : 0, y : 0};
-
-			this.activeLayer = 0;
+				viewport      = { width : 0, height : 0 },
+				mousePos      = { x: 0, y: 0 },
+				canvasOffset  = { x : 0, y : 0 },
+				maxOffset     = { x : 0, y : 0},
+				moveStartTime = 0,
+				viewMoving    = false,
+				activeLayer   = 0;
 
 			layers.width( canvasSize.width );
 			layers.height( canvasSize.height );
 
-			// Resize view
-			function resize() {
+			//
+			// Resize canvas view
+			//
+			function resizeView() {
 				var height = $window.height() - 38;
 
 				self.$node.height( height );
@@ -47,39 +76,122 @@ function ( App, Component, Logging, Canvas, UserCanvas ) {
 					y : canvasSize.height - size.height
 				};
 
+				// Canvas is smaller than viewport
+				if ( maxOffset.x < 0 || maxOffset.y < 0 ) {
+
+					self.$node.addClass( 'centered' );
+					self.$node.css({
+						height : canvasSize.height,
+						width  : canvasSize.width
+					});
+
+					maxOffset = {
+						x : 0,
+						y : 0
+					};
+					
+				} else {
+
+					self.$node.removeClass( 'centered' );
+					self.$node.css({
+						height : height,
+						width  : '100%'
+					});
+
+				}
+
 				return size;
 			}
 
-			// Reposition canvases
-			function positionCanvases( coord ) {
-				// Check within bounds
-				coord.x = coord.x < 0 ? 0 : coord.x;
-				coord.y = coord.y < 0 ? 0 : coord.y;
+			//
+			// Reposition canvases with new view coordinates
+			//
+			function setCanvasPos( coord ) {
+				if ( maxOffset.x > 0 && maxOffset.y > 0 ) {
+					// Check within bounds
+					coord.x = coord.x < 0 ? 0 : coord.x;
+					coord.y = coord.y < 0 ? 0 : coord.y;
 
-				coord.x = coord.x > maxOffset.x ? maxOffset.x : coord.x;
-				coord.y = coord.y > maxOffset.y ? maxOffset.y : coord.y;
+					coord.x = coord.x > maxOffset.x ? maxOffset.x : coord.x;
+					coord.y = coord.y > maxOffset.y ? maxOffset.y : coord.y;
 
-				// Set values
-				canvasOffset = coord;
-				layers.css( 'left', '-' + coord.x + 'px' );
-				layers.css( 'top', '-' + coord.y + 'px' );
+					// Set values
+					canvasOffset = coord;
+					layers.css( 'left', '-' + coord.x + 'px' );
+					layers.css( 'top', '-' + coord.y + 'px' );
 
-				// Notify user canvas of change
-				$( document ).trigger( 'canvas:users:reposition', coord );
+					// Notify user canvas of change
+					$( document ).trigger( 'canvas:users:reposition', coord );
+				}
 			}
 
-			function pos( e ) {
+			//
+			// Get mouse position calculated from page and canvas offset
+			//
+			function getMousePos( e ) {
 				var off = self.$node.offset();
+
+				mousePos.x = e.pageX;
+				mousePos.y = e.pageY;
+
 				return {
 					x : e.pageX - off.left + canvasOffset.x,
 					y : e.pageY - off.top + canvasOffset.y
 				};
 			}
 
-			this.on( document, 'login:success', function ( e, data ) {
-				var viewport = resize();
+			//
+			// Move the canvas view
+			//
+			function moveView( time ) {
+				if ( maxOffset.x > 0 && maxOffset.y > 0 ) {
+					// Function wasn't called by requestAnimationFrame, make sure it is
+					if ( !time ) {
+						requestAnimationFrame( moveView );
+					}
 
-				positionCanvases({
+					if ( !moveStartTime ) {
+
+						moveStartTime = time;
+
+					} else {
+
+						// We need to divide up the time delta since it essentially
+						// the speed multiplier, and we don't want the view to move so fast.
+						var delta  = ( time - moveStartTime ) / ( 80 * 1000 ),
+							offset = self.$node.offset(),
+							// mouse position
+							pos    = {
+								x : mousePos.x - offset.left,
+								y : mousePos.y - offset.top
+							},
+							// position of the middle of the screen
+							mid = {
+								x : ( viewport.width  / 2 ),
+								y : ( viewport.height / 2 )
+							};
+
+						// Calculate new canvas view position
+						setCanvasPos({
+							x : canvasOffset.x + ( ( pos.x - mid.x ) * delta ),
+							y : canvasOffset.y + ( ( pos.y - mid.y ) * delta )
+						});
+
+					}
+
+					if ( viewMoving ) {
+						requestAnimationFrame( moveView );
+					} else {
+						// Clear starting time when we're done
+						moveStartTime = 0;
+					}
+				}
+			}
+
+			this.on( document, 'login:success', function ( e, data ) {
+				viewport = resizeView();
+
+				setCanvasPos({
 					x : ( canvasSize.width / 2 ) - ( viewport.width / 2 ),
 					y : ( canvasSize.height / 2 ) - ( viewport.height / 2 )
 				});
@@ -97,65 +209,82 @@ function ( App, Component, Logging, Canvas, UserCanvas ) {
 			});
 
 			this.on( window, 'resize', function () {
-				resize();
-				positionCanvases( canvasOffset );
+				viewport = resizeView();
+				setCanvasPos( canvasOffset );
 			});
 
 			this.on( document, 'tool:change', function ( e, data ) {
 				this.$node.attr( 'class', 'tool-' + data.toolName );
 			});
 
-			// Fire off mouse events to 
+			//
+			// Mouse Events
+			//
+
 			this.on('mousedown', function ( e ) {
-				var p = pos( e );
+				var p = getMousePos( e );
 
 				e.preventDefault();
 
 				if ( e.which === 1 ) {
-					active = true;
-					
-					App.updateUser( true, p );
 
-					this.trigger( layers.eq( this.activeLayer ), 'canvas:mouse:down', p );
+					active = true;
+					App.updateUser( true, p );
+					this.trigger( layers.eq( activeLayer ), 'canvas:mouse:down', p );
+
+				} else if ( e.which === 3 ) {
+
+					viewMoving = true;
+					moveView();
+
 				}
 
 				return false;
 			});
+
+			this.on('contextmenu', function () {
+				return false;
+			});
+
 			this.on(document, 'mouseup', function ( e ) {
 				if ( e.which === 1)  {
+
 					active = false;
-
 					App.updateUser( false );
+					this.trigger( layers.eq( activeLayer ), 'canvas:mouse:up' );
 
-					this.trigger( layers.eq( this.activeLayer ), 'canvas:mouse:up' );
+				} else if ( e.which === 3 ) {
+
+					viewMoving = false;
+
 				}
 			});
 			this.on('mouseenter', function ( e ) {
-				var p = pos( e );
+				var p = getMousePos( e );
 
 				if ( active ) {
 					App.updateUser( true, p );
 
-					this.trigger( layers.eq( this.activeLayer ), 'canvas:mouse:enter', p );
+					this.trigger( layers.eq( activeLayer ), 'canvas:mouse:enter', p );
 				}
 			})
 			this.on('mouseout', function ( e ) {
-				var p = pos( e );
+				var p = getMousePos( e );
 
 				if ( active ) {
 					App.updateUser( true, p );
 
-					this.trigger( layers.eq( this.activeLayer ), 'canvas:mouse:out', p );
+					this.trigger( layers.eq( activeLayer ), 'canvas:mouse:out', p );
 				}
 			});
 			this.on(document, 'mousemove', function ( e ) {
-				var p = pos( e );
+				var p = getMousePos( e );
 
 				if ( active ) {
 					App.updateUser( true, p );
 				}
 
-				this.trigger( layers.eq( this.activeLayer ), 'canvas:mouse:move', p );
+				this.trigger( layers.eq( activeLayer ), 'canvas:mouse:move', p );
 			});
 
 

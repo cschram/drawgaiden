@@ -266,6 +266,10 @@ input[name="name"] {
 	overflow: hidden;
 	position: relative;
 }
+#canvases.centered {
+	border: 1px solid #5a6673;
+	margin: 20px auto;
+}
 
 #canvases, #layers {
 	width: 100%;

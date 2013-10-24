@@ -5,7 +5,7 @@ module.exports = {
 		port: 28015,
 		db: 'drawgaiden'
 	},
-	canvasWidth: 960,
-	canvasHeight: 800
+	canvasWidth: 5000,
+	canvasHeight: 5000
 
 };
