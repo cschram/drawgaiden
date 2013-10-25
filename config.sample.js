@@ -1,6 +1,6 @@
 module.exports = {
 
-	dbconfig : {
+	db : {
 		// ThinkDB Instance
 		thinkdb: {
 			host : 'localhost',
