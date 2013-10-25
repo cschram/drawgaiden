@@ -25,7 +25,9 @@ It's suggested to use [pm2](https://github.com/Unitech/pm2) to run the server as
 
 # Dependencies
 
-Draw Gaiden requires [Node.js](http://nodejs.org) and [RethinkDB](http://www.rethinkdb.com), as well as the NPM module dependencies listed in `package.json`.
+[![Build Status](https://david-dm.org/Abjorn/drawgaiden.png)](https://david-dm.org/Abjorn/drawgaiden)
+
+Draw Gaiden requires [Node.js](http://nodejs.org), [RethinkDB](http://www.rethinkdb.com), [Redis](http://redis.io/), as well as the NPM module dependencies listed in `package.json`.
 
 # License
 

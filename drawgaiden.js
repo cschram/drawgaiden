@@ -1,18 +1,33 @@
-var express = require( 'express' ),
-    app     = express(),
-    server  = require( 'http' ).createServer( app ),
-    io      = require( 'socket.io' ).listen( server ),
-    path    = require( 'path' ),
-    r       = require( 'rethinkdb' );
+//
+// Third Party / Built In Dependencies
+//
+
+var express    = require( 'express' ),
+    app        = express(),
+    server     = require( 'http' ).createServer( app ),
+    io         = require( 'socket.io' ).listen( server ),
+    path       = require( 'path' ),
+    r          = require( 'rethinkdb' ),
+    RedisStore = require( 'socket.io/lib/stores/redis' ),
+    redis      = require( 'socket.io/node_modules/redis' );
+
+//
+// Internal Dependencies
+//
 
 var config  = require( './config' ),
     state   = require( './lib/state' ),
     db      = require( './lib/db' );
 
+// Modules to load
 var modules = [
     'login',
     'canvas'
 ];
+
+//
+// Express Config
+//
 
 app.configure(function () {
     app.set( 'port', process.env.PORT || 3000 );
@@ -30,11 +45,40 @@ app.configure( 'development', function () {
     app.use( express.errorHandler() );
 });
 
+//
+// Socket.IO Config
+//
+
+io.configure(function () {
+    io.set('store', new RedisStore({
+        redisPub    : redis.createClient( config.db.redis.port, config.db.redis.host ),
+        redisSub    : redis.createClient( config.db.redis.port, config.db.redis.host ),
+        redisClient : redis.createClient( config.db.redis.port, config.db.redis.host )
+    }));
+});
+
+io.configure('production', function () {
+    io.enable( 'browser client etag' );
+    io.set( 'log level', 1 );
+});
+
+io.configure('development', function () {
+    io.set( 'transports', [ 'websocket' ] );
+});
+
+//
+// Routes
+//
+
 app.get( '/', function ( req, res ) {
     res.render( 'index', config );
 });
 
-db.connect(config.dbconfig).then(function () {
+//
+// Init
+//
+
+db.connect( config.db.thinkdb ).then(function () {
         state.users = [];
 
     modules = modules.map(function ( moduleName ) {

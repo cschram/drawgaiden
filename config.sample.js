@@ -1,11 +1,26 @@
 module.exports = {
 
-	dbconfig: {
-		host: 'localhost',
-		port: 28015,
-		db: 'drawgaiden'
+	dbconfig : {
+		// ThinkDB Instance
+		thinkdb: {
+			host : 'localhost',
+			port : 28015,
+			db   : 'drawgaiden'
+		},
+		// Redis Instance
+		redis: {
+			host : 'localhost',
+			port : 6379
+		}
 	},
-	canvasWidth: 5000,
-	canvasHeight: 5000
+
+	// Port to run Draw Gaiden on
+	port : 9000,
+
+	// Canvas Size
+	canvasSize : {
+		width  : 2000,
+		height : 2000
+	}
 
 };

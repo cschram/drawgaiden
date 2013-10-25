@@ -79,13 +79,13 @@
 		<!-- Canvas Layers -->
 		<div id="layers">
 			<div class="layer">
-				<canvas class="canvas-final" width="{{canvasWidth}}" height="{{canvasHeight}}"></canvas>
-				<canvas class="canvas-draft" width="{{canvasWidth}}" height="{{canvasHeight}}"></canvas>
+				<canvas class="canvas-final" width="{{canvasSize.width}}" height="{{canvasSize.height}}"></canvas>
+				<canvas class="canvas-draft" width="{{canvasSize.width}}" height="{{canvasSize.height}}"></canvas>
 			</div>
 		</div>
 
 		<!-- User Cursor Display -->
-		<canvas id="user-canvas" width="{{canvasWidth}}" height="{{canvasHeight}}"></canvas>
+		<canvas id="user-canvas" width="{{canvasSize.width}}" height="{{canvasSize.height}}"></canvas>
 	</div>
 
 	<!-- Base Dependencies -->
