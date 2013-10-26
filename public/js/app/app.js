@@ -42,10 +42,8 @@ function ( io, Logger ) {
 				$( document ).trigger( 'actions:clear-all' );
 			});
 
-			this.socket.on( 'users:update', function ( data ) {
-				$( '#user-canvas' ).trigger( 'users:update', {
-					users: data
-				});
+			this.socket.on( 'user:update', function ( data ) {
+				$( '#user-canvas' ).trigger( 'user:update', data );
 			});
 		},
 

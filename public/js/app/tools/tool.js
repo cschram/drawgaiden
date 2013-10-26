@@ -16,7 +16,8 @@ function ( Class ) {
 			lineWidth                : 1,
 			lineCap                  : 'round',
 			lineJoin                 : 'round',
-			globalCompositeOperation : 'source-over'
+			globalCompositeOperation : 'source-over',
+			primary                  : true
 		},
 
 		// Active flag, determining whether the tool is currently in use
@@ -79,8 +80,13 @@ function ( Class ) {
 		//
 		_resetCtx: function ( ctx, settings, clear ) {
 			// Reset context styling
-			ctx.strokeStyle              = settings.strokeStyle;
-			ctx.fillStyle                = settings.fillStyle;
+			if ( settings.primary ) {
+				ctx.strokeStyle = settings.strokeStyle;
+				ctx.fillStyle   = settings.fillStyle;
+			} else {
+				ctx.strokeStyle = settings.fillStyle;
+				ctx.fillStyle   = settings.strokeStyle;
+			}
 			ctx.lineWidth                = settings.lineWidth;
 			ctx.lineCap                  = settings.lineCap;
 			ctx.lineJoin                 = settings.lineJoin;

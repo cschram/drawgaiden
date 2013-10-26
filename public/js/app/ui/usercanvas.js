@@ -13,35 +13,41 @@ function ( App, Component, Logging ) {
 		});
 
 		this.after('initialize', function () {
-			var self = this;
+			var self  = this,
+				users = {};
 
-			this.ctx               = this.node.getContext( '2d' );
-			this.ctx.font          = 'bold 11px Helvetica';
+			this.ctx      = this.node.getContext( '2d' );
+			this.ctx.font = 'bold 11px Helvetica';
 
-			this.on('users:update', function ( e, data ) {
-				this.ctx.clearRect( 0, 0, this.node.width, this.node.height );
+			function update() {
+				self.ctx.clearRect( 0, 0, self.node.width, self.node.height );
 
-				var i = 0,
-					len = data.users.length,
-					user, size;
+				var name, user, size;
 
-				for (; i < len; i++) {
-					if ( data.users[i].name !== App.userName ) {
-						user = data.users[i];
-						size = this.ctx.measureText( user.name );
+				for ( name in users ) {
+					if ( users.hasOwnProperty( name ) ) {
+						user = users[ name ];
+						if ( user.active ) {
+							size = self.ctx.measureText( name );
 
-						this.ctx.fillStyle = '#ffffff';
-						this.ctx.fillRect(
-							user.x - 2,
-							user.y - 11,
-							size.width + 4,
-							15
-						);
+							self.ctx.fillStyle = '#ffffff';
+							self.ctx.fillRect(
+								user.x - 2,
+								user.y - 11,
+								size.width + 4,
+								15
+							);
 
-						this.ctx.fillStyle = '#000000';
-						this.ctx.fillText( user.name, user.x, user.y );
+							self.ctx.fillStyle = '#000000';
+							self.ctx.fillText( name, user.x, user.y );
+						}
 					}
 				}
+			}
+
+			this.on('user:update', function ( e, data ) {
+				users[ data.name ] = data;
+				update();
 			});
 
 			this.on( document, 'canvas:users:reposition', function ( e, data ) {

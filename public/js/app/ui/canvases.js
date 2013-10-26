@@ -35,6 +35,13 @@ function ( App, Component, Logging, Canvas, UserCanvas ) {
 	        };
 	}());
 
+
+	// Some constants for mouse buttons
+	var MOUSE_BUTTON_PRIMARY   = 1,
+		MOUSE_BUTTON_SCROLL    = 2,
+		MOUSE_BUTTON_SECONDARY = 3;
+
+
 	function Canvases() {
 		this.after('initialize', function () {
 			var self       = this,
@@ -226,17 +233,19 @@ function ( App, Component, Logging, Canvas, UserCanvas ) {
 
 				e.preventDefault();
 
-				if ( e.which === 1 ) {
-
-					active = true;
-					App.updateUser( true, p );
-					this.trigger( layers.eq( activeLayer ), 'canvas:mouse:down', p );
-
-				} else if ( e.which === 3 ) {
+				if ( e.which === MOUSE_BUTTON_SCROLL ) {
 
 					viewMoving = true;
 					moveView();
 
+				} else {
+
+					active = true;
+					App.updateUser( true, p );
+					this.trigger( layers.eq( activeLayer ), 'canvas:mouse:down', {
+						coord   : p,
+						primary : ( e.which === MOUSE_BUTTON_PRIMARY )
+					});
 				}
 
 				return false;
@@ -247,15 +256,15 @@ function ( App, Component, Logging, Canvas, UserCanvas ) {
 			});
 
 			this.on(document, 'mouseup', function ( e ) {
-				if ( e.which === 1)  {
+				if ( e.which === MOUSE_BUTTON_SCROLL ) {
+
+					viewMoving = false;
+
+				} else {
 
 					active = false;
 					App.updateUser( false );
 					this.trigger( layers.eq( activeLayer ), 'canvas:mouse:up' );
-
-				} else if ( e.which === 3 ) {
-
-					viewMoving = false;
 
 				}
 			});

@@ -55,6 +55,14 @@ function ( App, Component, Logging, PencilTool, RectangleTool, CircleTool, Erase
 				}
 			}
 
+			function togglePrimary( primary ) {
+				for ( var name in self.tools ) {
+					if ( self.tools.hasOwnProperty( name ) ) {
+						self.tools[ name ].settings.primary = primary;
+					}
+				}
+			}
+
 			function draw( tool, path, settings ) {
 				self.tools[ tool ].draw( path, settings );
 			}
@@ -80,8 +88,9 @@ function ( App, Component, Logging, PencilTool, RectangleTool, CircleTool, Erase
 			// Mouse action event handlers
 			//
 
-			this.on('canvas:mouse:down', function ( e, coord ) {
-				this.tools[ this.tool ].mouseDown( coord );
+			this.on('canvas:mouse:down', function ( e, data ) {
+				togglePrimary( data.primary );
+				this.tools[ this.tool ].mouseDown( data.coord );
 			});
 
 			this.on('canvas:mouse:up', function ( e, coord ) {
