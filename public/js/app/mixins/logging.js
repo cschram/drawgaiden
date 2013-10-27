@@ -6,8 +6,8 @@ define([
 function ( Logger ) {
 
 	function Logging() {
-		this.log = function (message) {
-			Logger.log(this.attr.logGroup || 'Unknown', message);
+		this.log = function ( message ) {
+			Logger.log( this.attr.logGroup || 'Unknown', message );
 		};
 	}
 

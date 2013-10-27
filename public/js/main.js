@@ -16,19 +16,19 @@ require.config({
 require([
 
 	'app/app',
-	'app/ui/tools',
-	'app/ui/actions',
+	'app/ui/header',
+	'app/ui/loading',
 	'app/ui/login',
 	'app/ui/canvases',
 	'app/ui/usercanvas'
 
-], function ( App, Tools, Actions, Login, Canvases, UserCanvas ) {
+], function ( App, Header, Loading, Login, Canvases, UserCanvas ) {
 	
 	App.init();
 
 	// Attach components
-	Tools.attachTo( '#tools' );
-	Actions.attachTo( '#actions' );
+	Header.attachTo( 'header' );
+	Loading.attachTo( '#loading' );
 	Login.attachTo( '#user-login' );
 	Canvases.attachTo( '#canvases' );
 	UserCanvas.attachTo( '#user-canvas' );

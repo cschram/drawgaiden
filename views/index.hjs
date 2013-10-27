@@ -14,6 +14,22 @@
 </head>
 <body>
 
+
+	<!-- Login Form -->
+	<form id="user-login">
+		<h1>Draw Gaiden</h1>
+		<label for="name">What's your name?</label>
+		<input type="text" name="name">
+		<input type="submit" value="Start Drawing">
+		<p class="error"></p>
+	</form>
+
+	<div id="loading" hidden>
+		<h1>Draw Gaiden</h1>
+		<p>Loading canvas data, this may take awhile...</p>
+		<img src="/images/load.gif" alt="Loading...">
+	</div>
+
 	<header class="cf" hidden>
 		<!-- Toolbar -->
 		<div id="tools">
@@ -65,15 +81,6 @@
 		</div>
 	</header>
 
-	<!-- Login Form -->
-	<form id="user-login">
-		<h1>Draw Gaiden</h1>
-		<label for="name">What's your name?</label>
-		<input type="text" name="name">
-		<input type="submit" value="Start Drawing">
-		<p class="error"></p>
-	</form>
-
 	<!-- Canvases -->
 	<div id="canvases" class="tool-pencil" hidden>
 		<!-- Canvas Layers -->
@@ -91,10 +98,10 @@
 	<!-- Base Dependencies -->
 	<script src="/js/contrib/es5-shim/es5-shim.js"></script>
 	<script src="/js/contrib/es5-shim/es5-sham.js"></script>
+	<script src="/js/contrib/requestAnimFrame.js"></script>
 	<script src="/js/contrib/jquery/jquery.js"></script>
 
 	<!-- jQuery Plugins -->
-	<script src="/js/contrib/formalize/jquery.formalize.js"></script>
 	<script src="/js/contrib/spectrum/spectrum.js"></script>
 	<script src="/js/contrib/html5slider/html5slider.js"></script>
 	<script src="/js/contrib/notifyjs/notify.min.js"></script>

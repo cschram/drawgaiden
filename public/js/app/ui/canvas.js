@@ -79,6 +79,8 @@ function ( App, Component, Logging, PencilTool, RectangleTool, CircleTool, Erase
 				for (; i < len; i++) {
 					draw( canvasData[ i ].tool, canvasData[ i ].path, canvasData[ i ].settings );
 				}
+
+				self.trigger( document, 'canvas:drawn' );
 			}
 
 			redraw( this.attr.canvasData );
