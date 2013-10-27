@@ -288,6 +288,7 @@ input[name="name"] {
 #canvases.tool-rectangle,
 #canvases.tool-circle { cursor: crosshair; }
 #canvases.tool-eraser { cursor: url(/images/cursors/eraser.png), crosshair; }
+#canvases.tool-colorpicker { cursor: url(/images/cursors/colorpicker.png), crosshair; }
 
 .layer {
 	background: #fff;
