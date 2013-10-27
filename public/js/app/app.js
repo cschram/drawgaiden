@@ -28,6 +28,10 @@ function ( io, Logger ) {
 				$.notify( 'Oops! Lost connection to the server. :( Try refreshing.' );
 			});
 
+			this.socket.on( 'reconnect', function () {
+				$.notify( 'Reconnected.', 'success' );
+			});
+
 			this.socket.on( 'draw', function ( data ) {
 				$( document ).trigger( 'io:draw', data );
 			});
