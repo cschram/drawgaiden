@@ -17,7 +17,8 @@ function ( Class ) {
 			lineCap                  : 'round',
 			lineJoin                 : 'round',
 			globalCompositeOperation : 'source-over',
-			primary                  : true
+			primary                  : true,
+			sendUpdates              : true
 		},
 
 		// Active flag, determining whether the tool is currently in use

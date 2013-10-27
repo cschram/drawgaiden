@@ -35,22 +35,40 @@
 		<div id="tools">
 			<!-- Tool Select -->
 			<span class="tool-wrap">
-				<span class="tool">
-					<input type="radio" name="tool" id="tool_pencil" value="pencil" checked="checked">
-					<label for="tool_pencil">Pencil</label>
-				</span>
-				<span class="tool">
-					<input type="radio" name="tool" id="tool_rectangle" value="rectangle">
-					<label for="tool_rectangle">Rectangle</label>
-				</span>
-				<span class="tool">
-					<input type="radio" name="tool" id="tool_circle" value="circle">
-					<label for="tool_circle">Circle</label>
-				</span>
-				<span class="tool">
-					<input type="radio" name="tool" id="tool_eraser" value="eraser">
-					<label for="tool_eraser">Eraser</label>
-				</span>
+				{{#tools.pencil}}
+					<span class="tool">
+						<input type="radio" name="tool" id="tool_pencil" value="pencil" checked="checked">
+						<label for="tool_pencil">Pencil</label>
+					</span>
+				{{/tools.pencil}}
+
+				{{#tools.rectangle}}
+					<span class="tool">
+						<input type="radio" name="tool" id="tool_rectangle" value="rectangle">
+						<label for="tool_rectangle">Rectangle</label>
+					</span>
+				{{/tools.rectangle}}
+
+				{{#tools.circle}}
+					<span class="tool">
+						<input type="radio" name="tool" id="tool_circle" value="circle">
+						<label for="tool_circle">Circle</label>
+					</span>
+				{{/tools.circle}}
+
+				{{#tools.eraser}}
+					<span class="tool">
+						<input type="radio" name="tool" id="tool_eraser" value="eraser">
+						<label for="tool_eraser">Eraser</label>
+					</span>
+				{{/tools.eraser}}
+
+				{{#tools.colorpicker}}
+					<span class="tool">
+						<input type="radio" name="tool" id="tool_colorpicker" value="colorpicker">
+						<label for="tool_colorpicker">Color Picker</label>
+					</span>
+				{{/tools.colorpicker}}
 			</span>
 
 			<!-- Color Options -->

@@ -21,6 +21,15 @@ module.exports = {
 	canvasSize : {
 		width  : 2000,
 		height : 2000
+	},
+
+	// Enabled Tools
+	tools : {
+		pencil      : true,
+		rectangle   : true,
+		circle      : true,
+		eraser      : true,
+		colorpicker : true
 	}
 
 };

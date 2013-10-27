@@ -6,10 +6,11 @@ define([
 	'app/tools/pencil',
 	'app/tools/rectangle',
 	'app/tools/circle',
-	'app/tools/eraser'
+	'app/tools/eraser',
+	'app/tools/colorpicker'
 
 ],
-function ( App, Component, Logging, PencilTool, RectangleTool, CircleTool, EraserTool ) {
+function ( App, Component, Logging, PencilTool, RectangleTool, CircleTool, EraserTool, ColorPickerTool ) {
 
 	function Canvas() {
 		this.defaultAttrs({
@@ -36,10 +37,11 @@ function ( App, Component, Logging, PencilTool, RectangleTool, CircleTool, Erase
 
 			// Setup tools
 			this.tools = {
-				'pencil'    : new PencilTool( this.finalCtx, this.draftCtx ),
-				'rectangle' : new RectangleTool( this.finalCtx, this.draftCtx ),
-				'circle'    : new CircleTool( this.finalCtx, this.draftCtx ),
-				'eraser'    : new EraserTool( this.finalCtx, this.draftCtx )
+				'pencil'      : new PencilTool( this.finalCtx, this.draftCtx ),
+				'rectangle'   : new RectangleTool( this.finalCtx, this.draftCtx ),
+				'circle'      : new CircleTool( this.finalCtx, this.draftCtx ),
+				'eraser'      : new EraserTool( this.finalCtx, this.draftCtx ),
+				'colorpicker' : new ColorPickerTool( this.finalCtx, this.draftCtx )
 			};
 			this.tool = 'pencil';
 
@@ -100,7 +102,7 @@ function ( App, Component, Logging, PencilTool, RectangleTool, CircleTool, Erase
 					path = tool.mouseUp();
 
 				// Send to other users
-				if ( path.length > 0 ) {
+				if ( tool.settings.sendUpdates && path.length > 0 ) {
 					App.draw({
 						tool     : this.tool,
 						settings : tool.settings,

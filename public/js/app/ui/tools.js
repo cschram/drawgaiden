@@ -38,6 +38,12 @@ function ( App, Component, Logging ) {
 					color : c
 				});
 			});
+			this.on('tool:color:stroke:set', function ( e, color ) {
+				strokeColor.val( color );
+				this.trigger( document, 'tool:color:stroke:change', {
+					color : color
+				});
+			});
 
 			this.on( fillColor, 'change', function () {
 				var c = fillColor.val();
@@ -46,6 +52,12 @@ function ( App, Component, Logging ) {
 				
 				this.trigger( document, 'tool:color:fill:change', {
 					color : c
+				});
+			});
+			this.on('tool:color:fill:set', function ( e, color ) {
+				fillColor.val( color );
+				this.trigger( document, 'tool:color:fill:change', {
+					color : color
 				});
 			});
 
