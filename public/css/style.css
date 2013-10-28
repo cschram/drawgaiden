@@ -103,7 +103,7 @@ header span.size {
 	display: inline-block;
 	height: 100%;
 	margin-right: -4px;
-	padding: 7px;
+	vertical-align: top;
 }
 
 header span.colors,
@@ -122,7 +122,7 @@ header div.sp-replacer {
 	background-color: transparent;
 	border: none;
 	cursor: pointer;
-	margin: 0 2px;
+	margin: 0;
 	padding: 0;
 }
 
@@ -164,16 +164,26 @@ header input[type="range"]:focus {
 
 header input[type="radio"] { display: none; }
 header input[type="radio"]:checked + label {
-	font-weight: bolder;
-	text-shadow: 1px 1px 0 #1da58a;
+	background-color: #029277;
+}
+header input[type="radio"]:checked + label:hover {
+	background-color: #6beed3;
 }
 
 /* Tools Menu */
 
 #tools { float: left; }
 
-.tool { padding-right: 5px; }
-.tool label { cursor: pointer; vertical-align: middle; }
+.tool {
+	display: inline-block;
+	height: 100%;
+}
+.tool label {
+	cursor: pointer;
+	display: inline-block;
+	height: 100%;
+	padding: 5px;
+}
 
 /* GitHub Link */
 
@@ -182,7 +192,7 @@ a.github-link {
 	display: block;
 	float: right;
 	height: 26px;
-	margin: 5px 72px 0 0;
+	margin: 5px 55px 0 0;
 	width: 26px;
 }
 a.github-link span { display: none; }
@@ -200,7 +210,7 @@ a.github-link span { display: none; }
 	border-left: 1px solid #49cdb2;
 	display: inline-block;
 	height: 100%;
-	padding: 9px 12px 0 12px;
+	padding: 5px 9px 0 9px;
 }
 #actions:hover > a {
 	background: #ffffff;
@@ -218,7 +228,7 @@ a.github-link span { display: none; }
 	position: absolute;
 	right: 0;
 	top: 100%;
-	width: 120px;
+	width: 92px;
 	z-index: 2;
 }
 #actions:hover #action-menu { display: block; }
@@ -259,6 +269,15 @@ input[name="name"] {
 
 .error { color: #ff0000; }
 
+.notice {
+	bottom: 10px;
+	font-size: 13px;
+	left: 10px;
+	margin: 0;
+	position: fixed;
+}
+.notice a:visited { color: #5A6673; }
+
 /******************************************************************************
  * Loading
  ******************************************************************************/
@@ -298,3 +317,40 @@ input[name="name"] {
 	position: absolute;
 	top: 0;
 }
+
+/******************************************************************************
+ * Icons
+ ******************************************************************************/
+
+.icon {
+	background: url(/images/sprites.png) no-repeat;
+	display: inline-block;
+	height: 26px;
+	margin: 0;
+	padding: 0;
+	vertical-align: middle;
+	width: 26px;
+}
+
+.icon span { display: none; }
+
+.icon-pencil       { background-position: -1px -1px;  }
+.icon-pencil:hover { background-position: -1px -28px; }
+
+.icon-rectangle       { background-position: -28px -1px;  }
+.icon-rectangle:hover { background-position: -28px -28px; }
+
+.icon-circle       { background-position: -55px -1px;  }
+.icon-circle:hover { background-position: -55px -28px; }
+
+.icon-eraser       { background-position: -82px -1px;  }
+.icon-eraser:hover { background-position: -82px -28px; }
+
+.icon-colorpicker       { background-position: -109px -1px;  }
+.icon-colorpicker:hover { background-position: -109px -28px; }
+
+.icon-chat       { background-position: -136px -1px;  }
+.icon-chat:hover { background-position: -136px -28px; }
+
+.icon-more           { background-position: -163px -1px;  }
+div:hover .icon-more { background-position: -163px -28px; }

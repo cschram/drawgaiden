@@ -22,6 +22,7 @@
 		<input type="text" name="name">
 		<input type="submit" value="Start Drawing">
 		<p class="error"></p>
+		<p class="notice">Version 0.2 (Unstable). Please <a href="https://github.com/Abjorn/drawgaiden/issues" target="_blank">report any bugs<a> you find.</p>
 	</form>
 
 	<div id="loading" hidden>
@@ -38,35 +39,55 @@
 				{{#tools.pencil}}
 					<span class="tool">
 						<input type="radio" name="tool" id="tool_pencil" value="pencil" checked="checked">
-						<label for="tool_pencil">Pencil</label>
+						<label for="tool_pencil">
+							<a class="icon icon-pencil">
+								<span>Pencil</span>
+							</a>
+						</label>
 					</span>
 				{{/tools.pencil}}
 
 				{{#tools.rectangle}}
 					<span class="tool">
 						<input type="radio" name="tool" id="tool_rectangle" value="rectangle">
-						<label for="tool_rectangle">Rectangle</label>
+						<label for="tool_rectangle">
+							<a class="icon icon-rectangle">
+								<span>Rectangle</span>
+							</a>
+						</label>
 					</span>
 				{{/tools.rectangle}}
 
 				{{#tools.circle}}
 					<span class="tool">
 						<input type="radio" name="tool" id="tool_circle" value="circle">
-						<label for="tool_circle">Circle</label>
+						<label for="tool_circle">
+							<a class="icon icon-circle">
+								<span>Circle</span>
+							</a>
+						</label>
 					</span>
 				{{/tools.circle}}
 
 				{{#tools.eraser}}
 					<span class="tool">
 						<input type="radio" name="tool" id="tool_eraser" value="eraser">
-						<label for="tool_eraser">Eraser</label>
+						<label for="tool_eraser">
+							<a class="icon icon-eraser">
+								<span>Eraser</span>
+							</a>
+						</label>
 					</span>
 				{{/tools.eraser}}
 
 				{{#tools.colorpicker}}
 					<span class="tool">
 						<input type="radio" name="tool" id="tool_colorpicker" value="colorpicker">
-						<label for="tool_colorpicker">Color Picker</label>
+						<label for="tool_colorpicker">
+							<a class="icon icon-colorpicker">
+								<span>Color Picker</span>
+							</a>
+						</label>
 					</span>
 				{{/tools.colorpicker}}
 			</span>
@@ -90,7 +111,11 @@
 
 		<!-- Action Menu -->
 		<div id="actions">
-			<a href="#" id="action-anchor">More</a>
+			<a href="#" id="action-anchor">
+				<div class="icon icon-more">
+					<span>More</span>
+				</div>
+			</a>
 			<ul id="action-menu">
 				<li><a href="#" name="clear">Clear</a></li>
 				<li><a href="#" name="clear-all">Clear All</a></li>
