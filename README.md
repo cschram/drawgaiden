@@ -15,6 +15,8 @@ If you just want to see it in action, you can check out the instance running at 
 
 It's suggested to use [pm2](https://github.com/Unitech/pm2) to run the server as a daemon.
 
+[![Support via Gittip](https://rawgithub.com/twolfson/gittip-badge/0.1.0/dist/gittip.png)](https://www.gittip.com/abjorn/)
+
 # Features
 
 * Real-time web-socket collaboration
@@ -23,9 +25,7 @@ It's suggested to use [pm2](https://github.com/Unitech/pm2) to run the server as
 * Clear and Save buttons
 * Fullscreen canvas
 
-# Dependencies
-
-[![Build Status](https://david-dm.org/Abjorn/drawgaiden.png)](https://david-dm.org/Abjorn/drawgaiden)
+# Dependencies [![Build Status](https://david-dm.org/Abjorn/drawgaiden.png)](https://david-dm.org/Abjorn/drawgaiden)
 
 Draw Gaiden requires [Node.js](http://nodejs.org), [RethinkDB](http://www.rethinkdb.com), [Redis](http://redis.io/), as well as the NPM module dependencies listed in `package.json`.
 
