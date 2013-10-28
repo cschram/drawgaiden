@@ -22,7 +22,7 @@
 		<input type="text" name="name">
 		<input type="submit" value="Start Drawing">
 		<p class="error"></p>
-		<p class="notice">Version 0.2 (Unstable). Please <a href="https://github.com/Abjorn/drawgaiden/issues" target="_blank">report any bugs<a> you find.</p>
+		<p class="notice">Version 0.2 (Unstable). Please <a href="https://github.com/Abjorn/drawgaiden/issues" target="_blank">report any bugs</a> you find.</p>
 	</form>
 
 	<div id="loading" hidden>
