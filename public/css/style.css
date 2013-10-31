@@ -33,9 +33,9 @@
 }
 
 body {
-	background: #f6f8f8;
-	color: #5A6673;
-	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: #f6f8f8;
+    color: #5A6673;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 h1 { font-size: 2.75em; }
@@ -43,34 +43,34 @@ h1 { font-size: 2.75em; }
 label { padding: 0 0 0 3px; }
 
 input[type="submit"] {
-	font-size: 15px;
-	line-height: 1.2em;
-	margin: 7px 0 0 0;
-	width: 100%;
+    font-size: 15px;
+    line-height: 1.2em;
+    margin: 7px 0 0 0;
+    width: 100%;
 }
 
 input[type="submit"],
 button {
-	background: #2fb59a;
-	border: none;
-	border-bottom: 2px solid #029277;
-	border-radius: 3px;
-	color: #ffffff;
-	font-weight: normal;
-	margin: 14px 0 0 0;
-	padding: 12px 0;
-	text-shadow: none;
+    background: #2fb59a;
+    border: none;
+    border-bottom: 2px solid #029277;
+    border-radius: 3px;
+    color: #ffffff;
+    font-weight: normal;
+    margin: 14px 0 0 0;
+    padding: 12px 0;
+    text-shadow: none;
 }
 input[type="submit"]:hover,
 button:hover {
-	background: #49cdb2;
-	border-bottom: 2px solid #2fb59a;
+    background: #49cdb2;
+    border-bottom: 2px solid #2fb59a;
 }
 
 input[type="submit"]:active,
 button:active {
-	background: #029277;
-	border-bottom: 2px solid #029277;
+    background: #029277;
+    border-bottom: 2px solid #029277;
 }
 
 /******************************************************************************
@@ -78,16 +78,16 @@ button:active {
  ******************************************************************************/
 
 header {
-	background: #2fb59a;
-	border-bottom: 1px solid #029277;
-	color: #ffffff;
-	height: 38px;
-	position: relative;
+    background: #2fb59a;
+    border-bottom: 1px solid #029277;
+    color: #ffffff;
+    height: 38px;
+    position: relative;
 }
 
 header a {
-	color: #ffffff;
-	text-decoration: none;
+    color: #ffffff;
+    text-decoration: none;
 }
 
 header input,
@@ -99,17 +99,17 @@ header div#tools { height: 100%; }
 header span.tool-wrap,
 header span.colors,
 header span.size {
-	border-right: 1px solid #1da58a;
-	display: inline-block;
-	height: 100%;
-	margin-right: -4px;
-	vertical-align: top;
+    border-right: 1px solid #1da58a;
+    display: inline-block;
+    height: 100%;
+    margin-right: -4px;
+    vertical-align: top;
 }
 
 header span.colors,
 header span.size {
-	border-left: 1px solid #49cdb2;
-	padding: 7px 10px;
+    border-left: 1px solid #49cdb2;
+    padding: 7px 10px;
 }
 
 header span.colors { margin-top: -1px; }
@@ -119,55 +119,55 @@ header span.size { border-right: none; }
 
 header input[type="color"],
 header div.sp-replacer {
-	background-color: transparent;
-	border: none;
-	cursor: pointer;
-	margin: 0;
-	padding: 0;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
 }
 
 header input[type="color"],
 header div.sp-preview {
-	height: 23px;
-	width: 25px;
+    height: 23px;
+    width: 25px;
 }
 
 header div.sp-dd { display: none; }
 
 header input[type="color"]::-webkit-color-swatch-wrapper {
-	padding: 0;
+    padding: 0;
 }
 
 header div.sp-preview {
-	border: none;
-	border-radius: 3px;
-	margin: 0;
+    border: none;
+    border-radius: 3px;
+    margin: 0;
 }
 header input[type="color"]::-webkit-color-swatch {
-	border: none;
-	border-radius: 3px;
+    border: none;
+    border-radius: 3px;
 }
 
 /* Range Input Styling */
 
 header input[type="range"] {
-	padding-left: 5px;
-	width: 130px;
+    padding-left: 5px;
+    width: 130px;
 }
 header input[type="range"]:focus {
-	-webkit-box-shadow: none;
-	-moz-box-shadow: none;
-	box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
 }
 
 /* Radio Buttons */
 
 header input[type="radio"] { display: none; }
 header input[type="radio"]:checked + label {
-	background-color: #029277;
+    background-color: #029277;
 }
 header input[type="radio"]:checked + label:hover {
-	background-color: #6beed3;
+    background-color: #6beed3;
 }
 
 /* Tools Menu */
@@ -175,74 +175,74 @@ header input[type="radio"]:checked + label:hover {
 #tools { float: left; }
 
 .tool {
-	display: inline-block;
-	height: 100%;
+    display: inline-block;
+    height: 100%;
 }
 .tool label {
-	cursor: pointer;
-	display: inline-block;
-	height: 100%;
-	padding: 5px;
+    cursor: pointer;
+    display: inline-block;
+    height: 100%;
+    padding: 5px;
 }
 
 /* GitHub Link */
 
 a.github-link {
-	background: url("/images/icons/GitHub-Mark.png");
-	display: block;
-	float: right;
-	height: 26px;
-	margin: 5px 55px 0 0;
-	width: 26px;
+    background: url("/images/icons/GitHub-Mark.png");
+    display: block;
+    float: right;
+    height: 26px;
+    margin: 5px 55px 0 0;
+    width: 26px;
 }
 a.github-link span { display: none; }
 
 /* Actions Menu */
 
 #actions {
-	border-left: 1px solid #1da58a;
-	height: 100%;
-	position: absolute;
-	right: 0;
-	top: 0;
+    border-left: 1px solid #1da58a;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 #actions > a {
-	border-left: 1px solid #49cdb2;
-	display: inline-block;
-	height: 100%;
-	padding: 5px 9px 0 9px;
+    border-left: 1px solid #49cdb2;
+    display: inline-block;
+    height: 100%;
+    padding: 5px 9px 0 9px;
 }
 #actions:hover > a {
-	background: #ffffff;
-	border-left: none;
-	color: #029277;
+    background: #ffffff;
+    border-left: none;
+    color: #029277;
 }
 
 #action-menu {
-	background: #fff;
-	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
-	display: none;
-	margin: 0;
-	list-style: none;
-	padding: 0;
-	position: absolute;
-	right: 0;
-	top: 100%;
-	width: 92px;
-	z-index: 2;
+    background: #fff;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
+    display: none;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    width: 92px;
+    z-index: 2;
 }
 #actions:hover #action-menu { display: block; }
 #action-menu a {
-	border-bottom: 1px solid #f3f3f3;
-	color: #029277;
-	display: inline-block;
-	padding: 10px 15px;
-	width: 100%;
+    border-bottom: 1px solid #f3f3f3;
+    color: #029277;
+    display: inline-block;
+    padding: 10px 15px;
+    width: 100%;
 }
 #action-menu li:last-child a { border-bottom: none; }
 #action-menu a:hover {
-	background: #2fb59a;
-	color: #ffffff;
+    background: #2fb59a;
+    color: #ffffff;
 }
 
 /******************************************************************************
@@ -250,31 +250,31 @@ a.github-link span { display: none; }
  ******************************************************************************/
 
 #user-login {
-	font-size: 19px;
-	margin: 40px auto;
-	text-align: center;
-	width: 375px;
+    font-size: 19px;
+    margin: 40px auto;
+    text-align: center;
+    width: 375px;
 }
 
 input[name="name"] {
-	border-radius: 3px;
-	color: #000;
-	height: 30px;
-	font-size: 17px;
-	margin: 14px 0 0 0;
-	padding: 2px 6px;
-	vertical-align: middle;
-	width: 100%;
+    border-radius: 3px;
+    color: #000;
+    height: 30px;
+    font-size: 17px;
+    margin: 14px 0 0 0;
+    padding: 2px 6px;
+    vertical-align: middle;
+    width: 100%;
 }
 
 .error { color: #ff0000; }
 
 .notice {
-	bottom: 10px;
-	font-size: 13px;
-	left: 10px;
-	margin: 0;
-	position: fixed;
+    bottom: 10px;
+    font-size: 13px;
+    left: 10px;
+    margin: 0;
+    position: fixed;
 }
 .notice a:visited { color: #5A6673; }
 
@@ -282,25 +282,25 @@ input[name="name"] {
  * Loading
  ******************************************************************************/
 
-#loading { text-align: center; }
+.loading { text-align: center; }
 
-#loading img { margin-top: 16px; }
+.loading img { margin-top: 16px; }
 
 /******************************************************************************
  * Canvases
  ******************************************************************************/
 
 #canvases {
-	overflow: hidden;
-	position: relative;
+    overflow: hidden;
+    position: relative;
 }
 #canvases.centered {
-	border: 1px solid #5a6673;
-	margin: 20px auto;
+    border: 1px solid #5a6673;
+    margin: 20px auto;
 }
 
 #canvases, #layers {
-	width: 100%;
+    width: 100%;
 }
 
 #canvases.tool-pencil { cursor: url(/images/cursors/pencil.png), crosshair; }
@@ -310,12 +310,12 @@ input[name="name"] {
 #canvases.tool-colorpicker { cursor: url(/images/cursors/colorpicker.png), crosshair; }
 
 .layer {
-	background: #fff;
+    background: #fff;
 }
 #layers, #user-canvas, .layer, canvas {
-	left: 0;
-	position: absolute;
-	top: 0;
+    left: 0;
+    position: absolute;
+    top: 0;
 }
 
 /******************************************************************************
@@ -323,13 +323,13 @@ input[name="name"] {
  ******************************************************************************/
 
 .icon {
-	background: url(/images/sprites.png) no-repeat;
-	display: inline-block;
-	height: 26px;
-	margin: 0;
-	padding: 0;
-	vertical-align: middle;
-	width: 26px;
+    background: url(/images/sprites.png) no-repeat;
+    display: inline-block;
+    height: 26px;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+    width: 26px;
 }
 
 .icon span { display: none; }

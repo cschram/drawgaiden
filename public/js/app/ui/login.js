@@ -1,55 +1,57 @@
 define([
 
-	'app/app',
-	'flight/component',
-	'app/mixins/logging'
+    'app/app',
+    'flight/component',
+    'app/mixins/logging',
+
+    'app/ui/loading'
 
 ],
-function ( App, Component, Logging ) {
+function ( App, Component, Logging, Loading ) {
 
-	function Login() {
-		this.defaultAttrs({
-			logGroup: 'Login'
-		});
+    function Login() {
+        this.defaultAttrs({
+            logGroup: 'Login'
+        });
 
-		this.after('initialize', function () {
-			var self = this;
+        this.after('initialize', function () {
+            var self = this;
 
-			this.$error = this.$node.find('p.error');
+            Loading.attachTo( this.$node.find('.loading') );
 
-			this.on('submit', function ( e ) {
-				var name = this.$node.find('input[name="name"]').val();
+            this.$error = this.$node.find('p.error');
 
-				e.preventDefault();
+            this.on('submit', function ( e ) {
+                var name = this.$node.find('input[name="name"]').val();
 
-				this.$error.text('');
+                e.preventDefault();
 
-				if (name.length) {
-					this.log( 'Logging in with "' + name + '".' );
+                this.$error.text('');
 
-					this.trigger( document, 'loading:start' );
+                if (name.length) {
+                    this.log( 'Logging in with "' + name + '".' );
 
-					App.login( name ).then(function ( data ) {
-						self.$node.hide();
-						
-						self.trigger( document, 'login:success', {
-							canvasData : data
-						});
+                    this.trigger( document, 'loading:start' );
 
-						self.trigger( document, 'loading:done' );
-						
-						self.teardown();
+                    App.login( name ).then(function ( data ) {
+                        self.$node.hide();
+                        
+                        self.trigger( document, 'login:success', {
+                            canvasData : data
+                        });
 
-					}, function ( err ) {
-						self.$error.text( err );
-					});
-				} else {
-					this.$error.text( 'Please enter a name' );
-				}
-			});
-		});
-	}
+                    }, function ( err ) {
+                        self.$error.text( err );
+                    }).always(function () {
+                        self.trigger( document, 'loading:done' );
+                    });
+                } else {
+                    this.$error.text( 'Please enter a name' );
+                }
+            });
+        });
+    }
 
-	return Component(Login, Logging);
+    return Component(Login, Logging);
 
 });

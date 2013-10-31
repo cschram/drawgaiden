@@ -1,180 +1,180 @@
 define([
 
-	'app/app',
-	'flight/component',
-	'app/mixins/logging',
-	'app/tools/pencil',
-	'app/tools/rectangle',
-	'app/tools/circle',
-	'app/tools/eraser',
-	'app/tools/colorpicker'
+    'app/app',
+    'flight/component',
+    'app/mixins/logging',
+    'app/tools/pencil',
+    'app/tools/rectangle',
+    'app/tools/circle',
+    'app/tools/eraser',
+    'app/tools/colorpicker'
 
 ],
 function ( App, Component, Logging, PencilTool, RectangleTool, CircleTool, EraserTool, ColorPickerTool ) {
 
-	function Canvas() {
-		this.defaultAttrs({
-			logGroup    : 'Canvas',
-			canvasGroup : document,
-			canvasData  : null
-		});
+    function Canvas() {
+        this.defaultAttrs({
+            logGroup    : 'Canvas',
+            canvasGroup : document,
+            canvasData  : null
+        });
 
-		this.finalCtx = null;
-		this.draftCtx = null;
-		this.tools    = null;
-		this.tool     = null;
-		this.path     = null;
-		this.drawing  = false;
+        this.finalCtx = null;
+        this.draftCtx = null;
+        this.tools    = null;
+        this.tool     = null;
+        this.path     = null;
+        this.drawing  = false;
 
-		this.after('initialize', function () {
-			var self        = this,
-				finalCanvas = this.$node.find('.canvas-final')[0],
-				draftCanvas = this.$node.find('.canvas-draft')[0];
+        this.after('initialize', function () {
+            var self        = this,
+                finalCanvas = this.$node.find('.canvas-final')[0],
+                draftCanvas = this.$node.find('.canvas-draft')[0];
 
-			// Get contexts
-			this.finalCtx = finalCanvas.getContext('2d');
-			this.draftCtx = draftCanvas.getContext('2d');
+            // Get contexts
+            this.finalCtx = finalCanvas.getContext('2d');
+            this.draftCtx = draftCanvas.getContext('2d');
 
-			// Setup tools
-			this.tools = {
-				'pencil'      : new PencilTool( this.finalCtx, this.draftCtx ),
-				'rectangle'   : new RectangleTool( this.finalCtx, this.draftCtx ),
-				'circle'      : new CircleTool( this.finalCtx, this.draftCtx ),
-				'eraser'      : new EraserTool( this.finalCtx, this.draftCtx ),
-				'colorpicker' : new ColorPickerTool( this.finalCtx, this.draftCtx )
-			};
-			this.tool = 'pencil';
+            // Setup tools
+            this.tools = {
+                'pencil'      : new PencilTool( this.finalCtx, this.draftCtx ),
+                'rectangle'   : new RectangleTool( this.finalCtx, this.draftCtx ),
+                'circle'      : new CircleTool( this.finalCtx, this.draftCtx ),
+                'eraser'      : new EraserTool( this.finalCtx, this.draftCtx ),
+                'colorpicker' : new ColorPickerTool( this.finalCtx, this.draftCtx )
+            };
+            this.tool = 'pencil';
 
-			//
-			// Functions
-			//
+            //
+            // Functions
+            //
 
-			function colorChange( color, type ) {
-				for (var name in self.tools) {
-					if ( self.tools.hasOwnProperty( name ) ) {
-						self.tools[ name ].settings[ type + 'Style' ] = color;
-					}
-				}
-			}
+            function colorChange( color, type ) {
+                for (var name in self.tools) {
+                    if ( self.tools.hasOwnProperty( name ) ) {
+                        self.tools[ name ].settings[ type + 'Style' ] = color;
+                    }
+                }
+            }
 
-			function togglePrimary( primary ) {
-				for ( var name in self.tools ) {
-					if ( self.tools.hasOwnProperty( name ) ) {
-						self.tools[ name ].settings.primary = primary;
-					}
-				}
-			}
+            function togglePrimary( primary ) {
+                for ( var name in self.tools ) {
+                    if ( self.tools.hasOwnProperty( name ) ) {
+                        self.tools[ name ].settings.primary = primary;
+                    }
+                }
+            }
 
-			function draw( tool, path, settings ) {
-				self.tools[ tool ].draw( path, settings );
-			}
-
-
-			// Draw initial canvas data
-			function redraw( canvasData ) {
-				var i   = 0,
-					len = canvasData.length,
-					t   = Date.now();
-
-				self.finalCtx.clearRect( 0, 0, self.finalCtx.canvas.width, self.finalCtx.canvas.height );
-				self.draftCtx.clearRect( 0, 0, self.draftCtx.canvas.width, self.draftCtx.canvas.height );
-
-				for (; i < len; i++) {
-					draw( canvasData[ i ].tool, canvasData[ i ].path, canvasData[ i ].settings );
-				}
-
-				self.log( 'Drew ' + len + ' history entries in ' + ( Date.now() - t ) + 'ms.' );
-				self.trigger( document, 'canvas:drawn' );
-			}
-
-			redraw( this.attr.canvasData );
+            function draw( tool, path, settings ) {
+                self.tools[ tool ].draw( path, settings );
+            }
 
 
-			//
-			// Mouse action event handlers
-			//
+            // Draw initial canvas data
+            function redraw( canvasData ) {
+                var i   = 0,
+                    len = canvasData.length,
+                    t   = Date.now();
 
-			this.on('canvas:mouse:down', function ( e, data ) {
-				togglePrimary( data.primary );
-				this.tools[ this.tool ].mouseDown( data.coord );
-			});
+                self.finalCtx.clearRect( 0, 0, self.finalCtx.canvas.width, self.finalCtx.canvas.height );
+                self.draftCtx.clearRect( 0, 0, self.draftCtx.canvas.width, self.draftCtx.canvas.height );
 
-			this.on('canvas:mouse:up', function ( e, coord ) {
-				var tool = this.tools[ this.tool ],
-					path = tool.mouseUp();
+                for (; i < len; i++) {
+                    draw( canvasData[ i ].tool, canvasData[ i ].path, canvasData[ i ].settings );
+                }
 
-				// Send to other users
-				if ( tool.settings.sendUpdates && path.length > 0 ) {
-					App.draw({
-						tool     : this.tool,
-						settings : tool.settings,
-						path     : path
-					});
-				}
+                self.log( 'Drew ' + len + ' history entries in ' + ( Date.now() - t ) + 'ms.' );
+                self.trigger( document, 'canvas:drawn' );
+            }
 
-				// Clear draft canvas
-				this.draftCtx.clearRect( 0, 0, this.draftCtx.canvas.width, this.draftCtx.canvas.height );
-			});
+            redraw( this.attr.canvasData );
 
-			this.on('canvas:mouse:move', function ( e, coord ) {
-				this.tools[ this.tool ].mouseMove( coord );
-			});
 
-			//
-			// Tool event handlers
-			//
+            //
+            // Mouse action event handlers
+            //
 
-			this.on( document, 'tool:change', function ( e, data ) {
-				if ( this.tools.hasOwnProperty( data.toolName ) ) {
-					this.tool = data.toolName;
-				}
-			});
+            this.on('canvas:mouse:down', function ( e, data ) {
+                togglePrimary( data.primary );
+                this.tools[ this.tool ].mouseDown( data.coord );
+            });
 
-			this.on( document, 'tool:color:stroke:change', function ( e, data ) {
-				colorChange( data.color, 'stroke' );
-			});
+            this.on('canvas:mouse:up', function ( e, coord ) {
+                var tool = this.tools[ this.tool ],
+                    path = tool.mouseUp();
 
-			this.on( document, 'tool:color:fill:change', function ( e, data ) {
-				colorChange( data.color, 'fill' );
-			});
+                // Send to other users
+                if ( tool.settings.sendUpdates && path.length > 0 ) {
+                    App.draw({
+                        tool     : this.tool,
+                        settings : tool.settings,
+                        path     : path
+                    });
+                }
 
-			this.on( document, 'tool:size:change', function ( e, size ) {
-				for (var name in this.tools) {
-					if ( this.tools.hasOwnProperty( name ) ) {
-						this.tools[ name ].settings.lineWidth = size;
-					}
-				}
-			});
+                // Clear draft canvas
+                this.draftCtx.clearRect( 0, 0, this.draftCtx.canvas.width, this.draftCtx.canvas.height );
+            });
 
-			//
-			// Action event handlers
-			//
+            this.on('canvas:mouse:move', function ( e, coord ) {
+                this.tools[ this.tool ].mouseMove( coord );
+            });
 
-			this.on( document, 'actions:clear-all', function () {
-				self.finalCtx.clearRect( 0, 0, self.finalCtx.canvas.width, self.finalCtx.canvas.height );
-				self.draftCtx.clearRect( 0, 0, self.draftCtx.canvas.width, self.draftCtx.canvas.height );
-			});
+            //
+            // Tool event handlers
+            //
 
-			this.on( document, 'actions:save', function () {
-				var data = finalCanvas.toDataURL( 'image/png' );
-				window.open( data, '_blank' );
-			});
+            this.on( document, 'tool:change', function ( e, data ) {
+                if ( this.tools.hasOwnProperty( data.toolName ) ) {
+                    this.tool = data.toolName;
+                }
+            });
 
-			//
-			// Drawing event handlers
-			//
+            this.on( document, 'tool:color:stroke:change', function ( e, data ) {
+                colorChange( data.color, 'stroke' );
+            });
 
-			this.on( 'canvas:draw', function ( e, data ) {
-				draw( data.tool, data.path, data.settings );
-			});
+            this.on( document, 'tool:color:fill:change', function ( e, data ) {
+                colorChange( data.color, 'fill' );
+            });
 
-			this.on( document, 'canvas:redraw', function ( e, data ) {
-				redraw( data.canvasData );
-			});
+            this.on( document, 'tool:size:change', function ( e, size ) {
+                for (var name in this.tools) {
+                    if ( this.tools.hasOwnProperty( name ) ) {
+                        this.tools[ name ].settings.lineWidth = size;
+                    }
+                }
+            });
 
-		});
-	}
+            //
+            // Action event handlers
+            //
 
-	return Component(Canvas, Logging);
+            this.on( document, 'actions:clear-all', function () {
+                self.finalCtx.clearRect( 0, 0, self.finalCtx.canvas.width, self.finalCtx.canvas.height );
+                self.draftCtx.clearRect( 0, 0, self.draftCtx.canvas.width, self.draftCtx.canvas.height );
+            });
+
+            this.on( document, 'actions:save', function () {
+                var data = finalCanvas.toDataURL( 'image/png' );
+                window.open( data, '_blank' );
+            });
+
+            //
+            // Drawing event handlers
+            //
+
+            this.on( 'canvas:draw', function ( e, data ) {
+                draw( data.tool, data.path, data.settings );
+            });
+
+            this.on( document, 'canvas:redraw', function ( e, data ) {
+                redraw( data.canvasData );
+            });
+
+        });
+    }
+
+    return Component(Canvas, Logging);
 
 });

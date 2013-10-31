@@ -2,157 +2,157 @@
 <html>
 <head>
 
-	<title>Get Up And Draw Gaiden: 2, Shut Up And Sketch, Episode 1 of the Draw SaGa</title>
+    <title>Get Up And Draw Gaiden: 2, Shut Up And Sketch, Episode 1 of the Draw SaGa</title>
 
-	<!--[if IE]><script src="js/contrib/excanvas/excanvas.js"></script><![endif]-->
+    <!--[if IE]><script src="js/contrib/excanvas/excanvas.js"></script><![endif]-->
 
-	<link rel="stylesheet" href="/css/normalize.css">
-	<link rel="stylesheet" href="/css/formalize.css">
-	<link rel="stylesheet" href="/js/contrib/spectrum/spectrum.css">
-	<link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/formalize.css">
+    <link rel="stylesheet" href="/js/contrib/spectrum/spectrum.css">
+    <link rel="stylesheet" href="/css/style.css">
 
 </head>
 <body>
 
 
-	<!-- Login Form -->
-	<form id="user-login">
-		<h1>Draw Gaiden</h1>
+    <!-- Login Form -->
+    <form id="user-login">
+        <h1>Draw Gaiden</h1>
 
-		<label for="name">What's your name?</label>
-		<input type="text" name="name">
-		<input type="submit" value="Start Drawing">
+        <label for="name">What's your name?</label>
+        <input type="text" name="name">
+        <input type="submit" value="Start Drawing">
 
-		<p class="error"></p>
+        <p class="error"></p>
 
-		<div id="loading" hidden>
-			<p>Loading, this may take awhile...</p>
-			<img src="/images/load.gif" alt="Loading...">
-		</div>
-		
-		<p class="notice">Version 0.2 (Unstable). Please <a href="https://github.com/Abjorn/drawgaiden/issues" target="_blank">report any bugs</a> you find.</p>
-	</form>
+        <div class="loading" hidden>
+            <p>Loading, this may take awhile...</p>
+            <img src="/images/load.gif" alt="Loading...">
+        </div>
+        
+        <p class="notice">Version 0.2 (Unstable). Please <a href="https://github.com/Abjorn/drawgaiden/issues" target="_blank">report any bugs</a> you find.</p>
+    </form>
 
-	<header class="cf" hidden>
-		<!-- Toolbar -->
-		<div id="tools">
-			<!-- Tool Select -->
-			<span class="tool-wrap">
-				{{#tools.pencil}}
-					<span class="tool">
-						<input type="radio" name="tool" id="tool_pencil" value="pencil" checked="checked">
-						<label for="tool_pencil">
-							<a class="icon icon-pencil">
-								<span>Pencil</span>
-							</a>
-						</label>
-					</span>
-				{{/tools.pencil}}
+    <header class="cf" hidden>
+        <!-- Toolbar -->
+        <div id="tools">
+            <!-- Tool Select -->
+            <span class="tool-wrap">
+                {{#tools.pencil}}
+                    <span class="tool">
+                        <input type="radio" name="tool" id="tool_pencil" value="pencil" checked="checked">
+                        <label for="tool_pencil">
+                            <a class="icon icon-pencil">
+                                <span>Pencil</span>
+                            </a>
+                        </label>
+                    </span>
+                {{/tools.pencil}}
 
-				{{#tools.rectangle}}
-					<span class="tool">
-						<input type="radio" name="tool" id="tool_rectangle" value="rectangle">
-						<label for="tool_rectangle">
-							<a class="icon icon-rectangle">
-								<span>Rectangle</span>
-							</a>
-						</label>
-					</span>
-				{{/tools.rectangle}}
+                {{#tools.rectangle}}
+                    <span class="tool">
+                        <input type="radio" name="tool" id="tool_rectangle" value="rectangle">
+                        <label for="tool_rectangle">
+                            <a class="icon icon-rectangle">
+                                <span>Rectangle</span>
+                            </a>
+                        </label>
+                    </span>
+                {{/tools.rectangle}}
 
-				{{#tools.circle}}
-					<span class="tool">
-						<input type="radio" name="tool" id="tool_circle" value="circle">
-						<label for="tool_circle">
-							<a class="icon icon-circle">
-								<span>Circle</span>
-							</a>
-						</label>
-					</span>
-				{{/tools.circle}}
+                {{#tools.circle}}
+                    <span class="tool">
+                        <input type="radio" name="tool" id="tool_circle" value="circle">
+                        <label for="tool_circle">
+                            <a class="icon icon-circle">
+                                <span>Circle</span>
+                            </a>
+                        </label>
+                    </span>
+                {{/tools.circle}}
 
-				{{#tools.eraser}}
-					<span class="tool">
-						<input type="radio" name="tool" id="tool_eraser" value="eraser">
-						<label for="tool_eraser">
-							<a class="icon icon-eraser">
-								<span>Eraser</span>
-							</a>
-						</label>
-					</span>
-				{{/tools.eraser}}
+                {{#tools.eraser}}
+                    <span class="tool">
+                        <input type="radio" name="tool" id="tool_eraser" value="eraser">
+                        <label for="tool_eraser">
+                            <a class="icon icon-eraser">
+                                <span>Eraser</span>
+                            </a>
+                        </label>
+                    </span>
+                {{/tools.eraser}}
 
-				{{#tools.colorpicker}}
-					<span class="tool">
-						<input type="radio" name="tool" id="tool_colorpicker" value="colorpicker">
-						<label for="tool_colorpicker">
-							<a class="icon icon-colorpicker">
-								<span>Color Picker</span>
-							</a>
-						</label>
-					</span>
-				{{/tools.colorpicker}}
-			</span>
+                {{#tools.colorpicker}}
+                    <span class="tool">
+                        <input type="radio" name="tool" id="tool_colorpicker" value="colorpicker">
+                        <label for="tool_colorpicker">
+                            <a class="icon icon-colorpicker">
+                                <span>Color Picker</span>
+                            </a>
+                        </label>
+                    </span>
+                {{/tools.colorpicker}}
+            </span>
 
-			<!-- Color Options -->
-			<span class="colors">
-				<input type="color" name="stroke-color" value="#000000">
-				<a href="#" name="color-switch">↔</a>
-				<input type="color" name="fill-color" value="#ffffff">
-			</span>
+            <!-- Color Options -->
+            <span class="colors">
+                <input type="color" name="stroke-color" value="#000000">
+                <a href="#" name="color-switch">↔</a>
+                <input type="color" name="fill-color" value="#ffffff">
+            </span>
 
-			<!-- Tool Size Slider -->
-			<span class="size">
-				<input type="range" name="size" min="1" max="25" value="1">
-			</span>
-		</div>
+            <!-- Tool Size Slider -->
+            <span class="size">
+                <input type="range" name="size" min="1" max="25" value="1">
+            </span>
+        </div>
 
-		<a href="https://github.com/Abjorn/drawgaiden" target="_blank" class="github-link">
-			<span>Draw Gaiden GitHub Repository</span>
-		</a>
+        <a href="https://github.com/Abjorn/drawgaiden" target="_blank" class="github-link">
+            <span>Draw Gaiden GitHub Repository</span>
+        </a>
 
-		<!-- Action Menu -->
-		<div id="actions">
-			<a href="#" id="action-anchor">
-				<div class="icon icon-more">
-					<span>More</span>
-				</div>
-			</a>
-			<ul id="action-menu">
-				<li><a href="#" name="clear">Clear</a></li>
-				<li><a href="#" name="clear-all">Clear All</a></li>
-				<li><a href="#" name="save">Save</a></li>
-			</ul>
-		</div>
-	</header>
+        <!-- Action Menu -->
+        <div id="actions">
+            <a href="#" id="action-anchor">
+                <div class="icon icon-more">
+                    <span>More</span>
+                </div>
+            </a>
+            <ul id="action-menu">
+                <li><a href="#" name="clear">Clear</a></li>
+                <li><a href="#" name="clear-all">Clear All</a></li>
+                <li><a href="#" name="save">Save</a></li>
+            </ul>
+        </div>
+    </header>
 
-	<!-- Canvases -->
-	<div id="canvases" class="tool-pencil" hidden>
-		<!-- Canvas Layers -->
-		<div id="layers">
-			<div class="layer">
-				<canvas class="canvas-final" width="{{canvasSize.width}}" height="{{canvasSize.height}}"></canvas>
-				<canvas class="canvas-draft" width="{{canvasSize.width}}" height="{{canvasSize.height}}"></canvas>
-			</div>
-		</div>
+    <!-- Canvases -->
+    <div id="canvases" class="tool-pencil" hidden>
+        <!-- Canvas Layers -->
+        <div id="layers">
+            <div class="layer">
+                <canvas class="canvas-final" width="{{canvasSize.width}}" height="{{canvasSize.height}}"></canvas>
+                <canvas class="canvas-draft" width="{{canvasSize.width}}" height="{{canvasSize.height}}"></canvas>
+            </div>
+        </div>
 
-		<!-- User Cursor Display -->
-		<canvas id="user-canvas" width="{{canvasSize.width}}" height="{{canvasSize.height}}"></canvas>
-	</div>
+        <!-- User Cursor Display -->
+        <canvas id="user-canvas" width="{{canvasSize.width}}" height="{{canvasSize.height}}"></canvas>
+    </div>
 
-	<!-- Base Dependencies -->
-	<script src="/js/contrib/es5-shim/es5-shim.js"></script>
-	<script src="/js/contrib/es5-shim/es5-sham.js"></script>
-	<script src="/js/contrib/requestAnimFrame.js"></script>
-	<script src="/js/contrib/jquery/jquery.js"></script>
+    <!-- Base Dependencies -->
+    <script src="/js/contrib/es5-shim/es5-shim.js"></script>
+    <script src="/js/contrib/es5-shim/es5-sham.js"></script>
+    <script src="/js/contrib/requestAnimFrame.js"></script>
+    <script src="/js/contrib/jquery/jquery.js"></script>
 
-	<!-- jQuery Plugins -->
-	<script src="/js/contrib/spectrum/spectrum.js"></script>
-	<script src="/js/contrib/html5slider/html5slider.js"></script>
-	<script src="/js/contrib/notifyjs/notify.min.js"></script>
+    <!-- jQuery Plugins -->
+    <script src="/js/contrib/spectrum/spectrum.js"></script>
+    <script src="/js/contrib/html5slider/html5slider.js"></script>
+    <script src="/js/contrib/notifyjs/notify.min.js"></script>
 
-	<!-- App -->
-	<script data-main="/js/main" src="/js/contrib/requirejs/require.js"></script>
+    <!-- App -->
+    <script data-main="/js/main" src="/js/contrib/requirejs/require.js"></script>
 
 </body>
 </html>
