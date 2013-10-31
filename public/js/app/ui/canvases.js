@@ -195,7 +195,6 @@ function ( App, Component, Logging, Canvas, UserCanvas ) {
 			this.on( document, 'canvas:drawn', function () {
 				drawn++;
 				if ( drawn === layers.length ) {
-					this.trigger( document, 'loading:done' );
 					this.$node.show();
 				}
 			});

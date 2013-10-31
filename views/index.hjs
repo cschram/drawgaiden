@@ -18,18 +18,20 @@
 	<!-- Login Form -->
 	<form id="user-login">
 		<h1>Draw Gaiden</h1>
+
 		<label for="name">What's your name?</label>
 		<input type="text" name="name">
 		<input type="submit" value="Start Drawing">
+
 		<p class="error"></p>
+
+		<div id="loading" hidden>
+			<p>Loading, this may take awhile...</p>
+			<img src="/images/load.gif" alt="Loading...">
+		</div>
+		
 		<p class="notice">Version 0.2 (Unstable). Please <a href="https://github.com/Abjorn/drawgaiden/issues" target="_blank">report any bugs</a> you find.</p>
 	</form>
-
-	<div id="loading" hidden>
-		<h1>Draw Gaiden</h1>
-		<p>Loading canvas data, this may take awhile...</p>
-		<img src="/images/load.gif" alt="Loading...">
-	</div>
 
 	<header class="cf" hidden>
 		<!-- Toolbar -->

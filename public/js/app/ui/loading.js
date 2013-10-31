@@ -14,12 +14,10 @@ function ( App, Component, Logging ) {
 
 		this.after('initialize', function () {
 			this.on(document, 'loading:start', function ( e, data ) {
-				this.log( 'Started.' );
-				this.$node.fadeIn( 200, typeof data.done === 'function' ? data.done : undefined );
+				this.$node.fadeIn();
 			});
 
 			this.on(document, 'loading:done', function () {
-				this.log( 'Done.' );
 				this.$node.hide();
 			});
 		});
