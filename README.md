@@ -6,6 +6,7 @@ Draw Gaiden is a collaborative drawing web application. With it you can draw on 
 	cd drawgaiden
 	npm install
 	cp config.sample.js config.js
+	mkdir /var/log/drawgaiden
 	node scripts/dbsetup.js
 	node drawgaiden.js
 
@@ -20,10 +21,11 @@ It's suggested to use [pm2](https://github.com/Unitech/pm2) to run the server as
 # Features
 
 * Real-time web-socket collaboration
-* Pencil, Rectangle, Circle, and Eraser
+* Pencil, Rectangle, Circle, Eraser, and Color Picker tools
 * Displays the location of users cursors while they are drawing
-* Clear and Save buttons
 * Fullscreen canvas
+    + Move around the canvas by holding down the middle mouse button
+* Clear, Clear All, and Save buttons
 
 # Dependencies [![Build Status](https://david-dm.org/Abjorn/drawgaiden.png)](https://david-dm.org/Abjorn/drawgaiden)
 
