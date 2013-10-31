@@ -9,15 +9,46 @@ var express    = require( 'express' ),
     path       = require( 'path' ),
     r          = require( 'rethinkdb' ),
     RedisStore = require( 'socket.io/lib/stores/redis' ),
-    redis      = require( 'socket.io/node_modules/redis' );
+    redis      = require( 'socket.io/node_modules/redis' ),
+    winston    = require( 'winston' );
 
 //
 // Internal Dependencies
 //
 
 var config  = require( './config' ),
-    state   = require( './lib/state' ),
     db      = require( './lib/db' );
+
+// Loggers
+var logger = new winston.Logger({
+        transports : [
+            new winston.transports.Console({
+                json      : false,
+                timestamp : true
+            }),
+            new winston.transports.File({
+                json      : false,
+                timestamp : true,
+                filename  : path.join( config.logDirectory, 'debug.log' )
+            })
+        ],
+        exceptionHandlers : [
+            new winston.transports.File({
+                json      : false,
+                timestamp : true,
+                filename  : path.join( config.logDirectory, 'exceptions.log' )
+            })
+        ]
+    }),
+    socketLog = new winston.Logger({
+        transports : [
+            new winston.transports.File({
+                json      : false,
+                timestamp : true,
+                filename  : path.join( config.logDirectory, 'activity.log' )
+            })
+        ]
+    });
 
 // Modules to load
 var modules = [
@@ -55,11 +86,13 @@ io.configure(function () {
         redisSub    : redis.createClient( config.db.redis.port, config.db.redis.host ),
         redisClient : redis.createClient( config.db.redis.port, config.db.redis.host )
     }));
+    io.set( 'logger', socketLog );
+    io.set( 'log level', 2 );
 });
 
 io.configure('production', function () {
     io.enable( 'browser client etag' );
-    io.set( 'log level', 1 );
+    io.set( 'log level', 0 );
 });
 
 io.configure('development', function () {
@@ -79,16 +112,18 @@ app.get( '/', function ( req, res ) {
 //
 
 db.connect( config.db.thinkdb ).then(function () {
-        state.users = [];
+
+    logger.info( '-------------- Starting Draw Gaiden --------------' );
+    logger.info( 'Loading Modules' );
 
     modules = modules.map(function ( moduleName ) {
         var module = require( './lib/modules/' + moduleName );
-        module.init();
+        module.init( logger );
         return module;
     });
 
     server.listen(app.get( 'port' ), function () {
-        console.log( 'Express server listening on port ' + app.get( 'port' ) );
+        logger.info( 'Server listening on port ' + app.get( 'port' ) );
     });
 
     io.sockets.on( 'connection', function ( socket ) {

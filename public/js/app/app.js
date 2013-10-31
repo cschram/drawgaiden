@@ -73,10 +73,14 @@ function ( io, Logger ) {
         },
 
         clear: function () {
-            this.socket.emit( 'clear', function ( data ) {
-                $( document ).trigger('canvas:redraw', {
-                    canvasData: data
-                });
+            this.socket.emit( 'clear', function ( err, data ) {
+                if ( err ) {
+                    $.notify( err );
+                } else {
+                    $( document ).trigger('canvas:redraw', {
+                        canvasData: data
+                    });
+                }
             });
         },
 

@@ -1,5 +1,7 @@
 module.exports = {
 
+    logDirectory : '/var/log/drawgaiden',
+
     db : {
         // ThinkDB Instance
         thinkdb: {
