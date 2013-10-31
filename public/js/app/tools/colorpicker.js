@@ -17,16 +17,9 @@ function ( Tool, simplify ) {
 
 	var ColorPickerTool = Tool.extend({
 
-		defaults: {
-			strokeStyle              : '#000000',
-			fillStyle                : '#ffffff',
-			lineWidth                : 1,
-			lineCap                  : 'round',
-			lineJoin                 : 'round',
-			globalCompositeOperation : 'source-over',
-			primary                  : true,
-			sendUpdates              : false
-		},
+		defaults: $.extend({}, Tool.prototype.defaults, {
+			sendUpdates : false
+		}),
 
 		_pick : function ( ctx, coord ) {
 			var data  = ctx.getImageData( coord.x, coord.y, 1, 1 ).data,

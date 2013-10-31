@@ -28,18 +28,16 @@ function ( App, Component, Logging ) {
 					this.log( 'Logging in with "' + name + '".' );
 
 					App.login( name ).then(function ( data ) {
-						self.trigger( document, 'loading:start' );
 						self.$node.hide();
+						self.trigger( document, 'loading:start', {
+							done: function () {
+								self.trigger( document, 'login:success', {
+									canvasData : data
+								});
+								self.teardown();
+							}
+						});
 
-						// Trigger off loading view, then delay before calling 'login:success'
-						// so we can give the DOM a cycle to render the loading screen.
-						setTimeout(function () {
-							self.trigger( document, 'login:success', {
-								canvasData : data
-							});
-						}, 10);
-
-						self.teardown();
 					}, function ( err ) {
 						self.$error.text( err );
 					});

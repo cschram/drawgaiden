@@ -13,9 +13,9 @@ function ( App, Component, Logging ) {
 		});
 
 		this.after('initialize', function () {
-			this.on(document, 'loading:start', function () {
+			this.on(document, 'loading:start', function ( e, data ) {
 				this.log( 'Started.' );
-				this.$node.show();
+				this.$node.fadeIn( 200, typeof data.done === 'function' ? data.done : undefined );
 			});
 
 			this.on(document, 'loading:done', function () {

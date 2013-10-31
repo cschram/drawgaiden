@@ -45,7 +45,7 @@ function ( Class ) {
 
 			this.finalCtx = finalCtx;
 			this.draftCtx = draftCtx;
-			this.settings = $.extend( {}, settings, this.defaults );
+			this.settings = $.extend( {}, this.defaults, settings );
 		},
 
 		//
@@ -85,6 +85,7 @@ function ( Class ) {
 				ctx.strokeStyle = settings.strokeStyle;
 				ctx.fillStyle   = settings.fillStyle;
 			} else {
+				// Swap colors when using secondary mouse mode (right button)
 				ctx.strokeStyle = settings.fillStyle;
 				ctx.fillStyle   = settings.strokeStyle;
 			}

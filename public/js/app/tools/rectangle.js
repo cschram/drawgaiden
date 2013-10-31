@@ -8,13 +8,13 @@ function ( Tool, simplify ) {
 
 	var RectangleTool = Tool.extend({
 
-		defaults: {
+		defaults: $.extend({}, Tool.prototype.defaults, {
 			strokeStyle : '#000000',
 			fillStyle   : '#ffffff',
 			lineWidth   : 1,
 			lineCap     : 'butt',
 			lineJoin    : 'miter'
-		},
+		}),
 
 		_draw: function ( path, ctx ) {
 			var start = {
