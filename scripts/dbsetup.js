@@ -19,7 +19,8 @@ r.connect(config.dbconfig, function ( err, conn ) {
                     } else {
                         r.table( 'canvases' ).insert([
                             {
-                                id: 'default'
+                                id    : 'default',
+                                users : []
                             }
                         ]).run(conn, callback);
                     }
