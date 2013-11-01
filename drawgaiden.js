@@ -33,6 +33,10 @@ var logger = new winston.Logger({
             })
         ],
         exceptionHandlers : [
+            new winston.transports.Console({
+                json      : false,
+                timestamp : true
+            }),
             new winston.transports.File({
                 json      : false,
                 timestamp : true,
@@ -111,7 +115,7 @@ app.get( '/', function ( req, res ) {
 // Init
 //
 
-db.connect( config.db.thinkdb ).then(function () {
+db.connect( config.db.rethinkdb ).then(function () {
 
     logger.info( '-------------- Starting Draw Gaiden --------------' );
     logger.info( 'Loading Modules' );

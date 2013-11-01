@@ -18,6 +18,8 @@ function ( io, Logger ) {
         userName : '',
 
         init: function () {
+            var self = this;
+
             this.socket = io.connect('/');
 
             this.socket.on( 'error', function ( err ) {
@@ -29,7 +31,8 @@ function ( io, Logger ) {
             });
 
             this.socket.on( 'reconnect', function () {
-                $.notify( 'Reconnected.', 'success' );
+                $.notify( 'Reconnected. Updating with the latest canvas data.', 'success' );
+                self.updateHistory();
             });
 
             this.socket.on( 'draw', function ( data ) {
@@ -94,6 +97,19 @@ function ( io, Logger ) {
                 active : active,
                 x      : coords.x,
                 y      : coords.y
+            });
+        },
+
+        updateHistory: function () {
+            this.socket.emit('canvas:history', function ( err, history ) {
+                if ( err ) {
+                    $.notify( err );
+                    return;
+                }
+
+                $( document ).trigger('canvas:redraw', {
+                    canvasData: history
+                });
             });
         }
 

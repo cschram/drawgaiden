@@ -3,8 +3,8 @@ module.exports = {
     logDirectory : '/var/log/drawgaiden',
 
     db : {
-        // ThinkDB Instance
-        thinkdb: {
+        // RethinkDB Instance
+        rethinkdb: {
             host : 'localhost',
             port : 28015,
             db   : 'drawgaiden'

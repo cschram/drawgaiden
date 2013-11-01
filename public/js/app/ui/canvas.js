@@ -71,13 +71,15 @@ function ( App, Component, Logging, PencilTool, RectangleTool, CircleTool, Erase
 
 
             // Draw initial canvas data
-            function redraw( canvasData ) {
+            function redraw( canvasData, clear ) {
                 var i   = 0,
                     len = canvasData.length,
                     t   = Date.now();
 
-                self.finalCtx.clearRect( 0, 0, self.finalCtx.canvas.width, self.finalCtx.canvas.height );
-                self.draftCtx.clearRect( 0, 0, self.draftCtx.canvas.width, self.draftCtx.canvas.height );
+                if ( clear ) {
+                    self.finalCtx.clearRect( 0, 0, self.finalCtx.canvas.width, self.finalCtx.canvas.height );
+                    self.draftCtx.clearRect( 0, 0, self.draftCtx.canvas.width, self.draftCtx.canvas.height );
+                }
 
                 for (; i < len; i++) {
                     draw( canvasData[ i ].tool, canvasData[ i ].path, canvasData[ i ].settings );
@@ -169,7 +171,7 @@ function ( App, Component, Logging, PencilTool, RectangleTool, CircleTool, Erase
             });
 
             this.on( document, 'canvas:redraw', function ( e, data ) {
-                redraw( data.canvasData );
+                redraw( data.canvasData, true );
             });
 
         });

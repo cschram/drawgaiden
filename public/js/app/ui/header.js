@@ -15,7 +15,7 @@ function ( App, Component, Logging, Tools, Actions ) {
             Tools.attachTo( '#tools' );
             Actions.attachTo( '#actions' );
 
-            this.on(document, 'loading:done', function () {
+            this.on(document, 'login:success', function () {
                 this.$node.show();
             });
         });
