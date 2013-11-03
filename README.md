@@ -15,7 +15,9 @@ You can tweak individual settings in `config.js`. You'll need to edit these sett
 
 If you just want to see it in action, you can check out the instance running at http://drawgaiden.com.
 
-It's suggested to use [pm2](https://github.com/Unitech/pm2) to run the server as a daemon.
+It's suggested to use [pm2](https://github.com/Unitech/pm2) to run the server as a daemon:
+
+	pm2 start -i max drawgaiden.js
 
 [![Support via Gittip](https://rawgithub.com/twolfson/gittip-badge/0.1.0/dist/gittip.png)](https://www.gittip.com/abjorn/)
 
