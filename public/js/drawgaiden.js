@@ -13,6 +13,12 @@ require([
 
 ], function ( App, Header, Login, Canvases, UserCanvas ) {
     
+    $.notify.defaults({
+        autoHide       : false,
+        globalPosition : 'bottom left',
+        className      : 'error'
+    });
+
     App.init();
 
     // Attach components

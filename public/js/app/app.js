@@ -2,19 +2,10 @@ define([
 
     'jquery',
     'socket.io',
-    'app/logger',
-
-    // Plugins
-    'contrib/notifyjs/notify.min'
+    'app/logger'
 
 ],
 function ( $, io, Logger ) {
-
-    $.notify.defaults({
-        autoHide       : false,
-        globalPosition : 'bottom left',
-        className      : 'error'
-    });
     
     var App = {
 
