@@ -42,7 +42,7 @@
                     <span class="tool">
                         <input type="radio" name="tool" id="tool_pencil" value="pencil" checked="checked">
                         <label for="tool_pencil">
-                            <a class="icon icon-pencil">
+                            <a class="icon icon-pencil" title="Pencil">
                                 <span>Pencil</span>
                             </a>
                         </label>
@@ -53,7 +53,7 @@
                     <span class="tool">
                         <input type="radio" name="tool" id="tool_rectangle" value="rectangle">
                         <label for="tool_rectangle">
-                            <a class="icon icon-rectangle">
+                            <a class="icon icon-rectangle" title="Rectangle">
                                 <span>Rectangle</span>
                             </a>
                         </label>
@@ -64,7 +64,7 @@
                     <span class="tool">
                         <input type="radio" name="tool" id="tool_circle" value="circle">
                         <label for="tool_circle">
-                            <a class="icon icon-circle">
+                            <a class="icon icon-circle" title="Circle">
                                 <span>Circle</span>
                             </a>
                         </label>
@@ -75,7 +75,7 @@
                     <span class="tool">
                         <input type="radio" name="tool" id="tool_eraser" value="eraser">
                         <label for="tool_eraser">
-                            <a class="icon icon-eraser">
+                            <a class="icon icon-eraser" title="Eraser">
                                 <span>Eraser</span>
                             </a>
                         </label>
@@ -86,7 +86,7 @@
                     <span class="tool">
                         <input type="radio" name="tool" id="tool_colorpicker" value="colorpicker">
                         <label for="tool_colorpicker">
-                            <a class="icon icon-colorpicker">
+                            <a class="icon icon-colorpicker" title="Color Picker">
                                 <span>Color Picker</span>
                             </a>
                         </label>
