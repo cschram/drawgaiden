@@ -1,29 +1,30 @@
 define(function () {
 
+    var group    = console.group,
+        groupEnd = console.groupEnd,
+        log      = console.log;
+
     // Shim console groups
     var groups = [];
-    if ( typeof console.group !== 'function' ) {
-        console.group = function ( group ) {
-            if ( groups[ groups.length - 1 ] !== group ) {
-                groups.push( group );
+    if ( typeof group !== 'function' ) {
+        group = function ( grp ) {
+            if ( groups[ groups.length - 1 ] !== grp ) {
+                groups.push( grp );
             }
         };
 
-        console.groupEnd = function ( group ) {
-            if ( groups[ groups.length - 1 ] === group ) {
-                groups.pop();
-            }
+        groupEnd = function () {
+            groups.pop();
         };
 
-        var log = console.log || function () {};
-        console.log = function () {
+        log = function () {
             var msg = [
                 '[',
                 groups.join(']['),
                 ']: ',
-                [].prototype.join.call( arguments, ' ' )
+                Array.prototype.join.call( arguments, '' )
             ].join('');
-            log( msg );
+            console.log( msg );
         };
     }
 
@@ -31,18 +32,18 @@ define(function () {
 
         currentGroup : null,
 
-        log : function ( group, message ) {
+        log : function ( grp, message ) {
             if ( message ) {
-                if ( group !== this.currentGroup ) {
-                    console.groupEnd();
-                    console.group( group );
-                    this.currentGroup = group;
+                if ( grp !== this.currentGroup ) {
+                    groupEnd();
+                    group( grp );
+                    this.currentGroup = grp;
                 }
-                console.log( message );
+                log( message );
             } else {
-                message = group;
-                console.groupEnd();
-                console.log( message );
+                message = grp;
+                groupEnd();
+                log( message );
             }
         }
     };
