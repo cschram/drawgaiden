@@ -19,8 +19,6 @@ It's suggested to use [pm2](https://github.com/Unitech/pm2) to run the server as
 
 	pm2 start -i max drawgaiden.js
 
-[![Support via Gittip](https://rawgithub.com/twolfson/gittip-badge/0.1.0/dist/gittip.png)](https://www.gittip.com/abjorn/)
-
 # Features
 
 * Real-time web-socket collaboration
@@ -29,6 +27,18 @@ It's suggested to use [pm2](https://github.com/Unitech/pm2) to run the server as
 * Fullscreen canvas
     + Move around the canvas by holding down the middle mouse button
 * Clear, Clear All, and Save buttons
+
+[![Support via Gittip](https://rawgithub.com/twolfson/gittip-badge/0.1.0/dist/gittip.png)](https://www.gittip.com/abjorn/)
+
+# Browser Support
+
+Draw Gaiden officially supports the following browsers:
+
+* Chrome >= 30
+* Firefox >= 25
+* IE >= 10
+
+However, it may work in other versions and other browsers, but there's no guarantee that it will in the future.
 
 # Dependencies [![Build Status](https://david-dm.org/Abjorn/drawgaiden.png)](https://david-dm.org/Abjorn/drawgaiden)
 
