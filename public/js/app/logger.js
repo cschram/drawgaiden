@@ -1,8 +1,8 @@
 define(function () {
 
-    var group    = console.group,
-        groupEnd = console.groupEnd,
-        log      = console.log;
+    var group    = console.group.bind( console ),
+        groupEnd = console.groupEnd.bind( console ),
+        log      = console.log.bind( console );
 
     // Shim console groups
     var groups = [];

@@ -1,5 +1,6 @@
 define([
 
+    'jquery',
     'app/app',
     'flight/component',
     'app/mixins/logging',
@@ -7,7 +8,7 @@ define([
     'app/ui/usercanvas'
 
 ],
-function ( App, Component, Logging, Canvas, UserCanvas ) {
+function ( $, App, Component, Logging, Canvas, UserCanvas ) {
 
     // Some constants for mouse buttons
     var MOUSE_BUTTON_PRIMARY   = 1,

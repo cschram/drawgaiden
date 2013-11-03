@@ -1,10 +1,14 @@
 define([
 
+    'jquery',
     'socket.io',
-    'app/logger'
+    'app/logger',
+
+    // Plugins
+    'contrib/notifyjs/notify.min'
 
 ],
-function ( io, Logger ) {
+function ( $, io, Logger ) {
 
     $.notify.defaults({
         autoHide       : false,

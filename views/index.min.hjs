@@ -6,10 +6,7 @@
 
     <!--[if IE]><script src="js/contrib/excanvas/excanvas.js"></script><![endif]-->
 
-    <link rel="stylesheet" href="/css/normalize.css">
-    <link rel="stylesheet" href="/css/formalize.css">
-    <link rel="stylesheet" href="/js/contrib/spectrum/spectrum.css">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.min.css">
 
 </head>
 <body>
@@ -141,7 +138,7 @@
     </div>
 
     <!-- App -->
-    <script data-main="/js/config" src="/js/contrib/requirejs/require.js"></script>
+    <script src="/js/drawgaiden.min.js"></script>
 
 </body>
 </html>

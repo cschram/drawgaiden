@@ -1,25 +1,15 @@
-require.config({
-
-    baseUrl: 'js',
-
-    paths: {
-
-        'flight': 'contrib/flight/lib',
-        'socket.io': '/socket.io/socket.io',
-        'simplify': 'contrib/simplify-js/simplify',
-        'class': 'contrib/class/class'
-
-    }
-
-});
-
 require([
 
     'app/app',
     'app/ui/header',
     'app/ui/login',
     'app/ui/canvases',
-    'app/ui/usercanvas'
+    'app/ui/usercanvas',
+
+    // Plugins
+    'contrib/spectrum/spectrum',
+    'contrib/html5slider/html5slider',
+    'contrib/notifyjs/notify.min'
 
 ], function ( App, Header, Login, Canvases, UserCanvas ) {
     
