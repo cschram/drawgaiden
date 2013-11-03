@@ -32,7 +32,7 @@ It's suggested to use [pm2](https://github.com/Unitech/pm2) to run the server as
 
 Draw Gaiden requires [Node.js](http://nodejs.org), [RethinkDB](http://www.rethinkdb.com), [Redis](http://redis.io/), as well as the NPM module dependencies listed in `package.json`.
 
-_Note_: You may need to install `libprotobuf` on your machine to build the `node-protobuf` dependency for the RethinkDB driver. If you do not have this installed it should still work, however it's suggested you build with protobuf support.
+**Note**: You may need to install `libprotobuf` on your machine to build the `node-protobuf` dependency for the RethinkDB driver. If you do not have this installed it should still work, however it's suggested you build with protobuf support.
 
 # License
 
