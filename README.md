@@ -8,6 +8,7 @@ Draw Gaiden is a collaborative drawing web application. With it you can draw on 
 	cp config.sample.js config.js
 	mkdir /var/log/drawgaiden
 	node scripts/dbsetup.js
+	grunt build
 	node drawgaiden.js
 
 You can tweak individual settings in `config.js`. You'll need to edit these settings if you're using RethinkDB on a different port or hostname than `localhost:28015`.
@@ -30,6 +31,8 @@ It's suggested to use [pm2](https://github.com/Unitech/pm2) to run the server as
 # Dependencies [![Build Status](https://david-dm.org/Abjorn/drawgaiden.png)](https://david-dm.org/Abjorn/drawgaiden)
 
 Draw Gaiden requires [Node.js](http://nodejs.org), [RethinkDB](http://www.rethinkdb.com), [Redis](http://redis.io/), as well as the NPM module dependencies listed in `package.json`.
+
+_Note_: You may need to install `libprotobuf` on your machine to build the `node-protobuf` dependency for the RethinkDB driver. If you do not have this installed it should still work, however it's suggested you build with protobuf support.
 
 # License
 
