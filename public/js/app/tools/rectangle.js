@@ -4,11 +4,12 @@ if (typeof define !== 'function') {
 
 define([
 
+    'jquery',
     'app/tools/tool',
     'simplify'
 
 ],
-function ( Tool, simplify ) {
+function ( $, Tool, simplify ) {
 
     var RectangleTool = Tool.extend({
 
