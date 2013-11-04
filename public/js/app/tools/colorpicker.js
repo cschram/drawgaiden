@@ -4,10 +4,11 @@ if (typeof define !== 'function') {
 
 define([
 
+    'jquery',
     'app/tools/tool'
 
 ],
-function ( Tool ) {
+function ( $, Tool ) {
 
     function toHex( v ) {
         var hex = v.toString( 16 );
