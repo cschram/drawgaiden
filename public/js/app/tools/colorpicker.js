@@ -1,10 +1,13 @@
+if (typeof define !== 'function') {
+    var define = require('amdefine')(module);
+}
+
 define([
 
-    'app/tools/tool',
-    'simplify'
+    'app/tools/tool'
 
 ],
-function ( Tool, simplify ) {
+function ( Tool ) {
 
     function toHex( v ) {
         var hex = v.toString( 16 );

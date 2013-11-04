@@ -7,6 +7,7 @@
     "dbsetup" : "node scripts/dbsetup"
   },
   "dependencies" : {
+    "amdefine"             : "~0.1.0",
     "express"              : "~3.4.0",
     "grunt"                : "~0.4.1",
     "grunt-contrib-cssmin" : "~0.6.2",

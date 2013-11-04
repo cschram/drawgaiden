@@ -3,7 +3,7 @@
  * MIT Licensed.
  */
 // Inspired by base2 and Prototype
-define(function(){
+(function(){
   var initializing = false, fnTest = /xyz/.test(function(){xyz;}) ? /\b_super\b/ : /.*/;
  
   // The base Class implementation (does nothing)
@@ -62,5 +62,11 @@ define(function(){
     return Class;
   };
 
-  return Class;
-});
+  if ( typeof module === "object" && module && typeof module.exports === "object" ) {
+    module.exports = Class;
+  } else if ( typeof define === "function" && define.amd ) {
+    define(function () { return Class; });
+  } else {
+    this.Class = Class;
+  }
+})();
