@@ -27,7 +27,7 @@
             <img src="/images/load.gif" alt="Loading...">
         </div>
         
-        <p class="notice">Version 0.2 (Unstable). Please <a href="https://github.com/Abjorn/drawgaiden/issues" target="_blank">report any bugs</a> you find.</p>
+        <p class="notice">Version {{version}}. Please <a href="https://github.com/Abjorn/drawgaiden/issues" target="_blank">report any bugs</a> you find.</p>
     </form>
 
     <header class="cf" hidden>

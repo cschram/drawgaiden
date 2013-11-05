@@ -19,6 +19,8 @@ var express    = require( 'express' ),
 var config  = require( './config' ),
     db      = require( './lib/db' );
 
+config.version = '0.2 (Beta)';
+
 // Loggers
 var logger = new winston.Logger({
         transports : [
