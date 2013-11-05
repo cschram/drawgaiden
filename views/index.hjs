@@ -140,7 +140,7 @@
         <canvas id="user-canvas" width="{{canvasSize.width}}" height="{{canvasSize.height}}"></canvas>
 
         <!-- Wacom WebPlugin -->
-        <object id="wt-plugin" type="application/x-wacomtabletplugin" hidden></object>
+        <!--<object id="wt-plugin" type="application/x-wacomtabletplugin" hidden></object>-->
     </div>
 
     <!-- App -->

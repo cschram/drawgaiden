@@ -21,7 +21,7 @@ function ( $, App, Component, Logging, Canvas, UserCanvas ) {
             var self       = this,
                 drawn      = 0,
                 $window    = $( window ),
-                penAPI     = this.$node.find( '#wt-plugin' )[0].penAPI,
+                // penAPI     = this.$node.find( '#wt-plugin' )[0].penAPI,
                 layerWrap  = this.$node.find( '#layers' ),
                 layers     = this.$node.find( '.layer' ),
                 active     = false,
@@ -117,10 +117,10 @@ function ( $, App, Component, Logging, Canvas, UserCanvas ) {
                 mousePos.x = e.pageX;
                 mousePos.y = e.pageY;
 
-                if ( penAPI ) {
-                    self.log( penAPI.pressure );
-                    self.log( penAPI.isEraser );
-                }
+                // if ( penAPI ) {
+                //     self.log( penAPI.pressure );
+                //     self.log( penAPI.isEraser );
+                // }
 
                 return {
                     x : e.pageX - off.left + canvasOffset.x,
