@@ -31,7 +31,7 @@ var logger = new winston.Logger({
             new winston.transports.File({
                 json      : false,
                 timestamp : true,
-                filename  : path.join( config.logDirectory, 'debug.log' )
+                filename  : path.join( config.logDirectory, 'drawgaiden/debug.log' )
             })
         ],
         exceptionHandlers : [
@@ -42,7 +42,7 @@ var logger = new winston.Logger({
             new winston.transports.File({
                 json      : false,
                 timestamp : true,
-                filename  : path.join( config.logDirectory, 'exceptions.log' )
+                filename  : path.join( config.logDirectory, 'drawgaiden/exceptions.log' )
             })
         ]
     }),
@@ -51,7 +51,7 @@ var logger = new winston.Logger({
             new winston.transports.File({
                 json      : false,
                 timestamp : true,
-                filename  : path.join( config.logDirectory, 'activity.log' )
+                filename  : path.join( config.logDirectory, 'drawgaiden/activity.log' )
             })
         ]
     });
@@ -60,6 +60,11 @@ var logger = new winston.Logger({
 var modules = [
     'login',
     'canvas'
+];
+
+// Services
+var services = [
+    'flatten'
 ];
 
 //
@@ -120,12 +125,20 @@ app.get( '/', function ( req, res ) {
 db.connect( config.db.rethinkdb ).then(function () {
 
     logger.info( '-------------- Starting Draw Gaiden --------------' );
-    logger.info( 'Loading Modules' );
 
+    logger.info( 'Loading Modules' );
     modules = modules.map(function ( moduleName ) {
         var module = require( './lib/modules/' + moduleName );
         module.init( logger );
         return module;
+    });
+
+    logger.info( 'Loading Services' );
+    services = services.map(function ( serviceName ) {
+        console.log('./lib/services/' + serviceName);
+        var service = require( './lib/services/' + serviceName );
+        service.init( 'default', logger );
+        return service;
     });
 
     server.listen(app.get( 'port' ), function () {

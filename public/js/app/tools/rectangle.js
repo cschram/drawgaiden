@@ -1,66 +1,68 @@
-if (typeof define !== 'function') {
-    var define = require('amdefine')(module);
-}
+(function () {
 
-define([
+    function init( _, Tool, simplify ) {
 
-    'jquery',
-    'app/tools/tool',
-    'simplify'
+        var RectangleTool = Tool.extend({
 
-],
-function ( $, Tool, simplify ) {
+            defaults: _.extend({}, Tool.prototype.defaults, {
+                strokeStyle : '#000000',
+                fillStyle   : '#ffffff',
+                lineWidth   : 1,
+                lineCap     : 'butt',
+                lineJoin    : 'miter'
+            }),
 
-    var RectangleTool = Tool.extend({
+            _draw: function ( path, ctx ) {
+                var start = {
+                        x: (path[0].x > path[1].x) ? path[1].x : path[0].x,
+                        y: (path[0].x > path[1].y) ? path[1].y : path[0].y
+                    },
+                    end = {
+                        x: (path[0].x < path[1].x) ? path[1].x : path[0].x,
+                        y: (path[0].x < path[1].y) ? path[1].y : path[0].y
+                    };
 
-        defaults: $.extend({}, Tool.prototype.defaults, {
-            strokeStyle : '#000000',
-            fillStyle   : '#ffffff',
-            lineWidth   : 1,
-            lineCap     : 'butt',
-            lineJoin    : 'miter'
-        }),
+                ctx.beginPath();
+                ctx.rect(start.x, start.y, end.x - start.x, end.y - start.y);
+                ctx.fill();
+                ctx.stroke();
+                ctx.closePath();
+            },
 
-        _draw: function ( path, ctx ) {
-            var start = {
-                    x: (path[0].x > path[1].x) ? path[1].x : path[0].x,
-                    y: (path[0].x > path[1].y) ? path[1].y : path[0].y
-                },
-                end = {
-                    x: (path[0].x < path[1].x) ? path[1].x : path[0].x,
-                    y: (path[0].x < path[1].y) ? path[1].y : path[0].y
-                };
+            mouseDown: function ( coord ) {
+                this.active = true;
+                this.path   = [ coord, coord ];
+            },
 
-            ctx.beginPath();
-            ctx.rect(start.x, start.y, end.x - start.x, end.y - start.y);
-            ctx.fill();
-            ctx.stroke();
-            ctx.closePath();
-        },
+            mouseMove: function ( coord ) {
+                if ( this.active ) {
+                    this.path[1] = coord;
 
-        mouseDown: function ( coord ) {
-            this.active = true;
-            this.path   = [ coord, coord ];
-        },
+                    this._resetCtx( this.draftCtx, this.settings, true );
+                    this._draw( this.path, this.draftCtx );
+                }
+            },
 
-        mouseMove: function ( coord ) {
-            if ( this.active ) {
-                this.path[1] = coord;
+            draw: function ( path, settings ) {
+                settings = settings || this.settings;
 
-                this._resetCtx( this.draftCtx, this.settings, true );
-                this._draw( this.path, this.draftCtx );
+                this._resetCtx( this.finalCtx, settings );
+                this._draw( path, this.finalCtx );
             }
-        },
 
-        draw: function ( path, settings ) {
-            settings = settings || this.settings;
+        });
 
-            this._resetCtx( this.finalCtx, settings );
-            this._draw( path, this.finalCtx );
-        }
+        return RectangleTool;
 
-    });
+    }
 
-    return RectangleTool;
+    if ( typeof define === "function" && define.amd ) {
+        define( [ 'lodash', './tool', '../../contrib/simplify-js/simplify' ] , init );
+    } else {
+        var _        = require( '../../contrib/lodash/lodash' ),
+            Tool     = require( './tool' ),
+            simplify = require( '../../contrib/simplify-js/simplify' );
+        module.exports = init( _, Tool, simplify );
+    }
 
-});
+}());

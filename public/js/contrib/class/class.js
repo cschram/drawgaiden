@@ -62,11 +62,10 @@
     return Class;
   };
 
-  if ( typeof module === "object" && module && typeof module.exports === "object" ) {
-    module.exports = Class;
-  } else if ( typeof define === "function" && define.amd ) {
+  if ( typeof define === "function" && define.amd ) {
     define(function () { return Class; });
   } else {
-    this.Class = Class;
+    module.exports = Class;
   }
-})();
+
+}());

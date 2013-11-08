@@ -1,6 +1,15 @@
 module.exports = {
 
+    // Port to run Draw Gaiden on
+    port : 9000,
+
+    // Base log directory
     logDirectory : '/var/log/drawgaiden',
+
+    // Maximum history depth
+    // This is the maximum number of history entries kept after
+    // the history is flattened.
+    historyDepth : 50,
 
     db : {
         // RethinkDB Instance
@@ -16,8 +25,15 @@ module.exports = {
         }
     },
 
-    // Port to run Draw Gaiden on
-    port : 9000,
+    // Service configuration
+    services : {
+        // Service for flattening the canvas history
+        flatten : {
+            host     : 'localhost',
+            port     : 9001,
+            interval : 60 * 1000
+        }
+    },
 
     // Canvas Size
     canvasSize : {

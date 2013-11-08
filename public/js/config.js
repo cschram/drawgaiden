@@ -7,6 +7,7 @@ require.config({
     paths : {
 
         'jquery'    : 'contrib/jquery/jquery',
+        'lodash'    : 'contrib/lodash/lodash',
         'flight'    : 'contrib/flight/lib',
         'socket.io' : '/socket.io/socket.io',
         'simplify'  : 'contrib/simplify-js/simplify',
