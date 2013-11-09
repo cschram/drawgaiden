@@ -37,19 +37,23 @@ var logger = new winston.Logger({
 var CircleTool    = require( '../../public/js/app/tools/circle' ),
 	EraserTool    = require( '../../public/js/app/tools/eraser' ),
 	PencilTool    = require( '../../public/js/app/tools/pencil' ),
-	RectangleTool = require( '../../public/js/app/tools/rectangle' );
+	RectangleTool = require( '../../public/js/app/tools/rectangle' ),
+    ImageTool     = require( '../../public/js/app/tools/image' );
 
 //
 // Setup
 //
 
-var canvas = new Canvas( config.canvasSize.width, config.canvasSize.height ),
+var width  = config.canvasSize.width,
+    height = config.canvasSize.height,
+    canvas = new Canvas( width, height ),
 	ctx    = canvas.getContext( '2d' ),
 	tools  = {
         'pencil'    : new PencilTool( ctx ),
         'rectangle' : new RectangleTool( ctx ),
         'circle'    : new CircleTool( ctx ),
-        'eraser'    : new EraserTool( ctx )
+        'eraser'    : new EraserTool( ctx ),
+        'image'     : new ImageTool( ctx )
     };
 
 //
@@ -62,7 +66,7 @@ var server = dnode({
 	flatten : function ( history, done ) {
 		var t = Date.now();
 
-		ctx.clearRect( 0, 0, config.canvasSize.width, config.canvasSize.height );
+		ctx.clearRect( 0, 0, width, height );
 
 		history.forEach(function ( entry ) {
 			tools[ entry.tool ].draw( entry.path, entry.settings );
@@ -70,7 +74,11 @@ var server = dnode({
 
 		logger.info( 'Flattened ' + history.length + ' entries in ' + (Date.now() - t) + 'ms.' );
 
-		done( canvas.toDataURL( 'image/png' ) );
+		done({
+            width  : width,
+            height : height,
+            data   : canvas.toDataURL( 'image/png' )
+        });
 	}
 });
 

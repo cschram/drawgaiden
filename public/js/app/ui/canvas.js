@@ -7,10 +7,21 @@ define([
     'app/tools/rectangle',
     'app/tools/circle',
     'app/tools/eraser',
-    'app/tools/colorpicker'
+    'app/tools/colorpicker',
+    'app/tools/image'
 
 ],
-function ( App, Component, Logging, PencilTool, RectangleTool, CircleTool, EraserTool, ColorPickerTool ) {
+function ( 
+    App,
+    Component,
+    Logging,
+    PencilTool,
+    RectangleTool,
+    CircleTool,
+    EraserTool,
+    ColorPickerTool,
+    ImageTool
+) {
 
     function Canvas() {
         this.defaultAttrs({
@@ -41,7 +52,8 @@ function ( App, Component, Logging, PencilTool, RectangleTool, CircleTool, Erase
                 'rectangle'   : new RectangleTool( this.finalCtx, this.draftCtx ),
                 'circle'      : new CircleTool( this.finalCtx, this.draftCtx ),
                 'eraser'      : new EraserTool( this.finalCtx, this.draftCtx ),
-                'colorpicker' : new ColorPickerTool( this.finalCtx, this.draftCtx )
+                'colorpicker' : new ColorPickerTool( this.finalCtx, this.draftCtx ),
+                'image'       : new ImageTool( this.finalCtx, this.draftCtx )
             };
             this.tool = 'pencil';
 

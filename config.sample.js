@@ -9,7 +9,7 @@ module.exports = {
     // Maximum history depth
     // This is the maximum number of history entries kept after
     // the history is flattened.
-    historyDepth : 50,
+    historyDepth : 100,
 
     db : {
         // RethinkDB Instance

@@ -135,7 +135,6 @@ db.connect( config.db.rethinkdb ).then(function () {
 
     logger.info( 'Loading Services' );
     services = services.map(function ( serviceName ) {
-        console.log('./lib/services/' + serviceName);
         var service = require( './lib/services/' + serviceName );
         service.init( 'default', logger );
         return service;
