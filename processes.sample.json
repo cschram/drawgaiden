@@ -1,0 +1,8 @@
+[
+    {
+        "name"      : "Draw Gaiden",
+        "script"    : "./drawgaiden.js",
+        "instances" : 2,
+        "exec_mode" : "cluster_mode"
+    }
+]
