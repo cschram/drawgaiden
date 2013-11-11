@@ -13,7 +13,8 @@
     "dbsetup" : "node scripts/dbsetup"
   },
   "dependencies" : {
-    "amdefine"             : "~0.1.0",
+    "async"                : "~0.2.9",
+    "canvas"               : "~1.1.2",
     "dnode"                : "~1.1.0",
     "express"              : "~3.4.0",
     "grunt"                : "~0.4.1",

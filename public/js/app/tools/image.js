@@ -1,26 +1,26 @@
 (function () {
 
-	function init( Tool, Img ) {
-		Img = Img || Image;
+    function init( Tool, Img ) {
+        Img = Img || Image;
 
-		var ImageTool = Tool.extend({
+        var ImageTool = Tool.extend({
 
-			draw : function ( path, settings ) {
-				var i = new Img();
-				i.src = path[0];
-				this.finalCtx.drawImage(i, 0, 0);
-			}
+            draw : function ( path, settings ) {
+                var i = new Img();
+                i.src = path[0];
+                this.finalCtx.drawImage(i, 0, 0);
+            }
 
-		});
+        });
 
-		return ImageTool;
-	}
+        return ImageTool;
+    }
 
-	if ( typeof define === "function" && define.amd ) {
+    if ( typeof define === "function" && define.amd ) {
         define( [ './tool' ] , init );
     } else {
         var Tool = require( './tool' ),
-        	Img  = require( '../../../../services/flatten/node_modules/canvas/index' ).Image;
+            Img  = require( '../../../../node_modules/canvas' ).Image;
         module.exports = init( Tool, Img );
     }
 

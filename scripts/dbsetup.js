@@ -5,10 +5,10 @@ var config = require( '../config' );
 
 console.log("Setting up database...");
 
-r.connect(config.dbconfig, function ( err, conn ) {
+r.connect(config.db.rethinkdb, function ( err, conn ) {
     if ( err ) throw err;
 
-    r.dbCreate( config.dbconfig.db ).run(conn, function ( err ) {
+    r.dbCreate( config.db.rethinkdb.db ).run(conn, function ( err ) {
         if ( err ) throw err;
 
         async.parallel([
@@ -27,7 +27,16 @@ r.connect(config.dbconfig, function ( err, conn ) {
                 });
             },
             function ( callback ) {
-                r.tableCreate( 'history' ).run( conn, callback );
+                r.tableCreate( 'history' ).run( conn, function ( err ) {
+                    if ( err ) {
+                        callback( err );
+                    } else {
+                        r.table( 'history' ).indexCreate( 'canvas' ).run( conn, callback );
+                    }
+                });
+            },
+            function ( callback ) {
+                r.tableCreate( 'users' ).run( conn, callback );
             }
         ], function ( err ) {
             if ( err ) throw err;

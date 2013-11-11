@@ -1,7 +1,7 @@
 var path    = require( 'path' ),
-	dnode   = require( 'dnode' ),
-	Canvas  = require( 'canvas' ),
-	winston = require( 'winston' );
+    dnode   = require( '../../node_modules/dnode' ),
+    Canvas  = require( '../../node_modules/canvas' ),
+    winston = require( '../../node_modules/winston' );
 
 var config = require( '../../config' );
 
@@ -14,7 +14,7 @@ var logger = new winston.Logger({
             new winston.transports.File({
                 json      : false,
                 timestamp : true,
-                filename  : path.join( config.logDirectory, 'flatten/debug.log' )
+                filename  : path.join( config.logDirectory, 'flatten.debug.log' )
             })
         ],
         exceptionHandlers : [
@@ -25,7 +25,7 @@ var logger = new winston.Logger({
             new winston.transports.File({
                 json      : false,
                 timestamp : true,
-                filename  : path.join( config.logDirectory, 'flatten/exceptions.log' )
+                filename  : path.join( config.logDirectory, 'flatten.exceptions.log' )
             })
         ]
     });
@@ -35,9 +35,9 @@ var logger = new winston.Logger({
 //
 
 var CircleTool    = require( '../../public/js/app/tools/circle' ),
-	EraserTool    = require( '../../public/js/app/tools/eraser' ),
-	PencilTool    = require( '../../public/js/app/tools/pencil' ),
-	RectangleTool = require( '../../public/js/app/tools/rectangle' ),
+    EraserTool    = require( '../../public/js/app/tools/eraser' ),
+    PencilTool    = require( '../../public/js/app/tools/pencil' ),
+    RectangleTool = require( '../../public/js/app/tools/rectangle' ),
     ImageTool     = require( '../../public/js/app/tools/image' );
 
 //
@@ -47,8 +47,8 @@ var CircleTool    = require( '../../public/js/app/tools/circle' ),
 var width  = config.canvasSize.width,
     height = config.canvasSize.height,
     canvas = new Canvas( width, height ),
-	ctx    = canvas.getContext( '2d' ),
-	tools  = {
+    ctx    = canvas.getContext( '2d' ),
+    tools  = {
         'pencil'    : new PencilTool( ctx ),
         'rectangle' : new RectangleTool( ctx ),
         'circle'    : new CircleTool( ctx ),
@@ -63,24 +63,26 @@ var width  = config.canvasSize.width,
 logger.info( '-------------- Starting Flatten Service --------------' );
 
 var server = dnode({
-	flatten : function ( history, done ) {
-		var t = Date.now();
+    flatten : function ( history, done ) {
+        var t = Date.now();
 
-		ctx.clearRect( 0, 0, width, height );
+        ctx.clearRect( 0, 0, width, height );
 
-		history.forEach(function ( entry ) {
-			tools[ entry.tool ].draw( entry.path, entry.settings );
-		});
+        history.forEach(function ( entry ) {
+            tools[ entry.tool ].draw( entry.path, entry.settings );
+        });
 
-		logger.info( 'Flattened ' + history.length + ' entries in ' + (Date.now() - t) + 'ms.' );
+        logger.info( 'Flattened ' + history.length + ' entries in ' + (Date.now() - t) + 'ms.' );
 
-		done({
+        done({
             width  : width,
             height : height,
             data   : canvas.toDataURL( 'image/png' )
         });
-	}
+    }
 });
 
-server.listen( config.services.flatten.port );
-logger.info( 'Started on port ' + config.services.flatten.port );
+var host = config.services.flatten.host,
+    port = config.services.flatten.port;
+server.listen( host, port );
+logger.info( 'Started server at ' + host + ':' + port + '.' );

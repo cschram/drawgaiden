@@ -4,8 +4,8 @@
   "private"     : true,
   "description" : "Draw Gaiden service for flattening canvas history.",
   "author" : {
-  	"name"  : "Corey Schram",
-  	"email" : "coreyschram@gmail.com"
+    "name"  : "Corey Schram",
+    "email" : "coreyschram@gmail.com"
   },
   "license" : "MIT",
   "main"    : "main.js",
@@ -14,7 +14,7 @@
   },
   "dependencies" : {
     "canvas"   : "~1.1.2",
-  	"dnode"    : "~1.1.0",
+    "dnode"    : "~1.1.0",
     "winston"  : "~0.7.2"
   }
 }

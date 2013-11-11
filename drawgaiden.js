@@ -16,8 +16,9 @@ var express    = require( 'express' ),
 // Internal Dependencies
 //
 
-var config  = require( './config' ),
-    db      = require( './lib/db' );
+var config   = require( './config' ),
+    db       = require( './lib/db' ),
+    services = require( './lib/services' );
 
 config.version = '0.2 (Beta)';
 
@@ -31,7 +32,7 @@ var logger = new winston.Logger({
             new winston.transports.File({
                 json      : false,
                 timestamp : true,
-                filename  : path.join( config.logDirectory, 'drawgaiden/debug.log' )
+                filename  : path.join( config.logDirectory, 'drawgaiden.debug.log' )
             })
         ],
         exceptionHandlers : [
@@ -42,7 +43,7 @@ var logger = new winston.Logger({
             new winston.transports.File({
                 json      : false,
                 timestamp : true,
-                filename  : path.join( config.logDirectory, 'drawgaiden/exceptions.log' )
+                filename  : path.join( config.logDirectory, 'drawgaiden.exceptions.log' )
             })
         ]
     }),
@@ -51,7 +52,7 @@ var logger = new winston.Logger({
             new winston.transports.File({
                 json      : false,
                 timestamp : true,
-                filename  : path.join( config.logDirectory, 'drawgaiden/activity.log' )
+                filename  : path.join( config.logDirectory, 'drawgaiden.activity.log' )
             })
         ]
     });
@@ -60,11 +61,6 @@ var logger = new winston.Logger({
 var modules = [
     'login',
     'canvas'
-];
-
-// Services
-var services = [
-    'flatten'
 ];
 
 //
@@ -133,12 +129,7 @@ db.connect( config.db.rethinkdb ).then(function () {
         return module;
     });
 
-    logger.info( 'Loading Services' );
-    services = services.map(function ( serviceName ) {
-        var service = require( './lib/services/' + serviceName );
-        service.init( 'default', logger );
-        return service;
-    });
+    services.init( 'default', logger );
 
     server.listen(app.get( 'port' ), function () {
         logger.info( 'Server listening on port ' + app.get( 'port' ) );
