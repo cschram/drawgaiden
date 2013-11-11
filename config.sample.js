@@ -1,7 +1,7 @@
 module.exports = {
 
     // Port to run Draw Gaiden on
-    port : 9000,
+    port : 3000,
 
     // Base log directory
     logDirectory : '/var/log/drawgaiden',
