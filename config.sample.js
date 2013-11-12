@@ -17,7 +17,7 @@ module.exports = {
     },
 
     // Port to run Draw Gaiden on
-    port : 9000,
+    port : 3000,
 
     // Canvas Size
     canvasSize : {
