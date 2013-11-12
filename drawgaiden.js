@@ -16,8 +16,9 @@ var express    = require( 'express' ),
 // Internal Dependencies
 //
 
-var config  = require( './config' ),
-    db      = require( './lib/db' );
+var config   = require( './config' ),
+    db       = require( './lib/db' ),
+    services = require( './lib/services' );
 
 config.version = '0.2 (Beta)';
 
@@ -31,7 +32,7 @@ var logger = new winston.Logger({
             new winston.transports.File({
                 json      : false,
                 timestamp : true,
-                filename  : path.join( config.logDirectory, 'debug.log' )
+                filename  : path.join( config.logDirectory, 'drawgaiden.debug.log' )
             })
         ],
         exceptionHandlers : [
@@ -42,7 +43,7 @@ var logger = new winston.Logger({
             new winston.transports.File({
                 json      : false,
                 timestamp : true,
-                filename  : path.join( config.logDirectory, 'exceptions.log' )
+                filename  : path.join( config.logDirectory, 'drawgaiden.exceptions.log' )
             })
         ]
     }),
@@ -51,7 +52,7 @@ var logger = new winston.Logger({
             new winston.transports.File({
                 json      : false,
                 timestamp : true,
-                filename  : path.join( config.logDirectory, 'activity.log' )
+                filename  : path.join( config.logDirectory, 'drawgaiden.activity.log' )
             })
         ]
     });
@@ -120,13 +121,15 @@ app.get( '/', function ( req, res ) {
 db.connect( config.db.rethinkdb ).then(function () {
 
     logger.info( '-------------- Starting Draw Gaiden --------------' );
-    logger.info( 'Loading Modules' );
 
+    logger.info( 'Loading Modules' );
     modules = modules.map(function ( moduleName ) {
         var module = require( './lib/modules/' + moduleName );
         module.init( logger );
         return module;
     });
+
+    services.init( 'default', logger );
 
     server.listen(app.get( 'port' ), function () {
         logger.info( 'Server listening on port ' + app.get( 'port' ) );

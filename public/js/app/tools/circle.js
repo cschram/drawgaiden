@@ -1,49 +1,51 @@
-if (typeof define !== 'function') {
-    var define = require('amdefine')(module);
-}
+(function () {
 
-define([
+    function init( Tool ) {
 
-    'app/tools/tool'
+        var CircleTool = Tool.extend({
 
-],
-function ( Tool ) {
+            _draw: function ( path, ctx ) {
+                var radius = Math.sqrt( Math.pow( path[0].x - path[1].x, 2 ) + Math.pow( path[0].y - path[1].y, 2 ) );
 
-    var CircleTool = Tool.extend({
+                ctx.beginPath();
+                ctx.arc( path[0].x, path[0].y, radius, 0, 2 * Math.PI );
+                ctx.fill();
+                ctx.stroke();
+                ctx.closePath();
+            },
 
-        _draw: function ( path, ctx ) {
-            var radius = Math.sqrt( Math.pow( path[0].x - path[1].x, 2 ) + Math.pow( path[0].y - path[1].y, 2 ) );
+            mouseDown: function ( coord ) {
+                this.active = true;
+                this.path   = [ coord, coord ];
+            },
 
-            ctx.beginPath();
-            ctx.arc( path[0].x, path[0].y, radius, 0, 2 * Math.PI );
-            ctx.fill();
-            ctx.stroke();
-            ctx.closePath();
-        },
+            mouseMove: function ( coord ) {
+                if ( this.active ) {
+                    this.path[1] = coord;
 
-        mouseDown: function ( coord ) {
-            this.active = true;
-            this.path   = [ coord, coord ];
-        },
+                    this._resetCtx( this.draftCtx, this.settings, true );
+                    this._draw( this.path, this.draftCtx );
+                }
+            },
 
-        mouseMove: function ( coord ) {
-            if ( this.active ) {
-                this.path[1] = coord;
+            draw: function ( path, settings ) {
+                settings = settings || this.settings;
 
-                this._resetCtx( this.draftCtx, this.settings, true );
-                this._draw( this.path, this.draftCtx );
+                this._resetCtx( this.finalCtx, settings );
+                this._draw( path, this.finalCtx );
             }
-        },
 
-        draw: function ( path, settings ) {
-            settings = settings || this.settings;
+        });
 
-            this._resetCtx( this.finalCtx, settings );
-            this._draw( path, this.finalCtx );
-        }
+        return CircleTool;
 
-    });
+    }
 
-    return CircleTool;
+    if ( typeof define === "function" && define.amd ) {
+        define( [ './tool' ] , init );
+    } else {
+        var Tool = require( './tool' );
+        module.exports = init( Tool );
+    }
 
-});
+}());

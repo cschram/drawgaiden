@@ -1,5 +1,17 @@
 [
     {
+        "name"      : "Flatten Service",
+        "script"    : "./services/flatten/server.js",
+        "instances" : 1,
+        "exec_mode" : "cluster_mode"
+    },
+    {
+        "name"      : "Service Manager",
+        "script"    : "./services/manager.js",
+        "instances" : 1,
+        "exec_mode" : "cluster_mode"
+    },
+    {
         "name"      : "Draw Gaiden",
         "script"    : "./drawgaiden.js",
         "instances" : 2,
