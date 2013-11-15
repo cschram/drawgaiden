@@ -28,16 +28,13 @@ module.exports = {
     // Service configuration
     services : {
         // Management service, manages other services
-        manage : {
+        manager : {
             host : 'localhost',
             port : 9000
         },
-        
-        // Service for flattening the canvas history
+
+        // Flatten service
         flatten : {
-            host     : 'localhost',
-            port     : 9001,
-            // Interval, in seconds, to run flatten service
             interval : 60
         }
     },

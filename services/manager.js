@@ -35,7 +35,7 @@ var config = require( '../config' ),
     });
 
 var services = [
-        require( './flatten/client' )
+        require( './flatten' )
     ],
     canvases = {};
 
@@ -71,6 +71,7 @@ db.connect( config.db.rethinkdb ).then(function () {
 
     var host = config.services.manager.host,
         port = config.services.manager.port;
+
     server.listen( host, port );
     logger.info( 'Started server at ' + host + ':' + port + '.' );
 

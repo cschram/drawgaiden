@@ -20,7 +20,7 @@ var config   = require( './config' ),
     db       = require( './lib/db' ),
     services = require( './lib/services' );
 
-config.version = '0.2 (Beta)';
+config.version = '0.3.1 (Dev)';
 
 // Loggers
 var logger = new winston.Logger({

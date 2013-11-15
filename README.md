@@ -1,9 +1,12 @@
 # Draw Gaiden
 
-Draw Gaiden is a collaborative drawing web application. With it you can draw on a shared canvas with friends. Setting up the basic server is fairly straightforward:
+Draw Gaiden is a collaborative drawing web application. With it you can draw on a shared canvas with friends. If you just want to see it in action, you can check out the instance running at http://drawgaiden.com.
+
+Installation is fairly easy in the basic case:
 
 	git clone https://github.com/abjorn/drawgaiden.git
 	cd drawgaiden
+	git checkout v0.2
 	npm install
 	cp config.sample.js config.js
 	mkdir /var/log/drawgaiden
@@ -11,15 +14,11 @@ Draw Gaiden is a collaborative drawing web application. With it you can draw on 
 	grunt build
 	node drawgaiden.js
 
-However, running additional services takes a bit more work (I'll have some more information on this later). You can tweak individual settings in `config.js`. You'll need to edit these settings if you're using RethinkDB on a different port or hostname than `localhost:28015`.
-
-If you just want to see it in action, you can check out the instance running at http://drawgaiden.com.
-
 It's suggested to use [pm2](https://github.com/Unitech/pm2) to run the server as a daemon:
 
-	pm2 start processes.json
+	pm2 start -i max drawgaiden.js
 
-You can then take full advantage of additional services such as the Flatten service that takes old canvas history and merges them together into a single image to reduce load time.
+Check the wiki for more [[Installation]] instructions and [[Configuration]] options.
 
 # Features
 
@@ -31,8 +30,6 @@ You can then take full advantage of additional services such as the Flatten serv
 * Clear, Clear All, and Save buttons
 * Background services
     + Flatten service merges old history entries into a single image
-
-[![Support via Gittip](https://rawgithub.com/twolfson/gittip-badge/0.1.0/dist/gittip.png)](https://www.gittip.com/abjorn/)
 
 # Browser Support
 

@@ -1,6 +1,6 @@
 {
   "name"    : "drawgaiden",
-  "version" : "0.2.0-beta",
+  "version" : "0.3.1",
   "private" : true,
   "author" : {
     "name"  : "Corey Schram",
@@ -18,7 +18,7 @@
     "dnode"                : "~1.1.0",
     "express"              : "~3.4.0",
     "grunt"                : "~0.4.1",
-    "grunt-contrib-cssmin" : "~0.6.2",
+    "grunt-contrib-cssmin" : "~0.7.0",
     "grunt-requirejs"      : "~0.4.0",
     "hjs"                  : "~0.0.6",
     "q"                    : "~0.9.7",
