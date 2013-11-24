@@ -125,9 +125,6 @@ function (
                         path     : path
                     });
                 }
-
-                // Clear draft canvas
-                this.draftCtx.clearRect( 0, 0, this.draftCtx.canvas.width, this.draftCtx.canvas.height );
             });
 
             this.on('canvas:mouse:move', function ( e, coord ) {

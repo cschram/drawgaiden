@@ -1,8 +1,25 @@
 (function () {
 
-    function init( Tool, simplify ) {
+    var isNode = false;
 
-        var EraserTool = Tool.extend({
+    function init( Pencil ) {
+
+        var EraserTool = Pencil.extend({
+
+            _clone: null,
+            _cloneCtx: null,
+
+            init: function () {
+                this._super.apply( this, arguments );
+
+                // Create canvas element for cloning
+                if ( !isNode ) {
+                    this._clone        = document.createElement('canvas');
+                    this._clone.width  = this.finalCtx.canvas.width;
+                    this._clone.height = this.finalCtx.canvas.height;
+                    this._cloneCtx     = this._clone.getContext( '2d' );
+                }
+            },
 
             _resetCtx: function ( ctx, settings, clear ) {
                 settings.globalCompositeOperation = 'destination-out';
@@ -10,39 +27,25 @@
                 this._super( ctx, settings, clear );
             },
 
-            draw: function ( path, settings ) {
-                if (path.length === 0) {
-                    return;
+            mouseDown: function () {
+                this._super.apply( this, arguments );
+
+                if ( !isNode ) {
+                    // Clone main canvas
+                    this._clear( this._cloneCtx );
+                    this._cloneCtx.drawImage( this.finalCtx.canvas, 0, 0 );
+                    this.draftCtx.drawImage( this.finalCtx.canvas, 0, 0 );
+
+                    // Clear main context temporarily
+                    this._clear( this.finalCtx );
                 }
+            },
 
-                settings = settings || this.settings;
-
-                this.finalCtx.beginPath();
-                this._resetCtx( this.finalCtx, settings );
-
-                if (path.length === 1) {
-                    this.finalCtx.fillStyle = settings.strokeStyle;
-                    this.finalCtx.arc(
-                        path[0].x,
-                        path[0].y,
-                        settings.lineWidth / 2,
-                        0,
-                        2 * Math.PI,
-                        false
-                    );
-                    this.finalCtx.fill();
-                } else {
-                    path = simplify( path, 0.8, true );
-
-                    for (var i = 1, len = path.length; i < len; i++) {
-                        this.finalCtx.moveTo( path[i - 1].x, path[i - 1].y );
-                        this.finalCtx.lineTo( path[i].x,     path[i].y );
-                    }
-
-                    this.finalCtx.stroke();
+            mouseUp: function () {
+                if ( !isNode && this.active ) {
+                    this.finalCtx.drawImage( this._clone, 0, 0 );
                 }
-
-                this.finalCtx.closePath();
+                return this._super.apply( this, arguments );
             }
 
         });
@@ -52,11 +55,12 @@
     }
 
     if ( typeof define === "function" && define.amd ) {
-        define( [ './tool', '../../contrib/simplify-js/simplify' ] , init );
+        define( [ './pencil' ] , init );
     } else {
-        var Tool     = require( './tool' ),
-            simplify = require( '../../contrib/simplify-js/simplify' );
-        module.exports = init( Tool, simplify );
+        var Pencil = require( './pencil' );
+
+        isNode         = true;
+        module.exports = init( Pencil );
     }
 
 }());

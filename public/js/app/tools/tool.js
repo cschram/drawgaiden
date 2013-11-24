@@ -59,6 +59,7 @@
             mouseUp: function () {
                 if ( this.active ) {
                     this.active = false;
+                    this._clear( this.draftCtx );
                     this.draw( this.path );
                     return this.path;
                 }
@@ -93,8 +94,15 @@
 
                 // Clear context
                 if ( clear ) {
-                    ctx.clearRect( 0, 0, ctx.canvas.width, ctx.canvas.height );
+                    this._clear( ctx );
                 }
+            },
+
+            //
+            // Clear canvas
+            //
+            _clear: function ( ctx ) {
+                ctx.clearRect( 0, 0, ctx.canvas.width, ctx.canvas.height );
             },
 
             //
