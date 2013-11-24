@@ -88,6 +88,11 @@ function ( App, Component, Logging ) {
                 
                 this.trigger( document, 'tool:size:change', size );
             });
+
+            // Fix for chrome bug
+            this.on( 'label > a', 'click', function ( e ) {
+                $(e.target).closest('label').click();
+            });
         });
     }
 
