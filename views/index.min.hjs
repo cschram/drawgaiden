@@ -118,8 +118,8 @@
                 </div>
             </a>
             <ul id="action-menu">
-                <li><a href="#" name="clear">Clear</a></li>
-                <li><a href="#" name="clear-all">Clear All</a></li>
+                <!-- <li><a href="#" name="clear">Clear</a></li>
+                <li><a href="#" name="clear-all">Clear All</a></li> -->
                 <li><a href="#" name="save">Save</a></li>
             </ul>
         </div>
