@@ -1,0 +1,29 @@
+{
+  "name"    : "drawgaiden",
+  "version" : "0.3.1",
+  "private" : true,
+  "author" : {
+    "name"  : "Corey Schram",
+    "email" : "coreyschram@gmail.com"
+  },
+  "license" : "MIT",
+  "main"    : "main.js",
+  "scripts" : {
+    "start"   : "node drawgaiden",
+    "dbsetup" : "node scripts/dbsetup"
+  },
+  "dependencies" : {
+    "async"                : "~0.2.9",
+    "canvas"               : "~1.1.2",
+    "dnode"                : "~1.1.0",
+    "express"              : "~3.4.0",
+    "grunt"                : "~0.4.1",
+    "grunt-contrib-cssmin" : "~0.7.0",
+    "grunt-requirejs"      : "~0.4.0",
+    "hjs"                  : "~0.0.6",
+    "q"                    : "~0.9.7",
+    "rethinkdb"            : "~1.10.0",
+    "socket.io"            : "~0.9.16",
+    "winston"              : "~0.7.2"
+  }
+}

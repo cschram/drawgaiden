@@ -1,0 +1,4 @@
+{
+    "restAPI": "http://localhost:8282/api",
+    "socketAPI": "http://localhost:9292/"
+}

@@ -1,4 +1,1 @@
 node_modules
-*.log
-/config.js
-/processes.json

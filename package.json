@@ -1,29 +1,49 @@
 {
-  "name"    : "drawgaiden",
-  "version" : "0.3.1",
-  "private" : true,
-  "author" : {
-    "name"  : "Corey Schram",
-    "email" : "coreyschram@gmail.com"
+  "name": "drawgaiden",
+  "version": "1.0.0",
+  "description": "Real time collaborative drawing canvas.",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack-dev-server --devtool eval --progress --hot --content-base src/client"
   },
-  "license" : "MIT",
-  "main"    : "main.js",
-  "scripts" : {
-    "start"   : "node drawgaiden",
-    "dbsetup" : "node scripts/dbsetup"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cschram/drawgaiden.git"
   },
-  "dependencies" : {
-    "async"                : "~0.2.9",
-    "canvas"               : "~1.1.2",
-    "dnode"                : "~1.1.0",
-    "express"              : "~3.4.0",
-    "grunt"                : "~0.4.1",
-    "grunt-contrib-cssmin" : "~0.7.0",
-    "grunt-requirejs"      : "~0.4.0",
-    "hjs"                  : "~0.0.6",
-    "q"                    : "~0.9.7",
-    "rethinkdb"            : "~1.10.0",
-    "socket.io"            : "~0.9.16",
-    "winston"              : "~0.7.2"
+  "author": "Corey Schram <coreyschram@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cschram/drawgaiden/issues"
+  },
+  "homepage": "https://github.com/cschram/drawgaiden#readme",
+  "dependencies": {
+    "canvas": "^1.6.5",
+    "hapi": "^16.1.1",
+    "rethinkdb": "^2.3.3"
+  },
+  "devDependencies": {
+    "@types/react": "^15.0.21",
+    "@types/react-redux": "^4.4.38",
+    "@types/react-router": "^4.0.4",
+    "@types/react-router-redux": "^5.0.0",
+    "@types/redux": "^3.6.0",
+    "@types/redux-thunk": "^2.1.0",
+    "copy-webpack-plugin": "^4.0.1",
+    "css-loader": "^0.28.0",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "node-sass": "^4.5.2",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-redux": "^5.0.4",
+    "react-router": "^4.1.1",
+    "react-router-redux": "^4.0.8",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.2.0",
+    "sass-loader": "^6.0.3",
+    "style-loader": "^0.16.1",
+    "ts-loader": "^2.0.3",
+    "webpack": "^2.3.3",
+    "webpack-dev-server": "^2.4.2"
   }
 }
