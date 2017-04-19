@@ -2,10 +2,10 @@ interface UserState {
     userName: string;
 }
 
-const defaultState = {
+const defaultState: UserState = {
     userName: ''
 };
 
-export default (state = defaultState, { type, payload }) => {
+export default (state = defaultState, { type, payload }): UserState => {
     return state;
 }
