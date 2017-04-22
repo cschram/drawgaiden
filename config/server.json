@@ -4,8 +4,9 @@
         "port": 28015,
         "db": "drawgaiden"
     },
-    "rest": {
+    "socket": {
         "host": "localhost",
-        "port": 8282
-    }
+        "port": 9000
+    },
+    "secret": "crypto-secret"
 }
