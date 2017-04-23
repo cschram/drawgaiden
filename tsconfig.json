@@ -1,9 +1,0 @@
-{
-    "compileOnSave": false,
-    "compilerOptions": {
-        "allowSyntheticDefaultImports": true,
-        "jsx": "react",
-        "moduleResolution": "node",
-        "sourceMap": true
-    }
-}

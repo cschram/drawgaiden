@@ -20,17 +20,15 @@
   "dependencies": {
     "canvas": "^1.6.5",
     "hapi": "^16.1.1",
+    "minimist": "^1.2.0",
     "rethinkdb": "^2.3.3"
   },
   "devDependencies": {
-    "@types/history": "^4.5.0",
-    "@types/react": "^15.0.21",
-    "@types/react-dom": "^15.5.0",
-    "@types/react-redux": "^4.4.38",
-    "@types/react-router": "^4.0.4",
-    "@types/react-router-redux": "^5.0.0",
-    "@types/redux": "^3.6.0",
-    "@types/redux-thunk": "^2.1.0",
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-preset-env": "^1.4.0",
+    "babel-preset-react": "^6.24.1",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.0",
     "extract-text-webpack-plugin": "^2.1.0",
@@ -45,8 +43,6 @@
     "redux-thunk": "^2.2.0",
     "sass-loader": "^6.0.3",
     "style-loader": "^0.16.1",
-    "ts-loader": "^2.0.3",
-    "typescript": "^2.2.2",
     "webpack": "^2.3.3",
     "webpack-dev-server": "^2.4.2"
   }

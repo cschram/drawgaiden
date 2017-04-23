@@ -1,0 +1,59 @@
+#!/usr/bin/env node
+'use strict';
+
+const r = require('rethinkdb');
+const argv = require('minimist')(process.argv.slice(2));
+const config = require('../config/server.json');
+
+function printUsage() {
+    console.error('usage: scripts/db help');
+    console.error('       scripts/db create');
+}
+
+function connect() {
+    let connOptions = {
+        host: config.db.host,
+        port: config.db.port
+    };
+    if (config.db.authKey) {
+        connOptions.authKey = config.db.authKey;
+    }
+    return r.connect(connOptions);
+}
+
+const commands = {
+    help: async function() {
+        printUsage();
+    },
+    create: async function() {
+        let conn = await connect();
+        console.log('Creating database...');
+        await r.dbCreate(config.db.db).run(conn);
+        conn.use(config.db.db);
+        console.log('Creating tables...');
+        await Promise.all([
+            r.tableCreate('canvases').run(conn),
+            r.tableCreate('history').run(conn)
+        ]);
+        console.log('Creating indexes...');
+        await r.table('history').indexCreate('canvas').run(conn);
+        console.log('Done.');
+    }
+}
+
+const command = argv._[0];
+if (!command || !commands.hasOwnProperty(command)) {
+    printUsage();
+    process.exit();
+}
+
+commands[command]().then(() => {
+    process.exit();
+}).catch(error => {
+    if (error.stack) {
+        console.error(error.stack);
+    } else {
+        console.error(error);
+    }
+    process.exit();
+});

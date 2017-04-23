@@ -9,7 +9,7 @@ module.exports = {
         contentBase: './src/client',
         port: 8000
     },
-    entry: path.resolve(__dirname, 'src/client/main.tsx'),
+    entry: path.resolve(__dirname, 'src/client/main.jsx'),
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.js'
@@ -17,10 +17,10 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.ts[x]?$/,
+                test: /\.js[x]?$/,
                 include: path.resolve(__dirname, 'src/client'),
                 exclude: /node_modules/,
-                loader: 'ts-loader'
+                loader: 'babel-loader'
             },
             {
                 test: /\.scss$/,
@@ -40,7 +40,7 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: ['.ts', '.tsx', '.js']
+        extensions: ['.js', '.jsx']
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin()

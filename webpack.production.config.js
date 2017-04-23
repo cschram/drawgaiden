@@ -8,7 +8,7 @@ const uglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 module.exports = {
     devtool: 'cheap-source-map',
     entry: [
-        path.resolve(__dirname, 'src/client/main.tsx')
+        path.resolve(__dirname, 'src/client/main.jsx')
     ],
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -18,10 +18,10 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.ts[x]?$/,
+                test: /\.js[x]?$/,
                 include: path.resolve(__dirname, 'src/client'),
                 exclude: /node_modules/,
-                loader: 'ts-loader'
+                loader: 'babel-loader'
             },
             {
                 test: /\.scss$/,
@@ -42,7 +42,7 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: ['.ts', '.tsx', '.js']
+        extensions: ['.js', '.jsx']
     },
     plugins: [
         new ExtractTextPlugin('bundle.css'),
