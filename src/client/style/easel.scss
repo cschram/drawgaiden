@@ -1,0 +1,32 @@
+@import "_colors.scss";
+
+.easel {
+    height: 100%;
+    width: 100%;
+}
+
+.easel__toolbar {
+    background: $color-primary;
+    border-bottom: 2px solid $color-primary-dark;
+    width: 100%;
+}
+
+.easel__tools {
+    display: inline-block;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.easel__tool {
+    display: inline-block;
+    font-size: 2.5em;
+
+    input {
+        display: none;
+    }
+
+    label {
+        margin: 0.5em;
+    }
+}

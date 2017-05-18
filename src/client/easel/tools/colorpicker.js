@@ -1,5 +1,5 @@
 import Tool from './tool';
-import { rgbToHex } from '../util/conv';
+import { rgbToHex } from '../util';
 
 class ColorPickerTool extends Tool {
     constructor(finalCtx, draftCtx, settings, onPick) {
