@@ -8,14 +8,22 @@
 .easel__toolbar {
     background: $color-primary;
     border-bottom: 2px solid $color-primary-dark;
+    height: 50px;
     width: 100%;
 }
 
 .easel__tools {
-    display: inline-block;
     list-style: none;
     margin: 0;
     padding: 0;
+}
+
+.easel__tools,
+.easel__tool-colors,
+.easel__tool-size {
+    display: inline-block;
+    margin-right: 2em;
+    vertical-align: middle;
 }
 
 .easel__tool {
@@ -27,6 +35,62 @@
     }
 
     label {
-        margin: 0.5em;
+        cursor: pointer;
+        display: inline-block;
+        padding: 0.5em;
+    }
+
+    input:checked + label {
+        background: $color-primary-dark;
+    }
+
+    input + label:hover {
+        background: $color-primary-light;
+    }
+}
+
+.easel__tool-colors {
+    height: 30px;
+
+    input[type="color"] {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        margin: 0;
+        padding: 0;
+    }
+
+    input[type="color"] {
+        height: 30px;
+        width: 30px;
+    }
+
+    input[type="color"]::-webkit-color-swatch-wrapper {
+        padding: 0;
+    }
+
+    input[type="color"]::-webkit-color-swatch {
+        border: none;
+        border-radius: 3px;
+    }
+
+    a {
+        color: #FFFFFF;
+        display: inline-block;
+        font-size: 1.8em;
+        padding: 0.3em;
+        text-decoration: none;
+        vertical-align: top;
+    }
+}
+
+.easel__tool-size {
+    input[type="range"] {
+        width: 130px;
+    }
+
+    input[type="range"]:focus {
+        -webkit-box-shadow: none;
+        box-shadow: none;
     }
 }

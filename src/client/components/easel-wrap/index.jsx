@@ -78,14 +78,14 @@ class CanvasPage extends React.Component {
                     <ul className="easel__tools">
                         {tools.map(this.renderTool)}
                     </ul>
-                    <span className="easel__tool-colors">
+                    <div className="easel__tool-colors">
                         <input type="color" name="stroke-color" defaultValue="#000000" />
                         <a href="#" name="color-switch">↔</a>
                         <input type="color" name="fill-color" defaultValue="#ffffff" />
-                    </span>
-                    <span className="easel__tool-size">
+                    </div>
+                    <div className="easel__tool-size">
                         <input type="range" name="size" min="1" max="25" defaultValue="1" />
-                    </span>
+                    </div>
                 </div>
                 <div className="easel__canvas">
                     <canvas></canvas>
