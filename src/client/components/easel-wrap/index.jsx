@@ -88,8 +88,8 @@ class CanvasPage extends React.Component {
                     </div>
                 </div>
                 <div className="easel__canvas">
-                    <canvas></canvas>
-                    <canvas></canvas>
+                    <canvas className="easel__canvas-final"></canvas>
+                    <canvas className="easel__canvas-draft"></canvas>
                 </div>
             </div>
         );
