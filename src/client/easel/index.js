@@ -11,7 +11,8 @@ const MOUSE_BUTTON_SECONDARY = 3;
 
 const defaultOptions = {
     width: 800,
-    height: 600
+    height: 600,
+    backgroundColor: '#ffffff'
 };
 
 class Easel {
@@ -34,10 +35,23 @@ class Easel {
         });
 
         // Setup tools
+        this.toolOptions = [...this.container.querySelectorAll('[name=tool]')];
+        this.strokeColor = this.container.querySelectorAll('[name=stroke-color]')[0];
+        this.fillColor = this.container.querySelectorAll('[name=fill-color]')[0];
+        this.colorSwitch = this.container.querySelectorAll('[name=color-switch]')[0];
+        this.toolSize = this.container.querySelectorAll('[name=size]')[0];
+
+        let onPick = (type, color) => {
+            if (type === 'stroke') {
+                this.setStrokeColor(color);
+            } else {
+                this.setFillColor(color);
+            }
+        };
         this.tools = {
             circle: new CircleTool(this.finalCtx, this.draftCtx),
-            colorpicker: new ColorPickerTool(this.finalCtx, this.draftCtx),
-            eraser: new EraserTool(this.finalCtx, this.draftCtx),
+            colorpicker: new ColorPickerTool(this.finalCtx, this.draftCtx, {}, onPick),
+            eraser: new EraserTool(this.finalCtx, this.draftCtx, {}, this.options.backgroundColor),
             pencil: new PencilTool(this.finalCtx, this.draftCtx),
             rectangle: new RectangleTool(this.finalCtx, this.draftCtx)
         };
@@ -53,6 +67,13 @@ class Easel {
         this.canvasWrap.addEventListener('mousemove', this.onMouseMove.bind(this), true);
         this.canvasWrap.addEventListener('mousedown', this.onMouseDown.bind(this), true);
         this.canvasWrap.addEventListener('mouseup', this.onMouseUp.bind(this), true);
+        this.toolOptions.forEach(option => {
+            option.addEventListener('change', this.onToolChange.bind(this), true);
+        });
+        this.strokeColor.addEventListener('change', this.onStrokeColorChange.bind(this), true);
+        this.fillColor.addEventListener('change', this.onFillColorChange.bind(this), true);
+        this.colorSwitch.addEventListener('click', this.onColorSwitchClick.bind(this), true);
+        this.toolSize.addEventListener('change', this.onToolSizeChange.bind(this), true);
 
         // Clear canvas
         this.clear();
@@ -67,8 +88,8 @@ class Easel {
             { x: 0, y: 0},
             { x: this.options.width, y: this.options.height }
         ], {
-            strokeStyle: '#ffffff',
-            fillStyle: '#ffffff',
+            strokeStyle: this.options.backgroundColor,
+            fillStyle: this.options.backgroundColor,
         });
         this.draftCtx.clearRect(0, 0, this.options.width, this.options.height);
     }
@@ -79,6 +100,16 @@ class Easel {
         }
     }
 
+    setStrokeColor(color) {
+        this.strokeColor.value = color;
+        this._setToolSetting('strokeStyle', color);
+    }
+
+    setFillColor(color) {
+        this.fillColor.value = color;
+        this._setToolSetting('fillStyle', color);
+    }
+
     draw(tool, path, settings) {
         this.tools[tool].draw(path, settings);
     }
@@ -86,6 +117,12 @@ class Easel {
     /**
      * Private Methods
      */
+
+    _setToolSetting(name, value) {
+        Object.keys(this.tools).forEach(toolName => {
+            this.tools[toolName].settings[name] = value;
+        });
+    }
 
     _setOffset(coord) {
         this.offsetCoord = coord;
@@ -139,6 +176,33 @@ class Easel {
             this.drawing = false;
             this.tools[this.tool].mouseUp();
         }
+    }
+
+    onToolChange(e) {
+        let checkedTool = this.container.querySelectorAll('.easel__tool input:checked')[0];
+        this.tool = checkedTool.value;
+    }
+
+    onStrokeColorChange(e) {
+        this._setToolSetting('strokeStyle', this.strokeColor.value);
+    }
+
+    onFillColorChange(e) {
+        this._setToolSetting('fillStyle', this.fillColor.value);
+    }
+
+    onColorSwitchClick(e) {
+        e.preventDefault();
+        let stroke = this.strokeColor.value;
+        let fill = this.fillColor.value;
+        this.strokeColor.value = fill;
+        this.fillColor.value = stroke;
+        this._setToolSetting('strokeStyle', fill);
+        this._setToolSetting('fillStyle', stroke);
+    }
+
+    onToolSizeChange(e) {
+        this._setToolSetting('lineWidth', this.toolSize.value);
     }
 }
 
