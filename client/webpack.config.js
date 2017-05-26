@@ -6,10 +6,10 @@ module.exports = {
         historyApiFallback: true,
         hot: true,
         inline: true,
-        contentBase: './src/client',
+        contentBase: './src',
         port: 8000
     },
-    entry: path.resolve(__dirname, 'src/client/main.jsx'),
+    entry: path.resolve(__dirname, 'src/main.jsx'),
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.js'
@@ -18,13 +18,13 @@ module.exports = {
         loaders: [
             {
                 test: /\.js[x]?$/,
-                include: path.resolve(__dirname, 'src/client'),
+                include: path.resolve(__dirname, 'src'),
                 exclude: /node_modules/,
                 loader: 'babel-loader'
             },
             {
                 test: /\.scss$/,
-                include: path.resolve(__dirname, 'src/client'),
+                include: path.resolve(__dirname, 'src'),
                 loader: [
                     {
                         loader: 'style-loader'

@@ -8,7 +8,7 @@ const uglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 module.exports = {
     devtool: 'cheap-source-map',
     entry: [
-        path.resolve(__dirname, 'src/client/main.jsx')
+        path.resolve(__dirname, 'src/main.jsx')
     ],
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -19,14 +19,14 @@ module.exports = {
         loaders: [
             {
                 test: /\.js[x]?$/,
-                include: path.resolve(__dirname, 'src/client'),
+                include: path.resolve(__dirname, 'src'),
                 exclude: /node_modules/,
                 loader: 'babel-loader'
             },
             {
                 test: /\.scss$/,
                 
-                include: path.resolve(__dirname, 'src/client'),
+                include: path.resolve(__dirname, 'src'),
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
                     use: [
@@ -57,7 +57,7 @@ module.exports = {
             }
         }),
         new CopyWebpackPlugin([
-            { from: './src/client/index.html', to: './dist/index.html' }
+            { from: './src/index.html', to: './index.html' }
         ])
     ]
 };

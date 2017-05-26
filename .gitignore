@@ -1,2 +1,3 @@
-node_modules
-rethinkdb_data
+client/dist
+client/node_modules
+socket-server/node_modules
