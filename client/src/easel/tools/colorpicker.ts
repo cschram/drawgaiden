@@ -1,38 +1,46 @@
-import Tool from './tool';
+import { ToolSettings, Coord, Tool } from './tool';
 import { rgbToHex } from '../util';
 
-class ColorPickerTool extends Tool {
-    constructor(finalCtx, draftCtx, settings, onPick) {
+type ColorPickCallback = (type: string, color: string) => void;
+
+export default class ColorPickerTool extends Tool {
+    private onPick: ColorPickCallback;
+
+    constructor(
+        finalCtx: CanvasRenderingContext2D,
+        draftCtx: CanvasRenderingContext2D,
+        settings: ToolSettings = null,
+        onPick: ColorPickCallback
+    ) {
         super(finalCtx, draftCtx, settings);
         this.onPick = onPick;
     }
 
-    getDefaults() {
+    getDefaults(): ToolSettings {
         return Object.assign({}, super.getDefaults(), {
             sendUpdates: false
         });
     }
 
-    _pick(ctx, coord) {
+    _pick(ctx: CanvasRenderingContext2D, coord: Coord) {
         const data = ctx.getImageData(coord.x, coord.y, 1, 1).data;
         const color = rgbToHex.apply(window, data);
         this.onPick(this.settings.primary ? 'stroke' : 'fill', color);
     }
 
-    mouseDown(coord) {
+    mouseDown(coord: Coord) {
         this.active = true;
         this._pick(this.finalCtx, coord);
     }
 
-    mouseUp() {
+    mouseUp(): Coord[] {
         this.active = false;
+        return [];
     }
 
-    mouseMove(coord) {
+    mouseMove(coord: Coord) {
         if (this.active) {
             this._pick(this.finalCtx, coord);
         }
     }
 }
-
-export default ColorPickerTool;

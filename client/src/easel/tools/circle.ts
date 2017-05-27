@@ -1,7 +1,7 @@
-import Tool from './tool';
+import { ToolSettings, Coord, Tool } from './tool';
 
-class CircleTool extends Tool {
-    _draw(path, ctx) {
+export default class CircleTool extends Tool {
+    _draw(path: Coord[], ctx: CanvasRenderingContext2D) {
         const radius = Math.sqrt(Math.pow(path[0].x - path[1].x, 2) + Math.pow(path[0].y - path[1].y, 2));
 
         ctx.beginPath();
@@ -11,12 +11,12 @@ class CircleTool extends Tool {
         ctx.closePath();
     }
 
-    mouseDown(coord) {
+    mouseDown(coord: Coord) {
         this.active = true;
         this.path = [coord, coord];
     }
 
-    mouseMove(coord) {
+    mouseMove(coord: Coord) {
         if (this.active) {
             this.path[1] = coord;
 
@@ -25,12 +25,10 @@ class CircleTool extends Tool {
         }
     }
 
-    draw(path, settings) {
+    draw(path: Coord[], settings: ToolSettings = null) {
         settings = settings || this.settings;
 
         this._resetCtx(this.finalCtx, settings);
         this._draw(path, this.finalCtx);
     }
 }
-
-export default CircleTool;

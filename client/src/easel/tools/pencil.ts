@@ -1,8 +1,8 @@
-import Tool from './tool';
+import { ToolSettings, Coord, Tool } from './tool';
 import simplify from 'simplify';
 
-class PencilTool extends Tool {
-    mouseMove(coord) {
+export default class PencilTool extends Tool {
+    mouseMove(coord: Coord) {
         super.mouseMove(coord);
 
         if (this.active) {
@@ -19,7 +19,7 @@ class PencilTool extends Tool {
         }
     }
 
-    draw(path, settings) {
+    draw(path: Coord[], settings: ToolSettings) {
         if (path.length === 0) {
             return;
         }
@@ -56,5 +56,3 @@ class PencilTool extends Tool {
         this.finalCtx.closePath();
     }
 }
-
-export default PencilTool;

@@ -1,15 +1,21 @@
+import { ToolSettings } from './tool';
 import PencilTool from './pencil';
 
-class EraserTool extends PencilTool {
-    constructor(finalCtx, draftCtx, settings, backgroundColor) {
+export default class EraserTool extends PencilTool {
+    private backgroundColor: string;
+
+    constructor(
+        finalCtx: CanvasRenderingContext2D,
+        draftCtx: CanvasRenderingContext2D,
+        settings: ToolSettings,
+        backgroundColor: string
+    ) {
         super(finalCtx, draftCtx, settings);
-        this._backgroundColor = backgroundColor;
+        this.backgroundColor = backgroundColor;
     }
 
-    _resetCtx(ctx, settings, clear) {
-        settings.strokeStyle = this._backgroundColor;
+    _resetCtx(ctx: CanvasRenderingContext2D, settings: ToolSettings, clear = false) {
+        settings.strokeStyle = this.backgroundColor;
         super._resetCtx(ctx, settings, clear);
     }
 }
-
-export default EraserTool;

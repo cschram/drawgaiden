@@ -1,7 +1,7 @@
-import Tool from './tool';
+import { ToolSettings, Coord, Tool } from './tool';
 
-class RectangleTool extends Tool {
-    getDefaults() {
+export default class RectangleTool extends Tool {
+    getDefaults(): ToolSettings {
         return Object.assign({}, super.getDefaults(), {
             strokeStyle: '#000000',
             fillStyle: '#ffffff',
@@ -11,7 +11,7 @@ class RectangleTool extends Tool {
         });
     }
 
-    _draw(path, ctx) {
+    _draw(path: Coord[], ctx: CanvasRenderingContext2D) {
         const start = {
             x: (path[0].x > path[1].x) ? path[1].x : path[0].x,
             y: (path[0].x > path[1].y) ? path[1].y : path[0].y
@@ -28,12 +28,12 @@ class RectangleTool extends Tool {
         ctx.closePath();
     }
 
-    mouseDown(coord) {
+    mouseDown(coord: Coord) {
         this.active = true;
         this.path = [coord, coord];
     }
 
-    mouseMove(coord) {
+    mouseMove(coord: Coord) {
         if (this.active) {
             this.path[1] = coord;
 
@@ -42,12 +42,10 @@ class RectangleTool extends Tool {
         }
     }
 
-    draw(path, settings) {
+    draw(path: Coord[], settings: ToolSettings = null) {
         settings = settings || this.settings;
 
         this._resetCtx(this.finalCtx, settings);
         this._draw(path, this.finalCtx);
     }
 }
-
-export default RectangleTool;

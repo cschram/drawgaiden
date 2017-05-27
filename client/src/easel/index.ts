@@ -1,3 +1,4 @@
+import { Tool, ToolSettings, Coord } from './tools/tool';
 import CircleTool from './tools/circle';
 import ColorPickerTool from './tools/colorpicker';
 import EraserTool from './tools/eraser';
@@ -21,7 +22,7 @@ const defaultOptions: EaselOptions = {
     backgroundColor: '#ffffff'
 };
 
-class Easel {
+export default class Easel {
     private container: HTMLElement;
     private options: EaselOptions;
     private canvasWrap: HTMLElement;
@@ -36,6 +37,14 @@ class Easel {
     private colorSwitch: HTMLInputElement;
     private toolSize: HTMLInputElement;
 
+    private tools: { [name: string]: Tool };
+    private tool: string;
+
+    private drawing: boolean;
+    private moving: boolean;
+    private mouseCoord: Coord;
+    private offsetCoord: Coord;
+
     constructor(container: HTMLElement, options: EaselOptions) {
         this.container = container;
         this.options = Object.assign({}, defaultOptions, options);
@@ -49,7 +58,7 @@ class Easel {
         });
         this.finalCtx = this.canvases[0].getContext('2d');
         this.draftCtx = this.canvases[1].getContext('2d');
-        this._setOffset({
+        this.setOffset({
             x: (this.canvasWrap.clientWidth / 2) - (this.options.width / 2),
             y: (this.canvasWrap.clientHeight / 2) - (this.options.height / 2)
         });
@@ -75,7 +84,7 @@ class Easel {
             pencil: new PencilTool(this.finalCtx, this.draftCtx),
             rectangle: new RectangleTool(this.finalCtx, this.draftCtx)
         };
-        let checkedTool = this.container.querySelectorAll('.easel__tool input:checked')[0];
+        let checkedTool = this.container.querySelectorAll('.easel__tool input:checked')[0] as HTMLInputElement;
         this.tool = checkedTool.value;
 
         // Initialize misc state
@@ -99,10 +108,6 @@ class Easel {
         this.clear();
     }
 
-    /**
-     * Public methods
-     */
-
     clear() {
         this.tools.rectangle.draw([
             { x: 0, y: 0},
@@ -114,37 +119,33 @@ class Easel {
         this.draftCtx.clearRect(0, 0, this.options.width, this.options.height);
     }
 
-    setTool(tool) {
+    setTool(tool: string) {
         if (Object.keys(this.tools).indexOf(tool) > -1) {
             this.tool = tool;
         }
     }
 
-    setStrokeColor(color) {
+    setStrokeColor(color: string) {
         this.strokeColor.value = color;
-        this._setToolSetting('strokeStyle', color);
+        this.setToolSetting('strokeStyle', color);
     }
 
-    setFillColor(color) {
+    setFillColor(color: string) {
         this.fillColor.value = color;
-        this._setToolSetting('fillStyle', color);
+        this.setToolSetting('fillStyle', color);
     }
 
-    draw(tool, path, settings) {
+    draw(tool: string, path: Coord[], settings: ToolSettings = null) {
         this.tools[tool].draw(path, settings);
     }
 
-    /**
-     * Private Methods
-     */
-
-    _setToolSetting(name, value) {
+    private setToolSetting(name: string, value: any) {
         Object.keys(this.tools).forEach(toolName => {
             this.tools[toolName].settings[name] = value;
         });
     }
 
-    _setOffset(coord) {
+    private setOffset(coord: Coord) {
         this.offsetCoord = coord;
         this.canvases.forEach(canvas => {
             canvas.style.left = `${coord.x}px`;
@@ -152,7 +153,7 @@ class Easel {
         });
     }
 
-    _getMouseCoord(e) {
+    private getMouseCoord(e): Coord {
         this.mouseCoord = { x: e.pageX, y: e.pageY };
         return {
             x: e.pageX - (this.canvasWrap.offsetLeft + this.offsetCoord.x),
@@ -164,14 +165,14 @@ class Easel {
      * Events
      */
 
-    onMouseMove(e) {
+    private onMouseMove(e: MouseEvent) {
         if (this.drawing) {
-            let coord = this._getMouseCoord(e);
+            let coord = this.getMouseCoord(e);
             this.tools[this.tool].mouseMove(coord);
         }
     }
 
-    onMouseDown(e) {
+    private onMouseDown(e: MouseEvent) {
         e.preventDefault();
         if (e.which === MOUSE_BUTTON_SCROLL) {
             this.drawing = false;
@@ -184,12 +185,12 @@ class Easel {
             } else {
                 this.tools[this.tool].settings.primary = false;
             }
-            let coord = this._getMouseCoord(e);
+            let coord = this.getMouseCoord(e);
             this.tools[this.tool].mouseDown(coord);
         }
     }
 
-    onMouseUp(e) {
+    private onMouseUp(e: MouseEvent) {
         if (e.which === MOUSE_BUTTON_SCROLL) {
             this.moving = false;
         } else {
@@ -198,32 +199,30 @@ class Easel {
         }
     }
 
-    onToolChange(e) {
-        let checkedTool = this.container.querySelectorAll('.easel__tool input:checked')[0];
+    private onToolChange(e: Event) {
+        let checkedTool = this.container.querySelectorAll('.easel__tool input:checked')[0] as HTMLInputElement;
         this.tool = checkedTool.value;
     }
 
-    onStrokeColorChange(e) {
-        this._setToolSetting('strokeStyle', this.strokeColor.value);
+    private onStrokeColorChange(e: Event) {
+        this.setToolSetting('strokeStyle', this.strokeColor.value);
     }
 
-    onFillColorChange(e) {
-        this._setToolSetting('fillStyle', this.fillColor.value);
+    private onFillColorChange(e: Event) {
+        this.setToolSetting('fillStyle', this.fillColor.value);
     }
 
-    onColorSwitchClick(e) {
+    private onColorSwitchClick(e: Event) {
         e.preventDefault();
         let stroke = this.strokeColor.value;
         let fill = this.fillColor.value;
         this.strokeColor.value = fill;
         this.fillColor.value = stroke;
-        this._setToolSetting('strokeStyle', fill);
-        this._setToolSetting('fillStyle', stroke);
+        this.setToolSetting('strokeStyle', fill);
+        this.setToolSetting('fillStyle', stroke);
     }
 
-    onToolSizeChange(e) {
-        this._setToolSetting('lineWidth', this.toolSize.value);
+    private onToolSizeChange(e: Event) {
+        this.setToolSetting('lineWidth', this.toolSize.value);
     }
 }
-
-export default Easel;

@@ -4,17 +4,17 @@ export interface Coord {
 }
 
 export interface ToolSettings {
-    strokeStyle: string;
-    fillStyle: string;
-    lineWidth: number;
-    lineCap: string;
-    lineJoin: string;
-    globalCompositeOperation: string;
-    primary: boolean;
-    sendUpdates: boolean;
+    strokeStyle?: string;
+    fillStyle?: string;
+    lineWidth?: number;
+    lineCap?: string;
+    lineJoin?: string;
+    globalCompositeOperation?: string;
+    primary?: boolean;
+    sendUpdates?: boolean;
 }
 
-export default class Tool {
+export class Tool {
     // Active flag, determining whether the tool is currently in use
     active: boolean;
     // Last coordinate given to the tool during use
@@ -29,7 +29,7 @@ export default class Tool {
     // Tool settings
     settings: ToolSettings;
 
-    constructor(finalCtx: CanvasRenderingContext2D, draftCtx: CanvasRenderingContext2D, settings: ToolSettings) {
+    constructor(finalCtx: CanvasRenderingContext2D, draftCtx: CanvasRenderingContext2D, settings: ToolSettings = null) {
         if (!finalCtx) {
             throw new Error( 'Missing final contexts in tool constructor.' );
         }
@@ -120,7 +120,7 @@ export default class Tool {
     //
     // Draw an arbitrary path
     //
-    draw(path: Coord[], settings = null) {
+    draw(path: Coord[], settings: ToolSettings = null) {
         // No implementation
     }
 }
