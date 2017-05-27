@@ -9,20 +9,40 @@ const MOUSE_BUTTON_PRIMARY = 1;
 const MOUSE_BUTTON_SCROLL = 2;
 const MOUSE_BUTTON_SECONDARY = 3;
 
-const defaultOptions = {
+interface EaselOptions {
+    width: number;
+    height: number;
+    backgroundColor: string;
+}
+
+const defaultOptions: EaselOptions = {
     width: 800,
     height: 600,
     backgroundColor: '#ffffff'
 };
 
 class Easel {
-    constructor(container, options) {
+    private container: HTMLElement;
+    private options: EaselOptions;
+    private canvasWrap: HTMLElement;
+    private canvases: HTMLCanvasElement[];
+
+    private finalCtx: CanvasRenderingContext2D;
+    private draftCtx: CanvasRenderingContext2D;
+
+    private toolOptions: HTMLInputElement[];
+    private strokeColor: HTMLInputElement;
+    private fillColor: HTMLInputElement;
+    private colorSwitch: HTMLInputElement;
+    private toolSize: HTMLInputElement;
+
+    constructor(container: HTMLElement, options: EaselOptions) {
         this.container = container;
         this.options = Object.assign({}, defaultOptions, options);
 
         // Grab canvas elements and setup context
-        this.canvasWrap = this.container.getElementsByClassName('easel__canvas')[0];
-        this.canvases = [...this.container.getElementsByTagName('canvas')];
+        this.canvasWrap = this.container.getElementsByClassName('easel__canvas')[0] as HTMLElement;
+        this.canvases = Array.from(this.container.getElementsByTagName('canvas'));
         this.canvases.forEach(canvas => {
             canvas.width = this.options.width;
             canvas.height = this.options.height;
@@ -35,11 +55,11 @@ class Easel {
         });
 
         // Setup tools
-        this.toolOptions = [...this.container.querySelectorAll('[name=tool]')];
-        this.strokeColor = this.container.querySelectorAll('[name=stroke-color]')[0];
-        this.fillColor = this.container.querySelectorAll('[name=fill-color]')[0];
-        this.colorSwitch = this.container.querySelectorAll('[name=color-switch]')[0];
-        this.toolSize = this.container.querySelectorAll('[name=size]')[0];
+        this.toolOptions = Array.from(this.container.querySelectorAll('[name=tool]')) as HTMLInputElement[];
+        this.strokeColor = this.container.querySelectorAll('[name=stroke-color]')[0] as HTMLInputElement;
+        this.fillColor = this.container.querySelectorAll('[name=fill-color]')[0] as HTMLInputElement;
+        this.colorSwitch = this.container.querySelectorAll('[name=color-switch]')[0] as HTMLInputElement;
+        this.toolSize = this.container.querySelectorAll('[name=size]')[0] as HTMLInputElement;
 
         let onPick = (type, color) => {
             if (type === 'stroke') {

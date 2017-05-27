@@ -1,19 +1,35 @@
-class Tool {
+export interface Coord {
+    x: number;
+    y: number;
+}
+
+export interface ToolSettings {
+    strokeStyle: string;
+    fillStyle: string;
+    lineWidth: number;
+    lineCap: string;
+    lineJoin: string;
+    globalCompositeOperation: string;
+    primary: boolean;
+    sendUpdates: boolean;
+}
+
+export default class Tool {
     // Active flag, determining whether the tool is currently in use
-    active = false;
+    active: boolean;
     // Last coordinate given to the tool during use
-    lastCoord = null;
+    lastCoord: Coord;
     // Path drawn by the mouse
-    path = null;
+    path: Coord[];
     // "Final" context, where the changes are finalized
-    finalCtx = null;
+    finalCtx: CanvasRenderingContext2D;
     // "Draft" context, used for displaying temporary tool paths
     // i.e. guide lines for a rectangle tool
-    draftCtx = null;
+    draftCtx: CanvasRenderingContext2D;
     // Tool settings
-    settings = null;
+    settings: ToolSettings;
 
-    constructor(finalCtx, draftCtx, settings) {
+    constructor(finalCtx: CanvasRenderingContext2D, draftCtx: CanvasRenderingContext2D, settings: ToolSettings) {
         if (!finalCtx) {
             throw new Error( 'Missing final contexts in tool constructor.' );
         }
@@ -23,7 +39,7 @@ class Tool {
         this.settings = Object.assign({}, this.getDefaults(), settings);
     }
 
-    getDefaults() {
+    getDefaults(): ToolSettings {
         return {
             strokeStyle: '#000000',
             fillStyle: '#ffffff',
@@ -39,7 +55,7 @@ class Tool {
     //
     // Mouse down method, passed from parent component
     //
-    mouseDown(coord) {
+    mouseDown(coord: Coord) {
         this.active = true;
         this.lastCoord = coord;
         this.path = [coord];
@@ -48,7 +64,7 @@ class Tool {
     //
     // Mouse up method, passed from parent component
     //
-    mouseUp() {
+    mouseUp(): Coord[] {
         if (this.active) {
             this.active = false;
             this._clear(this.draftCtx);
@@ -61,7 +77,7 @@ class Tool {
     //
     // Mouse move method, passed from parent component
     //
-    mouseMove(coord) {
+    mouseMove(coord: Coord) {
         if (this.active) {
             this.path.push(coord);
         }
@@ -71,7 +87,7 @@ class Tool {
     //
     // Reset context styling
     //
-    _resetCtx(ctx, settings, clear) {
+    _resetCtx(ctx: CanvasRenderingContext2D, settings: ToolSettings, clear = false) {
         // Reset context styling
         if (settings.primary) {
             ctx.strokeStyle = settings.strokeStyle;
@@ -96,7 +112,7 @@ class Tool {
     //
     // Clear canvas
     //
-    _clear(ctx) {
+    _clear(ctx: CanvasRenderingContext2D) {
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     }
 
@@ -104,9 +120,7 @@ class Tool {
     //
     // Draw an arbitrary path
     //
-    draw(path, settings) {
+    draw(path: Coord[], settings = null) {
         // No implementation
     }
 }
-
-export default Tool;

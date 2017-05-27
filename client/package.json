@@ -18,6 +18,14 @@
   },
   "homepage": "https://github.com/cschram/drawgaiden#readme",
   "dependencies": {
+    "@types/history": "^4.5.1",
+    "@types/react": "^15.0.25",
+    "@types/react-dom": "^15.5.0",
+    "@types/react-redux": "^4.4.40",
+    "@types/react-router": "^4.0.9",
+    "@types/react-router-redux": "^5.0.1",
+    "@types/redux": "^3.6.0",
+    "@types/redux-thunk": "^2.1.0",
     "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
@@ -39,6 +47,8 @@
     "sass-loader": "^6.0.3",
     "simplify": "^1.0.0",
     "style-loader": "^0.16.1",
+    "ts-loader": "^2.1.0",
+    "typescript": "^2.3.3",
     "webpack": "^2.3.3",
     "webpack-dev-server": "^2.4.2"
   }
