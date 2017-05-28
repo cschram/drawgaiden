@@ -2,7 +2,7 @@ import * as SocketIO from 'socket.io';
 import * as winston from 'winston';
 import { Connection } from './db';
 
-const config = require('../../config/server.json');
+const config = require('../../config/socket-server.json');
 
 export default class ConnectionManager {
     private sock: SocketIO.Socket;

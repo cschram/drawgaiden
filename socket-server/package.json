@@ -2,7 +2,7 @@
   "name": "drawgaiden-socket-server",
   "version": "1.0.0",
   "description": "Real time collaborative drawing canvas.",
-  "main": "src/index.js",
+  "main": "src/index.ts",
   "scripts": {
     "start": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch\" \"nodemon dist/index.js\"",
     "watch": "tsc -w",

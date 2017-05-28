@@ -3,7 +3,7 @@ import Logger from './logger';
 import { Connection, connect } from './db';
 import ConnectionManager from './connection-manager';
 
-const config = require('../../config/server.json');
+const config = require('../../config/socket-server.json');
 const logger = Logger('socket');
 
 connect(config.db).then(conn => {
