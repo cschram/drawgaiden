@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-function LoginPage() {
+function App({ children }) {
     return (
-        <div className="login-page">
-
+        <div className="app">
+            {children}
         </div>
     );
 }
@@ -17,4 +17,4 @@ const mapDispatchToProps = (dispatch) => ({
 
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

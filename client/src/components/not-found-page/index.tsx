@@ -1,13 +1,20 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-class NotFoundPage extends React.Component {
-    render() {
-        return (
-            <div className="not-found-page">
+function NotFoundPage() {
+    return (
+        <div className="not-found-page">
 
-            </div>
-        );
-    }
+        </div>
+    );
 }
 
-export default NotFoundPage;
+const mapStateToProps = (state) => ({
+
+});
+
+const mapDispatchToProps = (dispatch) => ({
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NotFoundPage);

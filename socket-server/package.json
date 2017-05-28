@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "description": "Real time collaborative drawing canvas.",
   "main": "src/index.js",
+  "scripts": {
+    "start": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch\" \"nodemon dist/index.js\"",
+    "watch": "tsc -w",
+    "build": "tsc",
+    "serve": "node dist/index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cschram/drawgaiden.git"
@@ -14,9 +20,20 @@
   },
   "homepage": "https://github.com/cschram/drawgaiden#readme",
   "dependencies": {
-    "canvas": "^1.6.5",
+    "@types/hapi": "^16.1.2",
+    "@types/minimist": "^1.2.0",
+    "@types/rethinkdb": "^2.3.2",
+    "@types/socket.io": "^1.4.29",
+    "@types/winston": "^2.3.2",
     "hapi": "^16.1.1",
     "minimist": "^1.2.0",
-    "rethinkdb": "^2.3.3"
+    "rethinkdb": "^2.3.3",
+    "socket.io": "^2.0.1",
+    "winston": "^2.3.1"
+  },
+  "devDependencies": {
+    "concurrently": "^3.4.0",
+    "nodemon": "^1.11.0",
+    "typescript": "^2.3.3"
   }
 }

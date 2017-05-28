@@ -1,3 +1,4 @@
-client/dist
-client/node_modules
-socket-server/node_modules
+*/dist
+*/node_modules
+config/client.json
+config/server.json

@@ -20,7 +20,6 @@ module.exports = {
             {
                 test: /\.ts[x]?$/,
                 include: path.resolve(__dirname, 'src'),
-                exclude: /node_modules/,
                 loader: 'ts-loader'
             },
             {
@@ -42,7 +41,7 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: ['.ts', '.tsx']
+        extensions: ['.ts', '.tsx', '.js']
     },
     plugins: [
         new ExtractTextPlugin('bundle.css'),

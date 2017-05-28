@@ -34,7 +34,9 @@ const tools = [
 // Props that should not trigger a re-render
 const staticProps = [ 'history' ];
 
-class CanvasPage extends React.Component {
+class CanvasPage extends React.Component<any, void> {
+    easel: Easel;
+
     shouldComponentUpdate(nextProps, nextState) {
         let propsDiff = Object.keys(nextProps).some(key => {
             if (staticProps.indexOf(key) === -1) {
@@ -56,7 +58,7 @@ class CanvasPage extends React.Component {
     }
 
     componentDidMount() {
-        let container = ReactDOM.findDOMNode(this.refs['container']);
+        let container = ReactDOM.findDOMNode(this.refs['container']) as HTMLElement;
         this.easel = new Easel(container);
     }
 

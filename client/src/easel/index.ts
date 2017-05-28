@@ -45,7 +45,7 @@ export default class Easel {
     private mouseCoord: Coord;
     private offsetCoord: Coord;
 
-    constructor(container: HTMLElement, options: EaselOptions) {
+    constructor(container: HTMLElement, options: EaselOptions = null) {
         this.container = container;
         this.options = Object.assign({}, defaultOptions, options);
 

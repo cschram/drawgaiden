@@ -1,8 +1,6 @@
-'use strict';
+import * as winston from 'winston';
 
-const winston = require('winston');
-
-function create(name) {
+export default function Logger(name: string) {
     return new winston.Logger({
         transports: [
             new winston.transports.Console({
@@ -28,5 +26,3 @@ function create(name) {
         ]
     });
 }
-
-module.exports = create;
