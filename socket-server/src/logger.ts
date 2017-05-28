@@ -1,4 +1,6 @@
 import * as winston from 'winston';
+import { join } from 'path';
+import config from './config';
 
 export default function Logger(name: string) {
     return new winston.Logger({
@@ -10,7 +12,7 @@ export default function Logger(name: string) {
             new winston.transports.File({
                 json: false,
                 timestamp: true,
-                filename: `logs/${name}.debug.log`
+                filename: join(config.logDirectory, `${name}.debug.log`)
             })
         ],
         exceptionHandlers: [
@@ -21,7 +23,7 @@ export default function Logger(name: string) {
             new winston.transports.File({
                 json: false,
                 timestamp: true,
-                filename: `logs/${name}.error.log`
+                filename: join(config.logDirectory, `${name}.error.log`)
             })
         ]
     });

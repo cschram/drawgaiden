@@ -4,10 +4,11 @@
   "description": "Real time collaborative drawing canvas.",
   "main": "src/index.ts",
   "scripts": {
-    "start": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch\" \"nodemon dist/index.js\"",
-    "watch": "tsc -w",
+    "start": "npm run build && npm run watch",
+    "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch:ts\" \"nodemon dist/socket-server/src/index.js\"",
+    "watch:ts": "tsc -w",
     "build": "tsc",
-    "serve": "node dist/index.js"
+    "serve": "node dist/socket-server/src/index.js"
   },
   "repository": {
     "type": "git",

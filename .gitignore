@@ -2,3 +2,4 @@
 */node_modules
 config/client.json
 config/socket-server.json
+logs/*.log
