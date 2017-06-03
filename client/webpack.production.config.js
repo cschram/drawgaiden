@@ -24,7 +24,6 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                
                 include: path.resolve(__dirname, 'src'),
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
@@ -41,7 +40,7 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: ['.ts', '.tsx', '.js']
+        extensions: ['.ts', '.tsx', '.js', '.json']
     },
     plugins: [
         new ExtractTextPlugin('bundle.css'),
