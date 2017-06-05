@@ -3,7 +3,15 @@
 
 const r = require('rethinkdb');
 const argv = require('minimist')(process.argv.slice(2));
-const config = require('../config/server.json');
+const config = require('../../config/socket-server.json');
+
+const defaultCanvas = {
+    id: 'default',
+    width: 800,
+    height: 600,
+    backgroundColor: '#ffffff',
+    cursors: []
+};
 
 function printUsage() {
     console.error('usage: scripts/db help');
@@ -36,7 +44,9 @@ const commands = {
             r.tableCreate('history').run(conn)
         ]);
         console.log('Creating indexes...');
-        await r.table('history').indexCreate('canvas').run(conn);
+        await r.table('history').indexCreate('canvasID').run(conn);
+        console.log('Creating default canvas...');
+        await r.table('canvases').insert([defaultCanvas]).run(conn);
         console.log('Done.');
     }
 }

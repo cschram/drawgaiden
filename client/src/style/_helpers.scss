@@ -1,0 +1,17 @@
+@mixin absolute-center($width, $height) {
+    height: $height;
+    left: calc(50% - #{$width / 2});
+    margin: auto;
+    position: absolute;
+    top: calc(50% - #{$height / 2});
+    width: $width;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

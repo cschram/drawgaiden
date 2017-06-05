@@ -1,4 +1,5 @@
-import { ToolSettings, Coord, Tool } from './tool';
+import { Tool } from './tool';
+import { ToolSettings, Coord } from '../util';
 
 export default class CircleTool extends Tool {
     _draw(path: Coord[], ctx: CanvasRenderingContext2D) {

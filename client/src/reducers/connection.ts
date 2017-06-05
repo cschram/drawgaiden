@@ -1,21 +1,36 @@
 interface ConnectionState {
     socket: SocketIOClient.Socket;
+    connected: boolean;
+    connecting: boolean;
 }
 
 const initialState: ConnectionState = {
-    socket: null
+    socket: null,
+    connected: false,
+    connecting: false
 };
 
 export default function(state = initialState, { type, payload }): ConnectionState {
     switch (type) {
+        case 'CONNECTING':
+            return {
+                socket: null,
+                connected: false,
+                connecting: true
+            };
+
         case 'CONNECTED':
             return {
-                socket: payload
+                socket: payload,
+                connected: true,
+                connecting: false
             };
 
         case 'DISCONNECTED':
             return {
-                socket: null
+                socket: null,
+                connected: false,
+                connecting: false
             };
 
         default:

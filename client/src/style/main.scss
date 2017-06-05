@@ -1,4 +1,9 @@
-@import "_normalize.scss";
+@import "_normalize";
+@import "_colors";
+
+* {
+    box-sizing: border-box;
+}
 
 body {
     line-height: 1;
@@ -10,5 +15,31 @@ body {
 
 html, body, #mount {
     height: 100%;
+    overflow: hidden;
     width: 100%;
+}
+
+input[type="text"],
+button {
+    border: none;
+    border-radius: 2px;
+    color: #FFFFFF;
+    display: inline-block;
+    font-size: 1.75em;
+    height: 3em;
+    margin: 0.75em 0;
+    width: 100%;
+}
+
+input[type="text"] {
+    background: $color-primary-darker;
+    padding: 1em;
+}
+
+button {
+    background: $color-primary-light;
+}
+
+.app {
+    height: 100%;
 }

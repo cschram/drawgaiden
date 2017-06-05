@@ -1,4 +1,7 @@
+@import "../../style/_colors";
+
 .canvas-page {
-    height: 800px;
-    width: 1200px;
+    background: $color-primary-dark;
+    height: 100%;
+    width: 100%;
 }

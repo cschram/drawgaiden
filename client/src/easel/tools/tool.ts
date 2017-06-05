@@ -1,18 +1,4 @@
-export interface Coord {
-    x: number;
-    y: number;
-}
-
-export interface ToolSettings {
-    strokeStyle?: string;
-    fillStyle?: string;
-    lineWidth?: number;
-    lineCap?: string;
-    lineJoin?: string;
-    globalCompositeOperation?: string;
-    primary?: boolean;
-    sendUpdates?: boolean;
-}
+import { ToolSettings, Coord } from '../util';
 
 export class Tool {
     // Active flag, determining whether the tool is currently in use

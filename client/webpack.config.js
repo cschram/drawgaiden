@@ -19,7 +19,7 @@ module.exports = {
             {
                 test: /\.ts[x]?$/,
                 include: path.resolve(__dirname, 'src'),
-                loader: 'ts-loader'
+                loader: ['babel-loader', 'ts-loader']
             },
             {
                 test: /\.scss$/,
@@ -35,6 +35,11 @@ module.exports = {
                         loader: 'sass-loader'
                     }
                 ]
+            },
+            {
+                test: /\.(png)$/,
+                include: path.resolve(__dirname, 'src'),
+                loader: 'file-loader'
             }
         ]
     },

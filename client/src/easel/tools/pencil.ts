@@ -1,4 +1,5 @@
-import { ToolSettings, Coord, Tool } from './tool';
+import { Tool } from './tool';
+import { ToolSettings, Coord } from '../util';
 import simplify from 'simplify-js';
 
 export default class PencilTool extends Tool {

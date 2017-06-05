@@ -1,6 +1,6 @@
 import { Canvas, HistoryEntry } from './canvas';
 
-export type RequestCallback = (resp: Response) => void;
+export type RequestCallback = (resp: any) => void;
 
 export interface Response {
     success: boolean;

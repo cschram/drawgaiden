@@ -1,0 +1,19 @@
+@import "../../style/_colors";
+@import "../../style/_helpers";
+
+.loading {
+    background: $color-primary;
+    font-size: 4em;
+    height: 100%;
+    position: relative;
+    width: 100%;
+
+    i {
+        @include absolute-center(40px, 40px);
+        animation-name: rotate;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        color: #FFFFFF;
+    }
+}

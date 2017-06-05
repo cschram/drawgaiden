@@ -1,4 +1,4 @@
-import { ToolSettings } from './tool';
+import { ToolSettings } from '../util';
 import PencilTool from './pencil';
 
 export default class EraserTool extends PencilTool {

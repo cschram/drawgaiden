@@ -33,6 +33,7 @@ export default class Session {
         this.sock.on('disconnect', this.onDisconnect);
         this.sock.on('login', this.onLogin);
         this.sock.on('canvas:join', this.onJoinCanvas);
+        this.sock.on('canvas:draw', this.onDraw);
     }
 
     onDisconnect = () => {
@@ -63,7 +64,41 @@ export default class Session {
         }
         this.canvasID = req.canvasID;
         let canvas = await this.db.getCanvas(this.canvasID);
-        console.log(JSON.stringify(canvas, null, 2));
-        cb({ success: true });
+        if (!canvas) {
+            cb({
+                success: false,
+                errorMessage: 'Canvas not found'
+            });
+        }
+        let history = await this.db.getHistory(this.canvasID);
+        cb({
+            success: true,
+            canvas,
+            history
+        });
+
+        this.db.getHistoryFeed(this.canvasID).then(feed => {
+            feed.each((err, change) => {
+                this.sock.emit('canvas:history:new', { entry: change.new_val });
+            });
+        });
+    };
+
+    onDraw = async (req: DrawRequest, cb: RequestCallback) => {
+        if (!this.userName) {
+            cb({
+                success: false,
+                errorMessage: 'Not authenticated'
+            });
+        }
+        try {
+            await this.db.addHistory(req.entry);
+            cb({ success: true });
+        } catch(e) {
+            cb({
+                success: false,
+                errorMessage: e.toString()
+            });
+        }
     };
 }

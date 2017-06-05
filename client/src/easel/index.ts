@@ -1,4 +1,5 @@
-import { Tool, ToolSettings, Coord } from './tools/tool';
+import { Tool } from './tools/tool';
+import { ToolSettings, Coord } from './util';
 import CircleTool from './tools/circle';
 import ColorPickerTool from './tools/colorpicker';
 import EraserTool from './tools/eraser';
@@ -11,15 +12,17 @@ const MOUSE_BUTTON_SCROLL = 2;
 const MOUSE_BUTTON_SECONDARY = 3;
 
 interface EaselOptions {
-    width: number;
-    height: number;
-    backgroundColor: string;
+    width?: number;
+    height?: number;
+    backgroundColor?: string;
+    onDraw?: (path: Coord[]) => void;
 }
 
 const defaultOptions: EaselOptions = {
     width: 800,
     height: 600,
-    backgroundColor: '#ffffff'
+    backgroundColor: '#ffffff',
+    onDraw: () => {}
 };
 
 export default class Easel {
@@ -119,10 +122,18 @@ export default class Easel {
         this.draftCtx.clearRect(0, 0, this.options.width, this.options.height);
     }
 
+    getTool(): string {
+        return this.tool;
+    }
+
     setTool(tool: string) {
         if (Object.keys(this.tools).indexOf(tool) > -1) {
             this.tool = tool;
         }
+    }
+
+    getToolSettings(): ToolSettings {
+        return this.tools[this.tool].settings;
     }
 
     setStrokeColor(color: string) {
@@ -195,7 +206,8 @@ export default class Easel {
             this.moving = false;
         } else {
             this.drawing = false;
-            this.tools[this.tool].mouseUp();
+            let path = this.tools[this.tool].mouseUp();
+            this.options.onDraw(path);
         }
     }
 
