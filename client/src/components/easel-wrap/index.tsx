@@ -75,7 +75,7 @@ class EaselWrap extends React.Component<EaselWrapProps, void> {
                 let newHistory = nextProps.history;
                 let oldHistory = this.props.history;
                 if (newHistory.length > oldHistory.length) {
-                    this.queue = newHistory.slice(oldHistory.length - 1);
+                    this.queue = this.queue.concat(newHistory.slice(oldHistory.length - 1));
                     this.drainQueue(true);
                 }
                 return false;
