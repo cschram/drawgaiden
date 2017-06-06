@@ -5,17 +5,11 @@ const r = require('rethinkdb');
 const argv = require('minimist')(process.argv.slice(2));
 const config = require('../../config/socket-server.json');
 
-const defaultCanvas = {
-    id: 'default',
-    width: 800,
-    height: 600,
-    backgroundColor: '#ffffff',
-    cursors: []
-};
-
 function printUsage() {
-    console.error('usage: scripts/db help');
-    console.error('       scripts/db create');
+    console.log('usage: scripts/db help');
+    console.log('       scripts/db configure');
+    console.log('       scripts/db create <name>');
+    console.log('       scripts/db clear <name>');
 }
 
 function connect() {
@@ -33,11 +27,11 @@ const commands = {
     help: async function() {
         printUsage();
     },
-    create: async function() {
+    configure: async function() {
         let conn = await connect();
+        conn.use(config.db.db);
         console.log('Creating database...');
         await r.dbCreate(config.db.db).run(conn);
-        conn.use(config.db.db);
         console.log('Creating tables...');
         await Promise.all([
             r.tableCreate('canvases').run(conn),
@@ -45,8 +39,27 @@ const commands = {
         ]);
         console.log('Creating indexes...');
         await r.table('history').indexCreate('canvasID').run(conn);
-        console.log('Creating default canvas...');
-        await r.table('canvases').insert([defaultCanvas]).run(conn);
+        console.log('Done.');
+    },
+    create: async function() {
+        let name = argv._[1];
+        let conn = await connect();
+        console.log(`Creating canvas "${name}"...`);
+        conn.use(config.db.db);
+        await r.table('canvases').insert([{
+            id: name,
+            width: 1200,
+            height: 800,
+            backgroundColor: '#ffffff'
+        }]).run(conn);
+        console.log('Done.');
+    },
+    clear: async function() {
+        let id = argv._[1];
+        let conn = await connect();
+        conn.use(config.db.db);
+        console.log(`Clearing canvas "${id}" history...`);
+        r.table('history').getAll(id, { index: 'canvasID' }).delete().run(conn);
         console.log('Done.');
     }
 }

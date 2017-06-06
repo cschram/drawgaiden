@@ -20,6 +20,7 @@
     vim config/socket-server.json # Edit config as necessary
     cd socket-server
     npm install
-    scripts/db create # Creates necessary table and db configuration
+    scripts/db configure
+    scripts/db create default
     npm run build
     npm run serve
