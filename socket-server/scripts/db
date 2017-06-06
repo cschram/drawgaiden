@@ -59,7 +59,7 @@ const commands = {
         let conn = await connect();
         conn.use(config.db.db);
         console.log(`Clearing canvas "${id}" history...`);
-        r.table('history').getAll(id, { index: 'canvasID' }).delete().run(conn);
+        await r.table('history').getAll(id, { index: 'canvasID' }).delete().run(conn);
         console.log('Done.');
     }
 }
