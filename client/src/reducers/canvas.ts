@@ -1,4 +1,4 @@
-import { Canvas, HistoryEntry } from '../../../common/canvas';
+import { Canvas, HistoryEntry } from '../../../defs/canvas';
 
 interface CanvasState {
     canvas: Canvas;

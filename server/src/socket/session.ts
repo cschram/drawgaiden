@@ -1,7 +1,7 @@
 import * as SocketIO from 'socket.io';
 import * as winston from 'winston';
 import * as r from 'rethinkdb';
-import { Connection } from './db';
+import { Connection } from '../lib/db';
 import {
     RequestCallback,
     Response,
@@ -10,12 +10,12 @@ import {
     JoinCanvasResponse,
     DrawRequest,
     NewHistoryEvent
-} from '../../common/protocol';
+} from '../../../defs/protocol';
 import {
     Canvas,
     HistoryEntry
-} from '../../common/canvas';
-import config from './config';
+} from '../../../defs/canvas';
+import config from '../lib/config';
 
 export default class Session {
     private sock: SocketIO.Socket;

@@ -15,8 +15,7 @@ export interface Coord {
 }
 
 export interface HistoryEntry {
-    id?: number;
-    timestamp?: number;
+    id?: string;
     canvasID: string;
     userName: string;
     toolName: string;

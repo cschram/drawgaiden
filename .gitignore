@@ -1,5 +1,5 @@
 */dist
 */node_modules
 config/client.json
-config/socket-server.json
+config/server.json
 logs/*.log

@@ -1,6 +1,6 @@
 import { push } from 'react-router-redux';
-import { HistoryEntry } from '../../../common/canvas';
-import { Response, JoinCanvasResponse } from '../../../common/protocol';
+import { HistoryEntry } from '../../../defs/canvas';
+import { Response, JoinCanvasResponse } from '../../../defs/protocol';
 
 export function joinCanvas(canvasID: string) {
     return (dispatch, getState) => {

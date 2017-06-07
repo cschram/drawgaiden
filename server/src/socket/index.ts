@@ -1,8 +1,8 @@
 import * as SocketIO from 'socket.io';
-import Logger from './logger';
-import { Connection, connect } from './db';
+import Logger from '../lib/logger';
+import { Connection, connect } from '../lib/db';
 import Session from './session';
-import config from './config';
+import config from '../lib/config';
 
 const logger = Logger('socket');
 

@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
-import { Response, NewHistoryEvent } from '../../../common/protocol';
+import { Response, NewHistoryEvent } from '../../../defs/protocol';
 import config from '../../../config/client.json';
 
 export function connect() {
