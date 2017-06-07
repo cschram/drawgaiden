@@ -21,7 +21,8 @@ export default class CircleTool extends Tool {
         if (this.active) {
             this.path[1] = coord;
 
-            this._resetCtx(this.draftCtx, this.settings, true);
+            this._resetCtx(this.draftCtx, this.settings);
+            this._clear();
             this._draw(this.path, this.draftCtx);
         }
     }

@@ -8,5 +8,9 @@
         "host": "localhost",
         "port": 9000
     },
+    "janitor": {
+        "jobInterval": 300000,
+        "historyThreshold": 50
+    },
     "logDirectory": "../logs"
 }

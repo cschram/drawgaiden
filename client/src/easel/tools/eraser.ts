@@ -14,8 +14,8 @@ export default class EraserTool extends PencilTool {
         this.backgroundColor = backgroundColor;
     }
 
-    _resetCtx(ctx: CanvasRenderingContext2D, settings: ToolSettings, clear = false) {
+    _resetCtx(ctx: CanvasRenderingContext2D, settings: ToolSettings) {
         settings.strokeStyle = this.backgroundColor;
-        super._resetCtx(ctx, settings, clear);
+        super._resetCtx(ctx, settings);
     }
 }

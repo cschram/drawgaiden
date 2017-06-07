@@ -79,7 +79,9 @@ export default class Session {
 
         this.db.getHistoryFeed(this.canvasID).then(feed => {
             feed.each((err, change) => {
-                this.sock.emit('canvas:history:new', { entry: change.new_val });
+                if (change.new_val && !change.old_val) {
+                    this.sock.emit('canvas:history:new', { entry: change.new_val });
+                }
             });
         });
     };

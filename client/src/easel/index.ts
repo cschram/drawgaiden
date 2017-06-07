@@ -5,7 +5,6 @@ import ColorPickerTool from './tools/colorpicker';
 import EraserTool from './tools/eraser';
 import PencilTool from './tools/pencil';
 import RectangleTool from './tools/rectangle';
-import "../style/easel.scss";
 
 const MOUSE_BUTTON_PRIMARY = 1;
 const MOUSE_BUTTON_SCROLL = 2;
@@ -54,13 +53,15 @@ export default class Easel {
 
         // Grab canvas elements and setup context
         this.canvasWrap = this.container.getElementsByClassName('easel__canvas')[0] as HTMLElement;
-        this.canvases = Array.from(this.container.getElementsByTagName('canvas'));
+        const finalCanvas = this.container.getElementsByClassName('easel__canvas-final')[0] as HTMLCanvasElement;
+        const draftCanvas = this.container.getElementsByClassName('easel__canvas-draft')[0] as HTMLCanvasElement;
+        this.canvases = [finalCanvas, draftCanvas];
         this.canvases.forEach(canvas => {
             canvas.width = this.options.width;
             canvas.height = this.options.height;
         });
-        this.finalCtx = this.canvases[0].getContext('2d');
-        this.draftCtx = this.canvases[1].getContext('2d');
+        this.finalCtx = finalCanvas.getContext('2d');
+        this.draftCtx = draftCanvas.getContext('2d');
         this.setOffset({
             x: (this.canvasWrap.clientWidth / 2) - (this.options.width / 2),
             y: (this.canvasWrap.clientHeight / 2) - (this.options.height / 2)
@@ -148,6 +149,10 @@ export default class Easel {
 
     draw(tool: string, path: Coord[], settings: ToolSettings = null) {
         this.tools[tool].draw(path, settings);
+    }
+
+    drawImage(img: HTMLImageElement, coord: Coord) {
+        this.finalCtx.drawImage(img, coord.x, coord.y);
     }
 
     private setToolSetting(name: string, value: any) {

@@ -1,0 +1,12 @@
+{
+    "apps": [
+        {
+            "name": "drawgaiden-socket",
+            "script": "dist/server/src/socket/index.js"
+        },
+        {
+            "name": "drawgaiden-janitor",
+            "script": "dist/server/src/janitor/index.js"
+        }
+    ]
+}

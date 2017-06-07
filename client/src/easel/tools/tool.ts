@@ -53,7 +53,7 @@ export class Tool {
     mouseUp(): Coord[] {
         if (this.active) {
             this.active = false;
-            this._clear(this.draftCtx);
+            this._clear();
             this.draw(this.path);
             return this.path;
         }
@@ -73,7 +73,7 @@ export class Tool {
     //
     // Reset context styling
     //
-    _resetCtx(ctx: CanvasRenderingContext2D, settings: ToolSettings, clear = false) {
+    _resetCtx(ctx: CanvasRenderingContext2D, settings: ToolSettings) {
         // Reset context styling
         if (settings.primary) {
             ctx.strokeStyle = settings.strokeStyle;
@@ -87,19 +87,14 @@ export class Tool {
         ctx.lineCap = settings.lineCap;
         ctx.lineJoin = settings.lineJoin;
         ctx.globalCompositeOperation = settings.globalCompositeOperation;
-
-        // Clear context
-        if (clear) {
-            this._clear(ctx);
-        }
     }
 
 
     //
     // Clear canvas
     //
-    _clear(ctx: CanvasRenderingContext2D) {
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    _clear() {
+        this.draftCtx.clearRect(0, 0, this.draftCtx.canvas.width, this.draftCtx.canvas.height);
     }
 
 

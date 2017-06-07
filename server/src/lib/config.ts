@@ -1,5 +1,4 @@
 import { readFileSync } from 'fs';
-import { join } from 'path';
 
 export interface Config {
     db: {
@@ -12,10 +11,14 @@ export interface Config {
         host: string;
         port: number;
     };
+    janitor: {
+        jobInterval: number;
+        historyThreshold: number;
+    };
     logDirectory: string;
 }
 
-const path = join(__dirname, '../../../config/server.json');
+const path = '../config/server.json';
 const data = readFileSync(path, { encoding: 'utf-8' });
 const config: Config = JSON.parse(data);
 export default config;

@@ -11,22 +11,40 @@ export class Connection {
 
     getCanvas(id: string) {
         return r.table('canvases')
-                    .get(id)
-                    .run(this.conn);
+                .get(id)
+                .run(this.conn);
+    }
+
+    getCanvasIds() {
+        return r.table('canvases').map((doc) => doc('id')).run(this.conn);
+    }
+
+    updateCanvas(canvas: Canvas) {
+        return r.table('canvases')
+                .get(canvas.id)
+                .update(canvas)
+                .run(this.conn);
     }
 
     getHistory(canvasID: string) {
         return r.table('history')
-                    .getAll(canvasID, { index: 'canvasID' })
-                    .orderBy('id')
-                    .run(this.conn);
+                .getAll(canvasID, { index: 'canvasID' })
+                .orderBy('id')
+                .run(this.conn);
+    }
+
+    getHistoryCount(canvasID: string) {
+        return r.table('history')
+                .getAll(canvasID, { index: 'canvasID' })
+                .count()
+                .run(this.conn);
     }
 
     getHistoryFeed(canvasID: string) {
         return r.table('history')
-                    .getAll(canvasID, { index: 'canvasID' })
-                    .changes()
-                    .run(this.conn);
+                .getAll(canvasID, { index: 'canvasID' })
+                .changes()
+                .run(this.conn);
     }
 
     addHistory(entry: HistoryEntry) {
@@ -34,8 +52,24 @@ export class Connection {
         // a separate service.
         entry.id = cuid();
         return r.table('history')
-                    .insert([entry])
+                .insert([entry])
+                .run(this.conn);
+    }
+
+    clearHistory(canvasID: string, limit = 0) {
+        if (limit > 0) {
+            return r.table('history')
+                    .getAll(canvasID, { index: 'canvasID' })
+                    .orderBy('id')
+                    .limit(limit)
+                    .delete()
                     .run(this.conn);
+        } else {
+            return r.table('history')
+                    .getAll(canvasID, { index: 'canvasID' })
+                    .delete()
+                    .run(this.conn);
+        }
     }
 }
 

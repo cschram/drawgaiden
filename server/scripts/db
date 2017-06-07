@@ -3,7 +3,7 @@
 
 const r = require('rethinkdb');
 const argv = require('minimist')(process.argv.slice(2));
-const config = require('../../config/socket-server.json');
+const config = require('../../config/server.json');
 
 function printUsage() {
     console.log('usage: scripts/db help');
@@ -60,6 +60,7 @@ const commands = {
         conn.use(config.db.db);
         console.log(`Clearing canvas "${id}" history...`);
         await r.table('history').getAll(id, { index: 'canvasID' }).delete().run(conn);
+        await r.table('canvases').get(id).update({ snapshot: '' }).run(conn);
         console.log('Done.');
     }
 }

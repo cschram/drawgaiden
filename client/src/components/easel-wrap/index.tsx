@@ -4,7 +4,8 @@ import Icon from '../icon';
 import Loading from '../loading';
 import Easel from '../../easel';
 import { Coord } from '../../easel/util';
-import { Canvas, HistoryEntry } from '../../../../common/canvas';
+import { Canvas, HistoryEntry } from '../../../../defs/canvas';
+import "../../style/easel.scss";
 
 const tools = [
     {
@@ -86,6 +87,10 @@ class EaselWrap extends React.Component<EaselWrapProps, void> {
     }
 
     componentDidMount() {
+        const startQueue = () => {
+            this.queue = this.props.history;
+            this.drainQueue();
+        };
         let container = ReactDOM.findDOMNode(this.refs['container']) as HTMLElement;
         this.easel = new Easel(container, {
             width: this.props.canvas.width,
@@ -93,8 +98,16 @@ class EaselWrap extends React.Component<EaselWrapProps, void> {
             backgroundColor: this.props.canvas.backgroundColor,
             onDraw: this.onDraw
         });
-        this.queue = this.props.history;
-        this.drainQueue();
+        if (this.props.canvas.snapshot) {
+            const img = new Image();
+            img.onload = () => {
+                this.easel.drawImage(img, { x: 0, y: 0 });
+                startQueue();
+            };
+            img.src = this.props.canvas.snapshot;
+        } else {
+            startQueue();
+        }
     }
 
     renderTool(tool, index) {
