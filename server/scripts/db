@@ -35,10 +35,14 @@ const commands = {
         console.log('Creating tables...');
         await Promise.all([
             r.tableCreate('canvases').run(conn),
-            r.tableCreate('history').run(conn)
+            r.tableCreate('history').run(conn),
+            r.tableCreate('users').run(conn)
         ]);
         console.log('Creating indexes...');
-        await r.table('history').indexCreate('canvasID').run(conn);
+        await Promise.all([
+            r.table('history').indexCreate('canvasID').run(conn),
+            r.table('users').indexCreate('canvasID').run(conn)
+        ]);
         console.log('Done.');
     },
     create: async function() {

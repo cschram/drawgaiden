@@ -17,6 +17,8 @@ import {
 } from '../../../defs/canvas';
 import config from '../lib/config';
 
+const MAX_USERNAME_LENGTH = 10;
+
 export default class Session {
     private sock: SocketIO.Socket;
     private db: Connection;
@@ -51,6 +53,12 @@ export default class Session {
                 errorMessage: 'Already authenticated'
             });
         }
+        if (req.userName.length > MAX_USERNAME_LENGTH) {
+            cb({
+                success: false,
+                errorMessage: 'Username too long'
+            });
+        }
         this.userName = req.userName;
         cb({ success: true });
     };
@@ -71,6 +79,8 @@ export default class Session {
             });
         }
         let history = await this.db.getHistory(this.canvasID);
+        // This will load the entire history into memory, so it relies on the
+        // janitor service keeping the history squashed.
         cb({
             success: true,
             canvas,
