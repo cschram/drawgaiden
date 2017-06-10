@@ -1,11 +1,11 @@
 interface UserState {
-    userName: string;
+    username: string;
     loggingIn: boolean;
     loginError: string;
 }
 
 const defaultState: UserState = {
-    userName: sessionStorage.getItem('username') || '',
+    username: sessionStorage.getItem('username') || '',
     loggingIn: false,
     loginError: ''
 };
@@ -14,7 +14,7 @@ export default (state = defaultState, { type, payload }): UserState => {
     switch (type) {
         case 'LOGIN_STARTED':
             return {
-                userName: '',
+                username: '',
                 loggingIn: true,
                 loginError: ''
             };
@@ -22,14 +22,14 @@ export default (state = defaultState, { type, payload }): UserState => {
         case 'LOGIN_SUCCESS':
             sessionStorage.setItem('username', payload);
             return {
-                userName: payload,
+                username: payload,
                 loggingIn: false,
                 loginError: ''
             };
 
         case 'LOGIN_FAILED':
             return {
-                userName: '',
+                username: '',
                 loggingIn: false,
                 loginError: payload
             };
@@ -37,7 +37,7 @@ export default (state = defaultState, { type, payload }): UserState => {
         case 'LOGOUT':
             sessionStorage.removeItem('username');
             return {
-                userName: '',
+                username: '',
                 loggingIn: false,
                 loginError: ''
             };

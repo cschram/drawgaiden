@@ -17,8 +17,8 @@ export interface Coord {
 export interface HistoryEntry {
     id?: string;
     canvasID: string;
-    timestamp: number;
-    userName: string;
+    timestamp?: number;
+    username: string;
     toolName: string;
     path: Coord[];
     settings: ToolSettings;
@@ -31,7 +31,7 @@ export interface User {
 }
 
 export interface Cursor {
-    userName: string;
+    username: string;
     coord: Coord;
 }
 

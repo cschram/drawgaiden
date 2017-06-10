@@ -8,7 +8,7 @@ import logoPath from "../../img/logo_big.png";
 
 interface LoginPageProps {
     loggingIn: boolean;
-    login: (userName: string, redirect: string) => void;
+    login: (username: string, redirect: string) => void;
     redirect?: string;
 }
 
@@ -53,8 +53,8 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    login: (userName: string, redirect: string) => {
-        dispatch(login(userName, redirect));
+    login: (username: string, redirect: string) => {
+        dispatch(login(username, redirect));
     }
 });
 

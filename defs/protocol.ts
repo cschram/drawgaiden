@@ -8,7 +8,7 @@ export interface Response {
 }
 
 export interface LoginRequest {
-    userName: string;
+    username: string;
 }
 
 export interface JoinCanvasRequest {

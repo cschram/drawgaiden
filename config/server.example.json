@@ -12,5 +12,6 @@
         "jobInterval": 300000,
         "historyThreshold": 50
     },
-    "logDirectory": "../logs"
+    "logDirectory": "../logs",
+    "defaultCanvasSize": [2000, 2000]
 }

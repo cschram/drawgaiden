@@ -9,7 +9,7 @@ interface AppProps {
     connecting: boolean;
     connect: () => void;
 
-    userName: string;
+    username: string;
     loginRedirect: () => void;
 
     isLogin: boolean;
@@ -25,7 +25,7 @@ class App extends React.Component<AppProps, void> {
     }
 
     private checkLogin() {
-        if (!this.props.userName && !this.props.isLogin) {
+        if (!this.props.username && !this.props.isLogin) {
             this.props.loginRedirect();
         }
     }
@@ -39,7 +39,7 @@ class App extends React.Component<AppProps, void> {
     }
 
     render() {
-        if (!this.props.connected || (!this.props.userName && !this.props.isLogin)) {
+        if (!this.props.connected || (!this.props.username && !this.props.isLogin)) {
             return <Loading />;
         }
         
@@ -56,7 +56,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
         connected: state.connection.connected,
         connecting: state.connection.connecting,
-        userName: state.user.userName,
+        username: state.user.username,
         isLogin: route.path === 'login'
     };
 };

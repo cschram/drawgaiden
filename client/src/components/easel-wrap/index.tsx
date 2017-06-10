@@ -38,7 +38,7 @@ const tools = [
 interface EaselWrapProps {
     canvas: Canvas;
     history: HistoryEntry[];
-    userName: string;
+    username: string;
     draw: (entry: HistoryEntry) => void;
 }
 
@@ -50,7 +50,7 @@ class EaselWrap extends React.Component<EaselWrapProps, void> {
         if (this.queue.length > 0) {
             let entry = this.queue.shift();
             requestAnimationFrame(() => {
-                if (!ignoreOwn || entry.userName !== this.props.userName) {
+                if (!ignoreOwn || entry.username !== this.props.username) {
                     this.easel.draw(entry.toolName, entry.path, entry.settings);
                 }
                 this.drainQueue(ignoreOwn);
@@ -61,7 +61,7 @@ class EaselWrap extends React.Component<EaselWrapProps, void> {
     private onDraw = (path: Coord[]) => {
         let entry: HistoryEntry = {
             canvasID: this.props.canvas.id,
-            userName: this.props.userName,
+            username: this.props.username,
             toolName: this.easel.getTool(),
             settings: this.easel.getToolSettings(),
             path

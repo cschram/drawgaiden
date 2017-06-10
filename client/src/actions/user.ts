@@ -1,15 +1,15 @@
 import { push } from 'react-router-redux';
 import { Response } from '../../../defs/protocol';
 
-export function login(userName: string, redirect?: string) {
+export function login(username: string, redirect?: string) {
     return (dispatch, getState) => {
         dispatch({ type: 'LOGIN_STARTED' });
         let socket = getState().connection.socket;
-        socket.emit('login', { userName }, (resp: Response) => {
+        socket.emit('login', { username }, (resp: Response) => {
             if (resp.success) {
                 dispatch({
                     type: 'LOGIN_SUCCESS',
-                    payload: userName
+                    payload: username
                 });
                 if (redirect) {
                     dispatch(push(redirect));

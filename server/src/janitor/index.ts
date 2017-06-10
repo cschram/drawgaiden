@@ -21,6 +21,7 @@ function reportError(error: any) {
     }
 }
 
+// Squash a canvases history into a snapshot.
 async function squash(conn: Connection, canvasID: string) {
     try {
         const canvasInfo: CanvasInfo = await conn.getCanvas(canvasID) as any; // Can't coerce Cursor into CanvasInfo...
@@ -46,16 +47,22 @@ async function squash(conn: Connection, canvasID: string) {
             ctx.drawImage(img, 0, 0);
         }
         const history = await conn.getHistory(canvasID);
+        let count = 0;
         history.each((error, entry: HistoryEntry) => {
             if (error) {
                 reportError(error);
             } else {
+                count++;
                 tools[entry.toolName].draw(entry.path, entry.settings);
             }
         }, async function() {
             try {
-                await conn.clearHistory(canvasID);
+                // We want to limit the number of entries we're clearing because some may have been created while
+                // the operation was running.
+                await conn.clearHistory(canvasID, count);
                 canvasInfo.snapshot = canvas.toDataURL('image/png');
+                // There's a very slight chance that a user might encounter the teporary state where history
+                // has been cleared but the canvas hasn't been updated with the new snapshot.
                 await conn.updateCanvas(canvasInfo);
                 logger.info(`Squashed canvas "${canvasID}"`);
             } catch(error) {
@@ -83,8 +90,7 @@ connect(config.db).then(conn => {
         });
         setTimeout(cleanUp, config.janitor.jobInterval);
     }
-    // setTimeout(cleanUp, config.janitor.jobInterval);
-    cleanUp();
+    setTimeout(cleanUp, config.janitor.jobInterval);
     logger.info('Janitor running');
 }).catch(error => {
     reportError(error);

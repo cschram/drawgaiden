@@ -36,7 +36,7 @@ const commands = {
         await Promise.all([
             r.tableCreate('canvases').run(conn),
             r.tableCreate('history').run(conn),
-            r.tableCreate('users').run(conn)
+            r.tableCreate('users', { primaryKey: 'username' }).run(conn)
         ]);
         console.log('Creating indexes...');
         await Promise.all([
@@ -52,8 +52,8 @@ const commands = {
         conn.use(config.db.db);
         await r.table('canvases').insert([{
             id: name,
-            width: 1200,
-            height: 800,
+            width: config.defaultCanvasSize[0],
+            height: config.defaultCanvasSize[1],
             backgroundColor: '#ffffff'
         }]).run(conn);
         console.log('Done.');

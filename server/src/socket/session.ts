@@ -24,7 +24,7 @@ export default class Session {
     private db: Connection;
     private logger: winston.LoggerInstance;
 
-    private userName: string;
+    private username: string;
     private canvasID: string;
 
     constructor(sock: SocketIO.Socket, db: Connection, logger: winston.LoggerInstance) {
@@ -39,32 +39,32 @@ export default class Session {
     }
 
     onDisconnect = () => {
-        if (this.userName) {
-            this.logger.info(`User "${this.userName}" disconnected.`);
+        if (this.username) {
+            this.logger.info(`User "${this.username}" disconnected.`);
         } else {
             this.logger.info('Anonymous user disconnected.');
         }
     };
 
     onLogin = (req: LoginRequest, cb: RequestCallback) => {
-        if (this.userName) {
+        if (this.username) {
             cb({
                 success: false,
                 errorMessage: 'Already authenticated'
             });
         }
-        if (req.userName.length > MAX_USERNAME_LENGTH) {
+        if (req.username.length > MAX_USERNAME_LENGTH) {
             cb({
                 success: false,
                 errorMessage: 'Username too long'
             });
         }
-        this.userName = req.userName;
+        this.username = req.username;
         cb({ success: true });
     };
 
     onJoinCanvas = async (req: JoinCanvasRequest, cb: RequestCallback) => {
-        if (!this.userName) {
+        if (!this.username) {
             cb({
                 success: false,
                 errorMessage: 'Not authenticated'
@@ -97,7 +97,7 @@ export default class Session {
     };
 
     onDraw = async (req: DrawRequest, cb: RequestCallback) => {
-        if (!this.userName) {
+        if (!this.username) {
             cb({
                 success: false,
                 errorMessage: 'Not authenticated'

@@ -8,9 +8,9 @@ export function connect() {
         let socket = io(config.socketAPI);
 
         socket.on('connect', () => {
-            let userName = getState().user.userName;
-            if (userName) {
-                socket.emit('login', { userName }, (resp: Response) => {
+            let username = getState().user.username;
+            if (username) {
+                socket.emit('login', { username }, (resp: Response) => {
                     if (!resp.success) {
                         dispatch({ type: 'LOGOUT' });
                     }

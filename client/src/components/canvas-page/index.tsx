@@ -11,7 +11,7 @@ interface ClassPageProps {
     canvas: Canvas;
     history: HistoryEntry[];
     loading: boolean;
-    userName: string;
+    username: string;
     joinCanvas: (id: string) => void;
     draw: (entry: HistoryEntry) => void;
 }
@@ -42,7 +42,7 @@ class CanvasPage extends React.Component<ClassPageProps, void> {
             <div className="canvas-page">
                 <EaselWrap canvas={this.props.canvas}
                            history={this.props.history}
-                           userName={this.props.userName}
+                           username={this.props.username}
                            draw={this.props.draw} />
             </div>
         );
@@ -54,7 +54,7 @@ const mapStateToProps = (state, ownProps) => ({
     canvas: state.canvas.canvas,
     history: state.canvas.history,
     loading: state.canvas.loading,
-    userName: state.user.userName
+    username: state.user.username
 });
 
 const mapDispatchToProps = (dispatch) => ({
