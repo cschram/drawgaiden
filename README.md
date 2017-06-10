@@ -1,4 +1,4 @@
-[Draw Gaiden](https://raw.githubusercontent.com/cschram/drawgaiden/master/client/src/img/logo_big.png)
+![Draw Gaiden](https://raw.githubusercontent.com/cschram/drawgaiden/master/client/src/img/logo_big.png)
 
 Draw Gaiden is a collaborative drawing web application for drawing on a shared canvas with friends.
 
@@ -11,7 +11,7 @@ Draw Gaiden is a collaborative drawing web application for drawing on a shared c
 
 # Documentation
 
-* [Installation](https://github.com/cschram/drawgaiden/blob/master/docs/installation.md)
+* [Installation](docs/installation.md)
 
 # License
 
