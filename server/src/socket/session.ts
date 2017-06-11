@@ -35,18 +35,20 @@ export default class Session {
         this.sock.on('disconnect', this.onDisconnect);
         this.sock.on('login', this.onLogin);
         this.sock.on('canvas:join', this.onJoinCanvas);
+        this.sock.on('canvas:leave', this.onLeaveCanvas);
         this.sock.on('canvas:draw', this.onDraw);
     }
 
     onDisconnect = () => {
         if (this.username) {
+            this.db.deleteUser(this.username);
             this.logger.info(`User "${this.username}" disconnected.`);
         } else {
             this.logger.info('Anonymous user disconnected.');
         }
     };
 
-    onLogin = (req: LoginRequest, cb: RequestCallback) => {
+    onLogin = async (req: LoginRequest, cb: RequestCallback) => {
         if (this.username) {
             cb({
                 success: false,
@@ -59,8 +61,16 @@ export default class Session {
                 errorMessage: 'Username too long'
             });
         }
-        this.username = req.username;
-        cb({ success: true });
+        try {
+            await this.db.createUser(req.username);
+            this.username = req.username;
+            cb({ success: true });
+        } catch(e) {
+            cb({
+                success: false,
+                errorMessage: e
+            });
+        }
     };
 
     onJoinCanvas = async (req: JoinCanvasRequest, cb: RequestCallback) => {
@@ -79,21 +89,64 @@ export default class Session {
             });
         }
         let history = await this.db.getHistory(this.canvasID);
+        let users = await this.db.getUsers(this.canvasID);
+        await this.db.setUserCanvas(this.username, this.canvasID);
         // This will load the entire history into memory, so it relies on the
         // janitor service keeping the history squashed.
         cb({
             success: true,
             canvas,
-            history
+            history,
+            users
         });
 
+        // Stream new history entries to the client
         this.db.getHistoryFeed(this.canvasID).then(feed => {
             feed.each((err, change) => {
-                if (change.new_val && !change.old_val) {
-                    this.sock.emit('canvas:history:new', { entry: change.new_val });
+                if (err) {
+                    this.logger.error(err.toString());
+                } else {
+                    if (change.new_val && !change.old_val) {
+                        this.sock.emit('canvas:history:new', { entry: change.new_val });
+                    }
                 }
             });
         });
+
+        // Stream user updates to the client
+        this.db.getUserFeed(this.canvasID).then(feed => {
+            feed.each((err, change) => {
+                if (err) {
+                    this.logger.error(err.toString());
+                } else {
+                    if (change.new_val && change.old_val) {
+                        this.sock.emit('canvas:user:update', { user: change.new_val });
+                    } else if (change.new_val && !change.old_val) {
+                        this.sock.emit('canvas:user:join', { user: change.new_val });
+                    } else if (!change.new_val && change.old_val) {
+                        this.sock.emit('canvas:user:leave', { user: change.old_val });
+                    }
+                }
+            });
+        });
+    };
+
+    onLeaveCanvas = async (cb: RequestCallback) => {
+        if (!this.username) {
+            cb({
+                success: false,
+                errorMessage: 'Not authenticated'
+            });
+        }
+        if (!this.canvasID) {
+            cb({
+                success: false,
+                errorMessage: 'Not subscribed to a canvas'
+            });
+        }
+        await this.db.setUserCanvas(this.username, '');
+        this.canvasID = '';
+        cb({ success: true });
     };
 
     onDraw = async (req: DrawRequest, cb: RequestCallback) => {

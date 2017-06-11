@@ -170,12 +170,25 @@ export class Connection {
     }
 
     /**
-     * Updates a users details.
-     * @param user Updated user details.
+     * Set the users joined canvas ID.
+     * @param username Username of the user to update.
+     * @param canvasID CanvasID to set on the user.
      */
-    updateUser(user: User) {
+    setUserCanvas(username: string, canvasID: string) {
         return r.table('users')
-                .update(user)
+                .get(username)
+                .update({ canvasID })
+                .run(this.conn);
+    }
+
+    /**
+     * Remove a user.
+     * @param username Username of the user being removed.
+     */
+    deleteUser(username: string) {
+        return r.table('users')
+                .get(username)
+                .delete()
                 .run(this.conn);
     }
 }
