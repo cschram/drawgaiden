@@ -9,7 +9,8 @@ import {
     JoinCanvasRequest,
     JoinCanvasResponse,
     DrawRequest,
-    NewHistoryEvent
+    NewHistoryEvent,
+    SetPositionRequest
 } from '../../../defs/protocol';
 import {
     Canvas,
@@ -17,7 +18,7 @@ import {
 } from '../../../defs/canvas';
 import config from '../lib/config';
 
-const MAX_USERNAME_LENGTH = 10;
+const usernameRe = /^[a-zA-Z0-9]{2,15}$/;
 
 export default class Session {
     private sock: SocketIO.Socket;
@@ -37,6 +38,7 @@ export default class Session {
         this.sock.on('canvas:join', this.onJoinCanvas);
         this.sock.on('canvas:leave', this.onLeaveCanvas);
         this.sock.on('canvas:draw', this.onDraw);
+        this.sock.on('user:position:set', this.onSetPosition);
     }
 
     onDisconnect = () => {
@@ -54,12 +56,14 @@ export default class Session {
                 success: false,
                 errorMessage: 'Already authenticated'
             });
+            return;
         }
-        if (req.username.length > MAX_USERNAME_LENGTH) {
+        if (!usernameRe.test(req.username)) {
             cb({
                 success: false,
-                errorMessage: 'Username too long'
+                errorMessage: 'Invalid username (must be alphanumeric only with 2-15 characters)'
             });
+            return;
         }
         try {
             await this.db.createUser(req.username);
@@ -79,26 +83,32 @@ export default class Session {
                 success: false,
                 errorMessage: 'Not authenticated'
             });
+            return;
         }
-        this.canvasID = req.canvasID;
-        let canvas = await this.db.getCanvas(this.canvasID);
-        if (!canvas) {
+        try {
+            let canvas = await this.db.getCanvas(req.canvasID);
+            if (!canvas) {
+                cb({
+                    success: false,
+                    errorMessage: 'Canvas not found'
+                });
+                return;
+            }
+            let history = await this.db.getHistory(req.canvasID);
+            let users = await this.db.getUsers(req.canvasID);
+            await this.db.setUserCanvas(this.username, req.canvasID);
+            this.canvasID = req.canvasID;
+            // This will load the entire history into memory, so it relies on the
+            // janitor service keeping the history squashed.
             cb({
-                success: false,
-                errorMessage: 'Canvas not found'
+                success: true,
+                canvas,
+                history: await history.toArray(),
+                users: await users.toArray()
             });
+        } catch(err) {
+            this.logger.error(err);
         }
-        let history = await this.db.getHistory(this.canvasID);
-        let users = await this.db.getUsers(this.canvasID);
-        await this.db.setUserCanvas(this.username, this.canvasID);
-        // This will load the entire history into memory, so it relies on the
-        // janitor service keeping the history squashed.
-        cb({
-            success: true,
-            canvas,
-            history,
-            users
-        });
 
         // Stream new history entries to the client
         this.db.getHistoryFeed(this.canvasID).then(feed => {
@@ -137,12 +147,14 @@ export default class Session {
                 success: false,
                 errorMessage: 'Not authenticated'
             });
+            return;
         }
         if (!this.canvasID) {
             cb({
                 success: false,
                 errorMessage: 'Not subscribed to a canvas'
             });
+            return;
         }
         await this.db.setUserCanvas(this.username, '');
         this.canvasID = '';
@@ -155,6 +167,7 @@ export default class Session {
                 success: false,
                 errorMessage: 'Not authenticated'
             });
+            return;
         }
         try {
             await this.db.addHistory(req.entry);
@@ -166,4 +179,10 @@ export default class Session {
             });
         }
     };
+
+    onSetPosition = (req: SetPositionRequest) => {
+        if (this.username) {
+            this.db.setUserPosition(this.username, req.coord);
+        }
+    }
 }

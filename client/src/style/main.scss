@@ -36,6 +36,10 @@ input[type="text"] {
     padding: 1em;
 }
 
+input[type="text"]::placeholder {
+    color: $color-primary;
+}
+
 button {
     background: $color-primary-light;
 }

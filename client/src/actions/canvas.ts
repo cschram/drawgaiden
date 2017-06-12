@@ -1,5 +1,6 @@
 import { push } from 'react-router-redux';
 import { HistoryEntry } from '../../../defs/canvas';
+import { Coord } from '../../../defs/canvas';
 import { Response, JoinCanvasResponse } from '../../../defs/protocol';
 
 export function joinCanvas(canvasID: string) {
@@ -12,7 +13,8 @@ export function joinCanvas(canvasID: string) {
                     type: 'JOIN_CANVAS_SUCCESS',
                     payload: {
                         canvas: resp.canvas,
-                        history: resp.history
+                        history: resp.history,
+                        users: resp.users
                     }
                 });
             } else {
@@ -34,5 +36,12 @@ export function draw(entry: HistoryEntry) {
                 console.error(resp.errorMessage);
             }
         });
+    }
+}
+
+export function setMousePosition(coord: Coord) {
+    return (dispatch, getState) => {
+        let socket = getState().connection.socket;
+        socket.emit('user:position:set', { coord });
     }
 }

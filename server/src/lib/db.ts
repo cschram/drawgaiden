@@ -1,5 +1,5 @@
 import * as r from 'rethinkdb';
-import { Canvas, HistoryEntry, User } from '../../../defs/canvas';
+import { Canvas, HistoryEntry, User, Coord } from '../../../defs/canvas';
 
 // Current timestamp in nanoseconds
 function nanoseconds() {
@@ -178,6 +178,18 @@ export class Connection {
         return r.table('users')
                 .get(username)
                 .update({ canvasID })
+                .run(this.conn);
+    }
+
+    /**
+     * Set the users mouse position.
+     * @param username Username of the user to update.
+     * @param coord New mouse position coordinate.
+     */
+    setUserPosition(username: string, coord: Coord) {
+        return r.table('users')
+                .get(username)
+                .update({ mousePosition: coord })
                 .run(this.conn);
     }
 

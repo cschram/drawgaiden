@@ -14,6 +14,7 @@ interface EaselOptions {
     width?: number;
     height?: number;
     backgroundColor?: string;
+    onMouseMove?: (coord: Coord) => void;
     onDraw?: (path: Coord[]) => void;
 }
 
@@ -21,6 +22,7 @@ const defaultOptions: EaselOptions = {
     width: 800,
     height: 600,
     backgroundColor: '#ffffff',
+    onMouseMove: () => {},
     onDraw: () => {}
 };
 
@@ -182,9 +184,12 @@ export default class Easel {
      */
 
     private onMouseMove(e: MouseEvent) {
+        let coord = this.getMouseCoord(e);
         if (this.drawing) {
-            let coord = this.getMouseCoord(e);
             this.tools[this.tool].mouseMove(coord);
+        }
+        if (this.options.onMouseMove) {
+            this.options.onMouseMove(coord);
         }
     }
 

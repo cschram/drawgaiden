@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/cschram/drawgaiden#readme",
   "dependencies": {
+    "@types/lodash.throttle": "^4.1.2",
     "@types/react": "^15.0.25",
     "@types/react-dom": "^15.5.0",
     "@types/react-redux": "^4.4.40",
@@ -37,6 +38,7 @@
     "css-loader": "^0.28.0",
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.11.1",
+    "lodash.throttle": "^4.1.1",
     "node-sass": "^4.5.2",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",

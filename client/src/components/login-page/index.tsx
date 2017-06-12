@@ -8,6 +8,7 @@ import logoPath from "../../img/logo_big.png";
 
 interface LoginPageProps {
     loggingIn: boolean;
+    loginError: string;
     login: (username: string, redirect: string) => void;
     redirect?: string;
 }
@@ -34,7 +35,11 @@ class LoginPage extends React.Component<LoginPageProps, void> {
                 <form className="login-form" onSubmit={this.loginHandler}>
                     <img src={logoPath} />
                     <fieldset>
-                        <input type="text" ref="username" />
+                        {this.props.loginError ?
+                            <span className="error">{this.props.loginError}</span> :
+                            null
+                        }
+                        <input type="text" ref="username" placeholder="Enter user name" />
                         <button onClick={this.loginHandler}>
                             {this.props.loggingIn ?
                                 <Icon name="loading" /> :
@@ -49,6 +54,7 @@ class LoginPage extends React.Component<LoginPageProps, void> {
 
 const mapStateToProps = (state, ownProps) => ({
     loggingIn: state.user.loggingIn,
+    loginError: state.user.loginError,
     redirect: ownProps.location.query.redirect
 });
 

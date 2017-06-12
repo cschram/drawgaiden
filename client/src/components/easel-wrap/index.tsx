@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import throttle from 'lodash.throttle';
 import Icon from '../icon';
 import Loading from '../loading';
 import Easel from '../../easel';
@@ -40,6 +41,7 @@ interface EaselWrapProps {
     history: HistoryEntry[];
     username: string;
     draw: (entry: HistoryEntry) => void;
+    setMousePosition: (coord: Coord) => void;
 }
 
 class EaselWrap extends React.Component<EaselWrapProps, void> {
@@ -96,6 +98,7 @@ class EaselWrap extends React.Component<EaselWrapProps, void> {
             width: this.props.canvas.width,
             height: this.props.canvas.height,
             backgroundColor: this.props.canvas.backgroundColor,
+            onMouseMove: throttle(this.props.setMousePosition, 33),
             onDraw: this.onDraw
         });
         if (this.props.canvas.snapshot) {

@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Loading from '../loading';
 import EaselWrap from '../easel-wrap';
-import { joinCanvas, draw } from '../../actions/canvas';
-import { Canvas, HistoryEntry } from '../../../../defs/canvas';
+import { joinCanvas, draw, setMousePosition } from '../../actions/canvas';
+import { Canvas, HistoryEntry, Coord } from '../../../../defs/canvas';
 import './style.scss';
 
 interface ClassPageProps {
@@ -14,6 +14,7 @@ interface ClassPageProps {
     username: string;
     joinCanvas: (id: string) => void;
     draw: (entry: HistoryEntry) => void;
+    setMousePosition: (coord: Coord) => void;
 }
 
 class CanvasPage extends React.Component<ClassPageProps, void> {
@@ -43,7 +44,8 @@ class CanvasPage extends React.Component<ClassPageProps, void> {
                 <EaselWrap canvas={this.props.canvas}
                            history={this.props.history}
                            username={this.props.username}
-                           draw={this.props.draw} />
+                           draw={this.props.draw}
+                           setMousePosition={this.props.setMousePosition} />
             </div>
         );
     }
@@ -63,6 +65,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     draw: (entry: HistoryEntry) => {
         dispatch(draw(entry));
+    },
+    setMousePosition: (coord: Coord) => {
+        dispatch(setMousePosition(coord));
     }
 });
 

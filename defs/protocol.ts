@@ -1,4 +1,4 @@
-import { Canvas, HistoryEntry } from './canvas';
+import { Canvas, HistoryEntry, User, Coord } from './canvas';
 
 export type RequestCallback = (resp: any) => void;
 
@@ -18,6 +18,7 @@ export interface JoinCanvasRequest {
 export interface JoinCanvasResponse extends Response {
     canvas: Canvas;
     history: HistoryEntry[];
+    users: User[];
 }
 
 export interface DrawRequest {
@@ -26,4 +27,8 @@ export interface DrawRequest {
 
 export interface NewHistoryEvent {
     entry: HistoryEntry;
+}
+
+export interface SetPositionRequest {
+    coord: Coord;
 }
