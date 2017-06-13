@@ -5,8 +5,8 @@ import Icon from '../icon';
 import Loading from '../loading';
 import Easel from '../../easel';
 import { Coord } from '../../easel/util';
-import { Canvas, HistoryEntry } from '../../../../defs/canvas';
-import "../../style/easel.scss";
+import { Canvas, HistoryEntry, User } from '../../../../defs/canvas';
+import "./style.scss";
 
 const tools = [
     {
@@ -39,6 +39,7 @@ const tools = [
 interface EaselWrapProps {
     canvas: Canvas;
     history: HistoryEntry[];
+    users: User[];
     username: string;
     draw: (entry: HistoryEntry) => void;
     setMousePosition: (coord: Coord) => void;
@@ -113,7 +114,7 @@ class EaselWrap extends React.Component<EaselWrapProps, void> {
         }
     }
 
-    renderTool(tool, index) {
+    renderTool = (tool, index) => {
         return (
             <li key={index} className="easel__tool">
                 <input type="radio" name="tool" id={`easel_tool_${tool.id}`} value={tool.id} defaultChecked={tool.default} />
@@ -122,7 +123,17 @@ class EaselWrap extends React.Component<EaselWrapProps, void> {
                 </label>
             </li>
         );
-    }
+    };
+
+    renderUsers = (user: User, index) => {
+        const style = {
+            left: user.mousePosition.x,
+            top: user.mousePosition.y
+        };
+        return (
+            <span key={index} className="easel-wrap__user" style={style}>{user.username}</span>
+        );
+    };
 
     render() {
         return (
@@ -143,6 +154,9 @@ class EaselWrap extends React.Component<EaselWrapProps, void> {
                 <div className="easel__canvas">
                     <canvas className="easel__canvas-final"></canvas>
                     <canvas className="easel__canvas-draft"></canvas>
+                    <div className="easel__overlay">
+                        {this.props.users.map(this.renderUsers)}
+                    </div>
                 </div>
             </div>
         );

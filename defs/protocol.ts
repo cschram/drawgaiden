@@ -25,10 +25,14 @@ export interface DrawRequest {
     entry: HistoryEntry;
 }
 
+export interface SetPositionRequest {
+    coord: Coord;
+}
+
 export interface NewHistoryEvent {
     entry: HistoryEntry;
 }
 
-export interface SetPositionRequest {
-    coord: Coord;
+export interface UserEvent {
+    user: User;
 }

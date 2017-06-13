@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
-import { Response, NewHistoryEvent } from '../../../defs/protocol';
+import { Response, NewHistoryEvent, UserEvent } from '../../../defs/protocol';
 import config from '../../../config/client.json';
 
 export function connect() {
@@ -35,6 +35,27 @@ export function connect() {
             dispatch({
                 type: 'CANVAS_HISTORY_NEW',
                 payload: event.entry
+            });
+        });
+
+        socket.on('canvas:user:join', (event: UserEvent) => {
+            dispatch({
+                type: 'CANVAS_USER_JOIN',
+                payload: event.user
+            });
+        });
+
+        socket.on('canvas:user:leave', (event: UserEvent) => {
+            dispatch({
+                type: 'CANVAS_USER_LEAVE',
+                payload: event.user
+            });
+        });
+
+        socket.on('canvas:user:update', (event: UserEvent) => {
+            dispatch({
+                type: 'CANVAS_USER_UPDATE',
+                payload: event.user
             });
         });
     }

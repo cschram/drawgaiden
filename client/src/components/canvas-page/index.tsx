@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import Loading from '../loading';
 import EaselWrap from '../easel-wrap';
 import { joinCanvas, draw, setMousePosition } from '../../actions/canvas';
-import { Canvas, HistoryEntry, Coord } from '../../../../defs/canvas';
+import { Canvas, HistoryEntry, Coord, User } from '../../../../defs/canvas';
 import './style.scss';
 
 interface ClassPageProps {
     canvasID: string;
     canvas: Canvas;
     history: HistoryEntry[];
+    users: User[];
     loading: boolean;
     username: string;
     joinCanvas: (id: string) => void;
@@ -43,6 +44,7 @@ class CanvasPage extends React.Component<ClassPageProps, void> {
             <div className="canvas-page">
                 <EaselWrap canvas={this.props.canvas}
                            history={this.props.history}
+                           users={this.props.users}
                            username={this.props.username}
                            draw={this.props.draw}
                            setMousePosition={this.props.setMousePosition} />
@@ -55,6 +57,7 @@ const mapStateToProps = (state, ownProps) => ({
     canvasID: ownProps.params.id,
     canvas: state.canvas.canvas,
     history: state.canvas.history,
+    users: state.canvas.users.filter(user => user.username !== state.user.username),
     loading: state.canvas.loading,
     username: state.user.username
 });

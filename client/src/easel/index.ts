@@ -30,7 +30,7 @@ export default class Easel {
     private container: HTMLElement;
     private options: EaselOptions;
     private canvasWrap: HTMLElement;
-    private canvases: HTMLCanvasElement[];
+    private offsetTargets: HTMLElement[];
 
     private finalCtx: CanvasRenderingContext2D;
     private draftCtx: CanvasRenderingContext2D;
@@ -57,10 +57,16 @@ export default class Easel {
         this.canvasWrap = this.container.getElementsByClassName('easel__canvas')[0] as HTMLElement;
         const finalCanvas = this.container.getElementsByClassName('easel__canvas-final')[0] as HTMLCanvasElement;
         const draftCanvas = this.container.getElementsByClassName('easel__canvas-draft')[0] as HTMLCanvasElement;
-        this.canvases = [finalCanvas, draftCanvas];
-        this.canvases.forEach(canvas => {
+        const canvases = [finalCanvas, draftCanvas];
+        const overlays = Array.from(this.container.getElementsByClassName('easel__overlay') as NodeListOf<HTMLElement>);
+        this.offsetTargets = overlays.concat(canvases);
+        canvases.forEach(canvas => {
             canvas.width = this.options.width;
             canvas.height = this.options.height;
+        });
+        overlays.forEach(overlay => {
+            overlay.style.width = `${this.options.width}px`;
+            overlay.style.height = `${this.options.height}px`;
         });
         this.finalCtx = finalCanvas.getContext('2d');
         this.draftCtx = draftCanvas.getContext('2d');
@@ -165,7 +171,7 @@ export default class Easel {
 
     private setOffset(coord: Coord) {
         this.offsetCoord = coord;
-        this.canvases.forEach(canvas => {
+        this.offsetTargets.forEach(canvas => {
             canvas.style.left = `${coord.x}px`;
             canvas.style.top = `${coord.y}px`;
         });
