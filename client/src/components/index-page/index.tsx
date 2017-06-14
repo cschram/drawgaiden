@@ -1,20 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
+import { createCanvas } from '../../actions/canvas';
+import Loading from '../loading';
 
 interface IndexPageProps {
-    goToCanvas: (id: string) => void;
+    createCanvas: () => void;
 }
 
 class IndexPage extends React.Component<IndexPageProps, void> {
     componentDidMount() {
-        this.props.goToCanvas('default');
+        this.props.createCanvas();
     }
     
     render() {
         return (
             <div className="index-page">
-
+                <Loading />
             </div>
         );
     }
@@ -25,8 +27,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    goToCanvas: (id: string) => {
-        dispatch(push(`/canvas/${id}`));
+    createCanvas: () => {
+        dispatch(createCanvas());
     }
 });
 

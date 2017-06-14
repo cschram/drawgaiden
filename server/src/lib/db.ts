@@ -47,9 +47,9 @@ export class Connection {
     createCanvas(name: string) {
         let canvas: Canvas = {
             id: name,
-            width: config.defaultCanvasSize.width,
-            height: config.defaultCanvasSize.height,
-            backgroundColor: config.defaultCanvasBackgroundColor
+            width: config.defaultCanvas.width,
+            height: config.defaultCanvas.height,
+            backgroundColor: config.defaultCanvas.backgroundColor
         };
         return r.table('canvases')
                 .insert([canvas])

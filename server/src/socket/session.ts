@@ -1,11 +1,14 @@
 import * as SocketIO from 'socket.io';
 import * as winston from 'winston';
 import * as r from 'rethinkdb';
+import * as cuid from 'cuid';
 import { Connection } from '../lib/db';
 import {
     Response,
     Callback,
     LoginRequest,
+    CreateCanvasRequest,
+    CreateCanvasResponse,
     JoinCanvasRequest,
     JoinCanvasResponse,
     DrawRequest,
@@ -101,9 +104,13 @@ export default function session(sock: SocketIO.Socket, db: Connection, logger: w
         cb({ success: true });
     }));
 
-    sock.on('canvas:create', handleErrors(authCheck(async (cb: Callback) => {
-        await db.createCanvas(username);
-        cb({ success: true });
+    sock.on('canvas:create', handleErrors(authCheck(async (req: CreateCanvasRequest, cb: Callback<CreateCanvasResponse>) => {
+        const id = cuid();
+        await db.createCanvas(id);
+        cb({
+            success: true,
+            id
+        });
     })));
 
     sock.on('canvas:join', handleErrors(authCheck(async (req: JoinCanvasRequest, cb: Callback<JoinCanvasResponse>) => {

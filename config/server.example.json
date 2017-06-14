@@ -14,5 +14,9 @@
         "historyThreshold": 50
     },
     "logDirectory": "../logs",
-    "defaultCanvasSize": [2000, 2000]
+    "defaultCanvas": {
+        "width": 2000,
+        "height": 2000,
+        "backgroundColor": "#ffffff"
+    }
 }

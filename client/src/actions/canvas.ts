@@ -1,7 +1,20 @@
 import { push } from 'react-router-redux';
 import { HistoryEntry } from '../../../defs/canvas';
 import { Coord } from '../../../defs/canvas';
-import { Response, JoinCanvasResponse } from '../../../defs/protocol';
+import { Response, CreateCanvasResponse, JoinCanvasResponse } from '../../../defs/protocol';
+
+export function createCanvas() {
+    return (dispatch, getState) => {
+        let socket = getState().connection.socket;
+        socket.emit('canvas:create', {}, (resp: CreateCanvasResponse) => {
+            if (resp.success) {
+                dispatch(push(`/canvas/${resp.id}`));
+            } else {
+                console.error(resp.errorMessage);
+            }
+        });
+    }
+}
 
 export function joinCanvas(canvasID: string) {
     return (dispatch, getState) => {

@@ -16,11 +16,11 @@ export interface Config {
         canvasExpirationAge: number;
         historyThreshold: number;
     };
-    defaultCanvasSize: {
+    defaultCanvas: {
         width: number;
         height: number;
+        backgroundColor: string;
     };
-    defaultCanvasBackgroundColor: string;
     logDirectory: string;
 }
 

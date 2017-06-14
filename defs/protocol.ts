@@ -11,6 +11,14 @@ export interface LoginRequest {
     username: string;
 }
 
+export interface CreateCanvasRequest {
+    id?: string;
+}
+
+export interface CreateCanvasResponse extends Response {
+    id?: string;
+}
+
 export interface JoinCanvasRequest {
     canvasID: string;
 }
