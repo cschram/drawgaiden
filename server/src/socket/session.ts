@@ -3,8 +3,8 @@ import * as winston from 'winston';
 import * as r from 'rethinkdb';
 import { Connection } from '../lib/db';
 import {
-    Request,
     Response,
+    Callback,
     LoginRequest,
     JoinCanvasRequest,
     JoinCanvasResponse,
@@ -31,12 +31,13 @@ export default function session(sock: SocketIO.Socket, db: Connection, logger: w
     }
 
     const handleErrors = (fn: Function) => {
-        return async (req: Request) => {
+        return async (...args: any[]) => {
+            let cb: Callback;
             try {
-                await fn.apply(this, req);
+                await fn.apply(null, args);
             } catch(error) {
                 logger.error(error);
-                req.callback({
+                args[args.length - 1]({
                     success: false,
                     errorMessage: error.toString()
                 });
@@ -45,27 +46,27 @@ export default function session(sock: SocketIO.Socket, db: Connection, logger: w
     };
 
     const authCheck = (fn: Function) => {
-        return async (req: Request) => {
+        return async (...args: any[]) => {
             if (!username) {
-                req.callback({
+                args[args.length - 1]({
                     success: false,
                     errorMessage: 'Not authenticated'
                 });
             } else {
-                await fn(req);
+                await fn.apply(null, args);
             }
         }
     };
 
     const canvasCheck = (fn: Function) => {
-        return async (req: Request) => {
+        return async (...args: any[]) => {
             if (!canvasID) {
-                req.callback({
+                args[args.length - 1]({
                     success: false,
                     errorMessage: 'Not subscribed to a canvas'
                 });
             } else {
-                await fn(req);
+                await fn.apply(null, args);
             }
         }
     };
@@ -80,16 +81,16 @@ export default function session(sock: SocketIO.Socket, db: Connection, logger: w
         }
     });
 
-    sock.on('login', handleErrors(async (req: LoginRequest) => {
+    sock.on('login', handleErrors(async (req: LoginRequest, cb: Callback) => {
         if (username) {
-            req.callback({
+            cb({
                 success: false,
                 errorMessage: 'Already authenticated'
             });
             return;
         }
         if (!usernameRe.test(req.username)) {
-            req.callback({
+            cb({
                 success: false,
                 errorMessage: 'Invalid username (must be alphanumeric only with 2-15 characters)'
             });
@@ -97,18 +98,20 @@ export default function session(sock: SocketIO.Socket, db: Connection, logger: w
         }
         await db.createUser(req.username);
         username = req.username;
-        req.callback({ success: true });
+        cb({ success: true });
     }));
 
-    sock.on('canvas:create', handleErrors(authCheck(async (req: Request) => {
+    sock.on('canvas:create', handleErrors(authCheck(async (cb: Callback) => {
         await db.createCanvas(username);
-        req.callback({ success: true });
+        cb({ success: true });
     })));
 
-    sock.on('canvas:join', handleErrors(authCheck(async (req: JoinCanvasRequest) => {
-        let canvas = await db.getCanvas(req.canvasID);
+    sock.on('canvas:join', handleErrors(authCheck(async (req: JoinCanvasRequest, cb: Callback<JoinCanvasResponse>) => {
+        // The typing for r.Cursor can't be coerced to the actual object
+        // type you want, so it needs to be converted to any type first.
+        let canvas: any = await db.getCanvas(req.canvasID);
         if (!canvas) {
-            req.callback({
+            cb({
                 success: false,
                 errorMessage: 'Canvas not found'
             });
@@ -120,7 +123,7 @@ export default function session(sock: SocketIO.Socket, db: Connection, logger: w
         canvasID = req.canvasID;
         // This will load the entire history into memory, so it relies on the
         // janitor service keeping the history squashed.
-        req.callback({
+        cb({
             success: true,
             canvas,
             history: await history.toArray(),
@@ -160,19 +163,20 @@ export default function session(sock: SocketIO.Socket, db: Connection, logger: w
         });
     })));
 
-    sock.on('canvas:leave', handleErrors(authCheck(canvasCheck(async (req: Request) => {
+    sock.on('canvas:leave', handleErrors(authCheck(canvasCheck(async (cb: Callback) => {
         await db.setUserCanvas(username, '');
         canvasID = '';
         clearFeeds();
-        req.callback({ success: true });
+        cb({ success: true });
     }))));
 
-    sock.on('canvas:draw', handleErrors(authCheck(canvasCheck(async (req: DrawRequest) => {
+    sock.on('canvas:draw', handleErrors(authCheck(canvasCheck(async (req: DrawRequest, cb: Callback) => {
         await db.addHistory(req.entry);
-        req.callback({ success: true });
+        cb({ success: true });
     }))));
 
-    sock.on('user:position:set', handleErrors(authCheck(canvasCheck((req: SetPositionRequest) => {
+    sock.on('user:position:set', handleErrors(authCheck(canvasCheck((req: SetPositionRequest, cb: Callback) => {
         db.setUserPosition(username, req.coord);
+        cb({ success: true });
     }))));
 }

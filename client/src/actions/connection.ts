@@ -10,17 +10,14 @@ export function connect() {
         socket.on('connect', () => {
             let username = getState().user.username;
             if (username) {
-                socket.emit('login', {
-                    username,
-                    callback(resp: Response) {
-                        if (!resp.success) {
-                            dispatch({ type: 'LOGOUT' });
-                        } else {
-                            dispatch({
-                                type: 'CONNECTED',
-                                payload: socket
-                            });
-                        }
+                socket.emit('login', { username }, (resp: Response) => {
+                    if (!resp.success) {
+                        dispatch({ type: 'LOGOUT' });
+                    } else {
+                        dispatch({
+                            type: 'CONNECTED',
+                            payload: socket
+                        });
                     }
                 });
             } else {

@@ -1,33 +1,31 @@
 import { Canvas, HistoryEntry, User, Coord } from './canvas';
 
-export interface Request {
-    callback: (resp: any) => void;
-}
-
 export interface Response {
     success: boolean;
     errorMessage?: string;
 }
 
-export interface LoginRequest extends Request {
+export type Callback<T extends Response = Response> = (resp: T) => void;
+
+export interface LoginRequest {
     username: string;
 }
 
-export interface JoinCanvasRequest extends Request {
+export interface JoinCanvasRequest {
     canvasID: string;
 }
 
 export interface JoinCanvasResponse extends Response {
-    canvas: Canvas;
-    history: HistoryEntry[];
-    users: User[];
+    canvas?: Canvas;
+    history?: HistoryEntry[];
+    users?: User[];
 }
 
-export interface DrawRequest extends Request {
+export interface DrawRequest {
     entry: HistoryEntry;
 }
 
-export interface SetPositionRequest extends Request {
+export interface SetPositionRequest {
     coord: Coord;
 }
 
