@@ -7,7 +7,8 @@ Draw Gaiden is a collaborative drawing web application for drawing on a shared c
 * Public links for sharing
 * Real-time collaboration
 * Pencil, Rectangle, Circle, Eraser, and Color Picker tools
-* Displays the location of users cursors while they are drawing (In Progress)
+* Displays the location of users cursors while they are drawing
+* Background service to clean up unused canvases and squash canvas history into snapshots
 
 # Documentation
 

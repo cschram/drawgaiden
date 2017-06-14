@@ -26,7 +26,6 @@ The client server needs to be setup to support a single page app and proxy API c
     cd server
     npm install
     scripts/db configure
-    scripts/db create default
     npm run build
 
 You can run `npm run serve` to run the server, or if you're using [PM2](https://github.com/Unitech/pm2) you can run it with `pm2 start ecosystem.config.json`.
