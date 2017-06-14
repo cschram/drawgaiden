@@ -13,8 +13,14 @@ export interface Config {
     };
     janitor: {
         jobInterval: number;
+        canvasExpirationAge: number;
         historyThreshold: number;
     };
+    defaultCanvasSize: {
+        width: number;
+        height: number;
+    };
+    defaultCanvasBackgroundColor: string;
     logDirectory: string;
 }
 

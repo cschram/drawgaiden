@@ -3,7 +3,7 @@ import * as winston from 'winston';
 import * as r from 'rethinkdb';
 import { Connection } from '../lib/db';
 import {
-    RequestCallback,
+    Request,
     Response,
     LoginRequest,
     JoinCanvasRequest,
@@ -20,169 +20,159 @@ import config from '../lib/config';
 
 const usernameRe = /^[a-zA-Z0-9]{2,15}$/;
 
-export default class Session {
-    private sock: SocketIO.Socket;
-    private db: Connection;
-    private logger: winston.LoggerInstance;
+export default function session(sock: SocketIO.Socket, db: Connection, logger: winston.LoggerInstance) {
+    let username = '';
+    let canvasID = '';
+    let feeds: r.Cursor[] = [];
 
-    private username: string;
-    private canvasID: string;
-
-    constructor(sock: SocketIO.Socket, db: Connection, logger: winston.LoggerInstance) {
-        this.sock = sock;
-        this.db = db;
-        this.logger = logger;
-
-        this.sock.on('disconnect', this.onDisconnect);
-        this.sock.on('login', this.onLogin);
-        this.sock.on('canvas:join', this.onJoinCanvas);
-        this.sock.on('canvas:leave', this.onLeaveCanvas);
-        this.sock.on('canvas:draw', this.onDraw);
-        this.sock.on('user:position:set', this.onSetPosition);
+    function clearFeeds() {
+        feeds.forEach(feed => feed.close());
+        feeds = [];
     }
 
-    onDisconnect = () => {
-        if (this.username) {
-            this.db.deleteUser(this.username);
-            this.logger.info(`User "${this.username}" disconnected.`);
-        } else {
-            this.logger.info('Anonymous user disconnected.');
+    const handleErrors = (fn: Function) => {
+        return async (req: Request) => {
+            try {
+                await fn.apply(this, req);
+            } catch(error) {
+                logger.error(error);
+                req.callback({
+                    success: false,
+                    errorMessage: error.toString()
+                });
+            }
         }
     };
 
-    onLogin = async (req: LoginRequest, cb: RequestCallback) => {
-        if (this.username) {
-            cb({
+    const authCheck = (fn: Function) => {
+        return async (req: Request) => {
+            if (!username) {
+                req.callback({
+                    success: false,
+                    errorMessage: 'Not authenticated'
+                });
+            } else {
+                await fn(req);
+            }
+        }
+    };
+
+    const canvasCheck = (fn: Function) => {
+        return async (req: Request) => {
+            if (!canvasID) {
+                req.callback({
+                    success: false,
+                    errorMessage: 'Not subscribed to a canvas'
+                });
+            } else {
+                await fn(req);
+            }
+        }
+    };
+
+    sock.on('disconnect', () => {
+        if (username) {
+            db.deleteUser(username);
+            clearFeeds();
+            logger.info(`User "${username}" disconnected.`);
+        } else {
+            logger.info('Anonymous user disconnected.');
+        }
+    });
+
+    sock.on('login', handleErrors(async (req: LoginRequest) => {
+        if (username) {
+            req.callback({
                 success: false,
                 errorMessage: 'Already authenticated'
             });
             return;
         }
         if (!usernameRe.test(req.username)) {
-            cb({
+            req.callback({
                 success: false,
                 errorMessage: 'Invalid username (must be alphanumeric only with 2-15 characters)'
             });
             return;
         }
-        try {
-            await this.db.createUser(req.username);
-            this.username = req.username;
-            cb({ success: true });
-        } catch(e) {
-            cb({
-                success: false,
-                errorMessage: e
-            });
-        }
-    };
+        await db.createUser(req.username);
+        username = req.username;
+        req.callback({ success: true });
+    }));
 
-    onJoinCanvas = async (req: JoinCanvasRequest, cb: RequestCallback) => {
-        if (!this.username) {
-            cb({
+    sock.on('canvas:create', handleErrors(authCheck(async (req: Request) => {
+        await db.createCanvas(username);
+        req.callback({ success: true });
+    })));
+
+    sock.on('canvas:join', handleErrors(authCheck(async (req: JoinCanvasRequest) => {
+        let canvas = await db.getCanvas(req.canvasID);
+        if (!canvas) {
+            req.callback({
                 success: false,
-                errorMessage: 'Not authenticated'
+                errorMessage: 'Canvas not found'
             });
             return;
         }
-        try {
-            let canvas = await this.db.getCanvas(req.canvasID);
-            if (!canvas) {
-                cb({
-                    success: false,
-                    errorMessage: 'Canvas not found'
-                });
-                return;
-            }
-            let history = await this.db.getHistory(req.canvasID);
-            let users = await this.db.getUsers(req.canvasID);
-            await this.db.setUserCanvas(this.username, req.canvasID);
-            this.canvasID = req.canvasID;
-            // This will load the entire history into memory, so it relies on the
-            // janitor service keeping the history squashed.
-            cb({
-                success: true,
-                canvas,
-                history: await history.toArray(),
-                users: await users.toArray()
-            });
-        } catch(err) {
-            this.logger.error(err);
-        }
+        let history = await db.getHistory(req.canvasID);
+        let users = await db.getUsers(req.canvasID);
+        await db.setUserCanvas(username, req.canvasID);
+        canvasID = req.canvasID;
+        // This will load the entire history into memory, so it relies on the
+        // janitor service keeping the history squashed.
+        req.callback({
+            success: true,
+            canvas,
+            history: await history.toArray(),
+            users: await users.toArray()
+        });
 
         // Stream new history entries to the client
-        this.db.getHistoryFeed(this.canvasID).then(feed => {
+        db.getHistoryFeed(canvasID).then(feed => {
+            feeds.push(feed);
             feed.each((err, change) => {
                 if (err) {
-                    this.logger.error(err.toString());
+                    logger.error(err.toString());
                 } else {
                     if (change.new_val && !change.old_val) {
-                        this.sock.emit('canvas:history:new', { entry: change.new_val });
+                        sock.emit('canvas:history:new', { entry: change.new_val });
                     }
                 }
             });
         });
 
         // Stream user updates to the client
-        this.db.getUserFeed(this.canvasID).then(feed => {
+        db.getUserFeed(canvasID).then(feed => {
+            feeds.push(feed);
             feed.each((err, change) => {
                 if (err) {
-                    this.logger.error(err.toString());
+                    logger.error(err.toString());
                 } else {
                     if (change.new_val && change.old_val) {
-                        this.sock.emit('canvas:user:update', { user: change.new_val });
+                        sock.emit('canvas:user:update', { user: change.new_val });
                     } else if (change.new_val && !change.old_val) {
-                        this.sock.emit('canvas:user:join', { user: change.new_val });
+                        sock.emit('canvas:user:join', { user: change.new_val });
                     } else if (!change.new_val && change.old_val) {
-                        this.sock.emit('canvas:user:leave', { user: change.old_val });
+                        sock.emit('canvas:user:leave', { user: change.old_val });
                     }
                 }
             });
         });
-    };
+    })));
 
-    onLeaveCanvas = async (cb: RequestCallback) => {
-        if (!this.username) {
-            cb({
-                success: false,
-                errorMessage: 'Not authenticated'
-            });
-            return;
-        }
-        if (!this.canvasID) {
-            cb({
-                success: false,
-                errorMessage: 'Not subscribed to a canvas'
-            });
-            return;
-        }
-        await this.db.setUserCanvas(this.username, '');
-        this.canvasID = '';
-        cb({ success: true });
-    };
+    sock.on('canvas:leave', handleErrors(authCheck(canvasCheck(async (req: Request) => {
+        await db.setUserCanvas(username, '');
+        canvasID = '';
+        clearFeeds();
+        req.callback({ success: true });
+    }))));
 
-    onDraw = async (req: DrawRequest, cb: RequestCallback) => {
-        if (!this.username) {
-            cb({
-                success: false,
-                errorMessage: 'Not authenticated'
-            });
-            return;
-        }
-        try {
-            await this.db.addHistory(req.entry);
-            cb({ success: true });
-        } catch(e) {
-            cb({
-                success: false,
-                errorMessage: e.toString()
-            });
-        }
-    };
+    sock.on('canvas:draw', handleErrors(authCheck(canvasCheck(async (req: DrawRequest) => {
+        await db.addHistory(req.entry);
+        req.callback({ success: true });
+    }))));
 
-    onSetPosition = (req: SetPositionRequest) => {
-        if (this.username) {
-            this.db.setUserPosition(this.username, req.coord);
-        }
-    }
+    sock.on('user:position:set', handleErrors(authCheck(canvasCheck((req: SetPositionRequest) => {
+        db.setUserPosition(username, req.coord);
+    }))));
 }

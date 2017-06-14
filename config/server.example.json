@@ -10,6 +10,7 @@
     },
     "janitor": {
         "jobInterval": 300000,
+        "canvasExpirationAge": 1800000,
         "historyThreshold": 50
     },
     "logDirectory": "../logs",

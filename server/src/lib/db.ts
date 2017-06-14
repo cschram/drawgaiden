@@ -1,5 +1,6 @@
 import * as r from 'rethinkdb';
 import { Canvas, HistoryEntry, User, Coord } from '../../../defs/canvas';
+import config from './config';
 
 // Current timestamp in nanoseconds
 function nanoseconds() {
@@ -40,6 +41,22 @@ export class Connection {
     }
 
     /**
+     * Create a new canvas.
+     * @param name Unique name of the canvas (used as the ID).
+     */
+    createCanvas(name: string) {
+        let canvas: Canvas = {
+            id: name,
+            width: config.defaultCanvasSize.width,
+            height: config.defaultCanvasSize.height,
+            backgroundColor: config.defaultCanvasBackgroundColor
+        };
+        return r.table('canvases')
+                .insert([canvas])
+                .run(this.conn);
+    }
+
+    /**
      * Update canvas details.
      * @param canvas Updated canvas details. Must contain canvas ID.
      */
@@ -51,6 +68,23 @@ export class Connection {
                 .get(canvas.id)
                 .update(canvas)
                 .run(this.conn);
+    }
+
+    /**
+     * Delete a canvas.
+     * @param id ID of the canvas to delete.
+     */
+    async deleteCanvas(id: string) {
+        return Promise.all([
+            r.table('canvases')
+             .get(id)
+             .delete()
+             .run(this.conn),
+            r.table('history')
+             .getAll(id, { index: 'canvasID' })
+             .delete()
+             .run(this.conn)
+        ]);
     }
 
     /******************************************************
@@ -65,6 +99,18 @@ export class Connection {
         return r.table('history')
                 .getAll(canvasID, { index: 'canvasID' })
                 .orderBy('timestamp')
+                .run(this.conn);
+    }
+
+    /**
+     * Get the last history entry for a canvas.
+     * @param canvasID ID of the canvas to retrieve history entry for.
+     */
+    getLastHistoryEntry(canvasID: string) {
+        return r.table('history')
+                .getAll(canvasID, { index: 'canvasID' })
+                .orderBy('timestamp')
+                .nth(-1)
                 .run(this.conn);
     }
 
@@ -148,6 +194,17 @@ export class Connection {
     }
 
     /**
+     * Return the number of users subscribed to a canvas.
+     * @param canvasID ID of the canvas to count users for.
+     */
+    getUserCount(canvasID: string) {
+        return r.table('users')
+                .getAll(canvasID, { index: 'canvasID' })
+                .count()
+                .run(this.conn);
+    }
+
+    /**
      * Creates a new user
      * @param username Username of the new user.
      */
@@ -200,6 +257,15 @@ export class Connection {
     deleteUser(username: string) {
         return r.table('users')
                 .get(username)
+                .delete()
+                .run(this.conn);
+    }
+
+    /**
+     * Clear all users from the users table.
+     */
+    clearUsers() {
+        return r.table('users')
                 .delete()
                 .run(this.conn);
     }
