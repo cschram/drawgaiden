@@ -1,12 +1,7 @@
 import * as r from 'rethinkdb';
 import { Canvas, HistoryEntry, User, Coord } from '../../../defs/canvas';
 import config from './config';
-
-// Current timestamp in nanoseconds
-function nanoseconds() {
-    let time = process.hrtime();
-    return ((+time[0]) * 1e9) + (+time[1]);
-}
+import { nanoseconds } from './util';
 
 /**
  * Database connection wrapper.

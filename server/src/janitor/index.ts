@@ -2,6 +2,7 @@ import * as Canvas from 'canvas';
 import config from '../lib/config';
 import { Connection, connect } from '../lib/db';
 import Logger from '../lib/logger';
+import { nanoseconds } from '../lib/util';
 import { Canvas as CanvasInfo,HistoryEntry } from '../../../defs/canvas';
 // This needs to be managed better...
 import { Tool } from '../../../client/src/easel/tools/tool';
@@ -21,15 +22,11 @@ function reportError(error: any) {
     }
 }
 
-function nanoToMilli(timestamp: number) {
-    return Math.floor(timestamp / 1000000);
-}
-
 async function cleanUpCanvas(conn: Connection, id: string): Promise<boolean> {
     let userCount = await conn.getUserCount(id);
     if (userCount === 0) {
         let lastEntry = await conn.getLastHistoryEntry(id);
-        let age = Date.now() - nanoToMilli(lastEntry.timestamp);
+        let age = Math.floor((nanoseconds() - lastEntry.timestamp) / 1000000);
         if (age >= config.janitor.canvasExpirationAge) {
             logger.info(`Removing expired canvas "${id}"`);
             await conn.deleteCanvas(id);
@@ -114,11 +111,11 @@ connect(config.db).then(conn => {
             }
         });
         setTimeout(cleanUp, config.janitor.jobInterval);
-        // If the server has been restarted any active users will not have been
-        // cleanly disconnected and removed from the user table, so this cleans
-        // up any stragglers on startup.
-        conn.clearUsers();
     }
+    // If the server has been restarted any active users will not have been
+    // cleanly disconnected and removed from the user table, so this cleans
+    // up any stragglers on startup.
+    conn.clearUsers();
     setTimeout(cleanUp, config.janitor.jobInterval);
     logger.info('Janitor running');
 }).catch(error => {
