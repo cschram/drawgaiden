@@ -2,8 +2,7 @@
     "apps": [
         {
             "name": "drawgaiden-socket",
-            "script": "dist/server/src/socket/index.js",
-            "instances": 4
+            "script": "dist/server/src/socket/index.js"
         },
         {
             "name": "drawgaiden-janitor",

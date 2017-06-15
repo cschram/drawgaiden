@@ -42,15 +42,20 @@ export default class PencilTool extends Tool {
             );
             this.finalCtx.fill();
         } else {
-            path = simplify(path, 0.8, true);
-
-            for (let i = 1, len = path.length; i < len; i++) {
-                this.finalCtx.moveTo(path[i - 1].x,
-                                     path[i - 1].y);
-                this.finalCtx.lineTo(path[i].x,
-                                     path[i].y);
+            path = simplify(path);
+            if (path.length === 2) {
+                this.finalCtx.moveTo(path[0].x, path[0].y);
+                this.finalCtx.lineTo(path[1].x, path[1].y);
+            } else {
+                this.finalCtx.moveTo(path[0].x, path[0].y);
+                let i = 1;
+                for (; i < path.length - 2; i++) {
+                    let mx = (path[i].x + path[i + 1].x) / 2;
+                    let my = (path[i].y + path[i + 1].y) / 2;
+                    this.finalCtx.quadraticCurveTo(path[i].x, path[i].y, mx, my);
+                }
+                this.finalCtx.quadraticCurveTo(path[i].x, path[i].y, path[i + 1].x, path[i + 1].y);
             }
-
             this.finalCtx.stroke();
         }
 

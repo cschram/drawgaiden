@@ -15,8 +15,8 @@
     },
     "logDirectory": "../logs",
     "defaultCanvas": {
-        "width": 2000,
-        "height": 2000,
+        "width": 2560,
+        "height": 1440,
         "backgroundColor": "#ffffff"
     }
 }
