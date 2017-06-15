@@ -7,9 +7,13 @@ import config from '../lib/config';
 const logger = Logger('socket');
 
 connect(config.db).then(conn => {
-    const io = SocketIO(config.socket.port);
+    let port = config.socket.port;
+    if (process.env.NODE_APP_INSTANCE) {
+        port += parseInt(process.env.NODE_APP_INSTANCE, 10);
+    }
+    const io = SocketIO(port);
     io.on('connection', sock => session(sock, conn, logger));
-    logger.info(`Started socket server at ${config.socket.host}:${config.socket.port}`);
+    logger.info(`Started socket server at ${config.socket.host}:${port}`);
 }).catch(error => {
     if (error.stack) {
         logger.error(error.stack);
