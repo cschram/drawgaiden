@@ -48,6 +48,8 @@ export default class Easel {
     private moving: boolean;
     private mouseCoord: Coord;
     private offsetCoord: Coord;
+    private lastOffsetCoord: Coord;
+    private anchorCoord: Coord;
 
     constructor(container: HTMLElement, options: EaselOptions = null) {
         this.container = container;
@@ -105,16 +107,16 @@ export default class Easel {
         this.mouseCoord = { x: 0, y: 0 };
 
         // Bind events
-        this.canvasWrap.addEventListener('mousemove', this.onMouseMove.bind(this), true);
-        this.canvasWrap.addEventListener('mousedown', this.onMouseDown.bind(this), true);
-        this.canvasWrap.addEventListener('mouseup', this.onMouseUp.bind(this), true);
+        this.canvasWrap.addEventListener('mousemove', this.onMouseMove, true);
+        this.canvasWrap.addEventListener('mousedown', this.onMouseDown, true);
+        this.canvasWrap.addEventListener('mouseup', this.onMouseUp, true);
         this.toolOptions.forEach(option => {
-            option.addEventListener('change', this.onToolChange.bind(this), true);
+            option.addEventListener('change', this.onToolChange, true);
         });
-        this.strokeColor.addEventListener('change', this.onStrokeColorChange.bind(this), true);
-        this.fillColor.addEventListener('change', this.onFillColorChange.bind(this), true);
-        this.colorSwitch.addEventListener('click', this.onColorSwitchClick.bind(this), true);
-        this.toolSize.addEventListener('change', this.onToolSizeChange.bind(this), true);
+        this.strokeColor.addEventListener('change', this.onStrokeColorChange, true);
+        this.fillColor.addEventListener('change', this.onFillColorChange, true);
+        this.colorSwitch.addEventListener('click', this.onColorSwitchClick, true);
+        this.toolSize.addEventListener('change', this.onToolSizeChange, true);
 
         // Clear canvas
         this.clear();
@@ -170,10 +172,24 @@ export default class Easel {
     }
 
     private setOffset(coord: Coord) {
+        if (this.options.width > this.canvasWrap.clientWidth) {
+            if (coord.x > 0) {
+                coord.x = 0;
+            } else if (coord.x < (this.canvasWrap.clientWidth - this.options.width)) {
+                coord.x = this.canvasWrap.clientWidth - this.options.width;
+            }
+        }
+        if (this.options.height > this.canvasWrap.clientHeight) {
+            if (coord.y > 0) {
+                coord.y = 0;
+            } else if (coord.y < (this.canvasWrap.clientHeight - this.options.height)) {
+                coord.y = this.canvasWrap.clientHeight - this.options.height;
+            }
+        }
         this.offsetCoord = coord;
-        this.offsetTargets.forEach(canvas => {
-            canvas.style.left = `${coord.x}px`;
-            canvas.style.top = `${coord.y}px`;
+        this.offsetTargets.forEach(el => {
+            el.style.left = `${coord.x}px`;
+            el.style.top = `${coord.y}px`;
         });
     }
 
@@ -189,24 +205,38 @@ export default class Easel {
      * Events
      */
 
-    private onMouseMove(e: MouseEvent) {
-        let coord = this.getMouseCoord(e);
-        if (this.drawing) {
-            this.tools[this.tool].mouseMove(coord);
+    private onMouseMove = (e: MouseEvent) => {
+        if (this.moving) {
+            let diff = {
+                x: this.anchorCoord.x - e.pageX,
+                y: this.anchorCoord.y - e.pageY
+            };
+            this.setOffset({
+                x: this.lastOffsetCoord.x - diff.x,
+                y: this.lastOffsetCoord.y - diff.y
+            });
+        } else {
+            let coord = this.getMouseCoord(e);
+            if (this.drawing) {
+                this.tools[this.tool].mouseMove(coord);
+            }
+            if (this.options.onMouseMove) {
+                this.options.onMouseMove(coord);
+            }
         }
-        if (this.options.onMouseMove) {
-            this.options.onMouseMove(coord);
-        }
-    }
+    };
 
-    private onMouseDown(e: MouseEvent) {
+    private onMouseDown = (e: MouseEvent) => {
         e.preventDefault();
-        if (e.which === MOUSE_BUTTON_SCROLL) {
-            this.drawing = false;
+        if (e.ctrlKey) {
             this.moving = true;
+            this.lastOffsetCoord = this.offsetCoord;
+            this.anchorCoord = {
+                x: e.pageX,
+                y: e.pageY
+            };
         } else {
             this.drawing = true;
-            this.moving = false;
             if (e.which === MOUSE_BUTTON_PRIMARY) {
                 this.tools[this.tool].settings.primary = true;
             } else {
@@ -215,32 +245,32 @@ export default class Easel {
             let coord = this.getMouseCoord(e);
             this.tools[this.tool].mouseDown(coord);
         }
-    }
+    };
 
-    private onMouseUp(e: MouseEvent) {
-        if (e.which === MOUSE_BUTTON_SCROLL) {
+    private onMouseUp = (e: MouseEvent) => {
+        if (e.ctrlKey) {
             this.moving = false;
         } else {
             this.drawing = false;
             let path = this.tools[this.tool].mouseUp();
             this.options.onDraw(path);
         }
-    }
+    };
 
-    private onToolChange(e: Event) {
+    private onToolChange = (e: Event) => {
         let checkedTool = this.container.querySelectorAll('.easel__tool input:checked')[0] as HTMLInputElement;
         this.tool = checkedTool.value;
-    }
+    };
 
-    private onStrokeColorChange(e: Event) {
+    private onStrokeColorChange = (e: Event) => {
         this.setToolSetting('strokeStyle', this.strokeColor.value);
-    }
+    };
 
-    private onFillColorChange(e: Event) {
+    private onFillColorChange = (e: Event) => {
         this.setToolSetting('fillStyle', this.fillColor.value);
-    }
+    };
 
-    private onColorSwitchClick(e: Event) {
+    private onColorSwitchClick = (e: Event) => {
         e.preventDefault();
         let stroke = this.strokeColor.value;
         let fill = this.fillColor.value;
@@ -248,9 +278,9 @@ export default class Easel {
         this.fillColor.value = stroke;
         this.setToolSetting('strokeStyle', fill);
         this.setToolSetting('fillStyle', stroke);
-    }
+    };
 
-    private onToolSizeChange(e: Event) {
+    private onToolSizeChange = (e: Event) => {
         this.setToolSetting('lineWidth', this.toolSize.value);
-    }
+    };
 }
