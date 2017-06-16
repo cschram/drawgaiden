@@ -228,7 +228,7 @@ export default class Easel {
 
     private onMouseDown = (e: MouseEvent) => {
         e.preventDefault();
-        if (e.ctrlKey) {
+        if (e.ctrlKey || e.metaKey) {
             this.moving = true;
             this.lastOffsetCoord = this.offsetCoord;
             this.anchorCoord = {
@@ -248,9 +248,8 @@ export default class Easel {
     };
 
     private onMouseUp = (e: MouseEvent) => {
-        if (e.ctrlKey) {
-            this.moving = false;
-        } else {
+        this.moving = false;
+        if (this.drawing) {
             this.drawing = false;
             let path = this.tools[this.tool].mouseUp();
             this.options.onDraw(path);
