@@ -26,6 +26,11 @@ const defaultOptions: EaselOptions = {
     onDraw: () => {}
 };
 
+type ToolFunction = (event: string, coord?: Coord) => void;
+type Tools = {
+    [name: string]: Tool | ToolFunction
+};
+
 export default class Easel {
     private container: HTMLElement;
     private options: EaselOptions;
@@ -41,7 +46,7 @@ export default class Easel {
     private colorSwitch: HTMLInputElement;
     private toolSize: HTMLInputElement;
 
-    private tools: { [name: string]: Tool };
+    private tools: Tools;
     private tool: string;
 
     private drawing: boolean;
@@ -84,7 +89,29 @@ export default class Easel {
         this.colorSwitch = this.container.querySelectorAll('[name=color-switch]')[0] as HTMLInputElement;
         this.toolSize = this.container.querySelectorAll('[name=size]')[0] as HTMLInputElement;
 
-        let onPick = (type, color) => {
+        const moveTool = (eventName: string, coord?: Coord) => {
+            if (eventName === 'mouseDown') {
+                this.moving = true;
+                this.lastOffsetCoord = this.offsetCoord;
+                this.anchorCoord = coord;
+            }
+            if (this.moving) {
+                if (eventName === 'mouseUp') {
+                    this.moving = false;
+                } else if (eventName === 'mouseMove') {
+                    let diff = {
+                        x: this.anchorCoord.x - coord.x,
+                        y: this.anchorCoord.y - coord.y
+                    };
+                    this.setOffset({
+                        x: this.lastOffsetCoord.x - diff.x,
+                        y: this.lastOffsetCoord.y - diff.y
+                    });
+                }
+            }
+        };
+
+        const onPick = (type, color) => {
             if (type === 'stroke') {
                 this.setStrokeColor(color);
             } else {
@@ -96,7 +123,8 @@ export default class Easel {
             colorpicker: new ColorPickerTool(this.finalCtx, this.draftCtx, {}, onPick),
             eraser: new EraserTool(this.finalCtx, this.draftCtx, {}, this.options.backgroundColor),
             pencil: new PencilTool(this.finalCtx, this.draftCtx),
-            rectangle: new RectangleTool(this.finalCtx, this.draftCtx)
+            rectangle: new RectangleTool(this.finalCtx, this.draftCtx),
+            move: moveTool
         };
         let checkedTool = this.container.querySelectorAll('.easel__tool input:checked')[0] as HTMLInputElement;
         this.tool = checkedTool.value;
@@ -123,7 +151,7 @@ export default class Easel {
     }
 
     clear() {
-        this.tools.rectangle.draw([
+        (this.tools.rectangle as Tool).draw([
             { x: 0, y: 0},
             { x: this.options.width, y: this.options.height }
         ], {
@@ -144,7 +172,10 @@ export default class Easel {
     }
 
     getToolSettings(): ToolSettings {
-        return this.tools[this.tool].settings;
+        if (this.tools[this.tool] instanceof Tool) {
+            return (this.tools[this.tool] as Tool).settings;
+        }
+        return null;
     }
 
     setStrokeColor(color: string) {
@@ -158,7 +189,9 @@ export default class Easel {
     }
 
     draw(tool: string, path: Coord[], settings: ToolSettings = null) {
-        this.tools[tool].draw(path, settings);
+        if (this.tools[tool] instanceof Tool) {
+            (this.tools[tool] as Tool).draw(path, settings);
+        }
     }
 
     drawImage(img: HTMLImageElement, coord: Coord) {
@@ -167,8 +200,28 @@ export default class Easel {
 
     private setToolSetting(name: string, value: any) {
         Object.keys(this.tools).forEach(toolName => {
-            this.tools[toolName].settings[name] = value;
+            if (this.tools[toolName] instanceof Tool) {
+                (this.tools[toolName] as Tool).settings[name] = value;
+            }
         });
+    }
+
+    private callEvent(eventName: string, coord?: Coord) {
+        if (this.tools[this.tool] instanceof Tool) {
+            let tool = this.tools[this.tool] as Tool;
+            if (coord) {
+                return tool[eventName](coord);
+            } else {
+                return tool[eventName]();
+            }
+        } else {
+            let tool = this.tools[this.tool] as ToolFunction;
+            if (coord) {
+                return tool(eventName, coord);
+            } else {
+                return tool(eventName);
+            }
+        }
     }
 
     private setOffset(coord: Coord) {
@@ -206,52 +259,31 @@ export default class Easel {
      */
 
     private onMouseMove = (e: MouseEvent) => {
-        if (this.moving) {
-            let diff = {
-                x: this.anchorCoord.x - e.pageX,
-                y: this.anchorCoord.y - e.pageY
-            };
-            this.setOffset({
-                x: this.lastOffsetCoord.x - diff.x,
-                y: this.lastOffsetCoord.y - diff.y
-            });
-        } else {
-            let coord = this.getMouseCoord(e);
-            if (this.drawing) {
-                this.tools[this.tool].mouseMove(coord);
-            }
-            if (this.options.onMouseMove) {
-                this.options.onMouseMove(coord);
-            }
+        let coord = this.getMouseCoord(e);
+        if (this.drawing) {
+            this.callEvent('mouseMove', coord);
+        }
+        if (this.options.onMouseMove) {
+            this.options.onMouseMove(coord);
         }
     };
 
     private onMouseDown = (e: MouseEvent) => {
         e.preventDefault();
-        if (e.ctrlKey || e.metaKey) {
-            this.moving = true;
-            this.lastOffsetCoord = this.offsetCoord;
-            this.anchorCoord = {
-                x: e.pageX,
-                y: e.pageY
-            };
+        this.drawing = true;
+        if (e.which === MOUSE_BUTTON_PRIMARY) {
+            this.setToolSetting('primary', true);
         } else {
-            this.drawing = true;
-            if (e.which === MOUSE_BUTTON_PRIMARY) {
-                this.tools[this.tool].settings.primary = true;
-            } else {
-                this.tools[this.tool].settings.primary = false;
-            }
-            let coord = this.getMouseCoord(e);
-            this.tools[this.tool].mouseDown(coord);
+            this.setToolSetting('primary', false);
         }
+        let coord = this.getMouseCoord(e);
+        this.callEvent('mouseDown', coord);
     };
 
     private onMouseUp = (e: MouseEvent) => {
-        this.moving = false;
         if (this.drawing) {
             this.drawing = false;
-            let path = this.tools[this.tool].mouseUp();
+            let path = this.callEvent('mouseUp');
             this.options.onDraw(path);
         }
     };

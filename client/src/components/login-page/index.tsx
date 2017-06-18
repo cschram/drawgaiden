@@ -33,7 +33,7 @@ class LoginPage extends React.Component<LoginPageProps, void> {
         return (
             <div className="login-page">
                 <form className="login-form" onSubmit={this.loginHandler}>
-                    <img src={logoPath} />
+                    <img src={`/${logoPath}`} alt="Draw Gaiden" />
                     <fieldset>
                         {this.props.loginError ?
                             <span className="error">{this.props.loginError}</span> :

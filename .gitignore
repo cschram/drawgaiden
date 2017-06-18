@@ -4,3 +4,4 @@ config/client.json
 config/server.json
 logs/*.log
 rethinkdb_data
+.DS_Store

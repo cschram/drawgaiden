@@ -1,6 +1,12 @@
 @import "../../style/_colors";
 @import "../../style/easel";
 
+.easel__logo {
+    height: 46px;
+    padding: 0 1em;
+    vertical-align: middle;
+}
+
 .easel-wrap__user {
     background: #000000;
     border-radius: 4px;

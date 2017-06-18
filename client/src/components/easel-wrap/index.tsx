@@ -7,6 +7,7 @@ import Easel from '../../easel';
 import { Coord } from '../../easel/util';
 import { Canvas, HistoryEntry, User } from '../../../../defs/canvas';
 import "./style.scss";
+import logoPath from "../../img/logo_small.png";
 
 const tools = [
     {
@@ -27,6 +28,11 @@ const tools = [
     {
         id: 'eraser',
         icon: 'eraser',
+        default: false
+    },
+    {
+        id: 'move',
+        icon: 'arrows-alt',
         default: false
     },
     {
@@ -139,6 +145,7 @@ class EaselWrap extends React.Component<EaselWrapProps, void> {
         return (
             <div className="easel" ref="container">
                 <div className="easel__toolbar">
+                    <img className="easel__logo" src={`/${logoPath}`} alt="Draw Gaiden" />
                     <ul className="easel__tools">
                         {tools.map(this.renderTool)}
                     </ul>
