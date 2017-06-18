@@ -137,9 +137,12 @@ export default class Easel {
         this.mouseCoord = { x: 0, y: 0 };
 
         // Bind events
-        this.canvasWrap.addEventListener('mousemove', this.onMouseMove, true);
         this.canvasWrap.addEventListener('mousedown', this.onMouseDown, true);
         this.canvasWrap.addEventListener('mouseup', this.onMouseUp, true);
+        this.canvasWrap.addEventListener('mousemove', this.onMouseMove, true);
+        this.canvasWrap.addEventListener('touchstart', this.onTouchEvent, true);
+        this.canvasWrap.addEventListener('touchend', this.onTouchEvent, true);
+        this.canvasWrap.addEventListener('touchmove', this.onTouchEvent, true);
         this.saveButton.addEventListener('click', this.onSave, true);
         this.toolOptions.forEach(option => {
             option.addEventListener('change', this.onToolChange, true);
@@ -261,16 +264,6 @@ export default class Easel {
      * Events
      */
 
-    private onMouseMove = (e: MouseEvent) => {
-        let coord = this.getMouseCoord(e);
-        if (this.drawing) {
-            this.callEvent('mouseMove', coord);
-        }
-        if (this.options.onMouseMove) {
-            this.options.onMouseMove(coord);
-        }
-    };
-
     private onMouseDown = (e: MouseEvent) => {
         e.preventDefault();
         this.drawing = true;
@@ -284,11 +277,40 @@ export default class Easel {
     };
 
     private onMouseUp = (e: MouseEvent) => {
+        e.preventDefault();
         if (this.drawing) {
             this.drawing = false;
             let path = this.callEvent('mouseUp');
             this.options.onDraw(path);
         }
+    };
+
+    private onMouseMove = (e: MouseEvent) => {
+        e.preventDefault();
+        let coord = this.getMouseCoord(e);
+        if (this.drawing) {
+            this.callEvent('mouseMove', coord);
+        }
+        if (this.options.onMouseMove) {
+            this.options.onMouseMove(coord);
+        }
+    };
+
+    private onTouchEvent = (e: TouchEvent) => {
+        e.preventDefault();
+        const touch = e.changedTouches[0];
+        let mouseEventName: string;
+        if (e.type === 'touchstart') {
+            mouseEventName = 'mousedown';
+        } else if (e.type === 'touchend') {
+            mouseEventName = 'mouseup';
+        } else if (e.type === 'touchmove') {
+            mouseEventName = 'mousemove';
+        }
+        let mouseEvent = document.createEvent('MouseEvent');
+        mouseEvent.initMouseEvent(mouseEventName, true, true, window, 1, touch.screenX, touch.screenY,
+                                  touch.clientX, touch.clientY, false, false, false, false, 0, null);
+        this.canvasWrap.dispatchEvent(mouseEvent);
     };
 
     private onSave = (e: Event) => {
