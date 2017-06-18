@@ -7,7 +7,6 @@ import Easel from '../../easel';
 import { Coord } from '../../easel/util';
 import { Canvas, HistoryEntry, User } from '../../../../defs/canvas';
 import "./style.scss";
-import logoPath from "../../img/logo_small.png";
 
 const tools = [
     {
@@ -145,7 +144,6 @@ class EaselWrap extends React.Component<EaselWrapProps, void> {
         return (
             <div className="easel" ref="container">
                 <div className="easel__toolbar">
-                    <img className="easel__logo" src={`/${logoPath}`} alt="Draw Gaiden" />
                     <ul className="easel__tools">
                         {tools.map(this.renderTool)}
                     </ul>
@@ -155,7 +153,7 @@ class EaselWrap extends React.Component<EaselWrapProps, void> {
                         <input type="color" name="fill-color" defaultValue="#ffffff" />
                     </div>
                     <div className="easel__tool-size">
-                        <input type="range" name="size" min="1" max="25" defaultValue="1" />
+                        <input type="range" name="size" min="1" max="40" defaultValue="1" />
                     </div>
                     <button className="easel__save">
                         Save
