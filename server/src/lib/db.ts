@@ -1,7 +1,6 @@
 import * as r from 'rethinkdb';
 import { Canvas, HistoryEntry, User, Coord } from '../../../defs/canvas';
 import config from './config';
-import { nanoseconds } from './util';
 
 /**
  * Database connection wrapper.
@@ -93,7 +92,7 @@ export class Connection {
     getHistory(canvasID: string) {
         return r.table('history')
                 .getAll(canvasID, { index: 'canvasID' })
-                .orderBy('timestamp')
+                .orderBy('id')
                 .run(this.conn);
     }
 
@@ -104,7 +103,7 @@ export class Connection {
     getLastHistoryEntry(canvasID: string) {
         return r.table('history')
                 .getAll(canvasID, { index: 'canvasID' })
-                .orderBy('timestamp')
+                .orderBy('id')
                 .nth(-1)
                 .run(this.conn);
     }
@@ -136,7 +135,7 @@ export class Connection {
      * @param entry History entry details.
      */
     addHistory(entry: HistoryEntry) {
-        entry.timestamp = nanoseconds();
+        entry.timestamp = Date.now();
         return r.table('history')
                 .insert([entry])
                 .run(this.conn);
@@ -151,7 +150,7 @@ export class Connection {
         if (limit > 0) {
             return r.table('history')
                     .getAll(canvasID, { index: 'canvasID' })
-                    .orderBy('timestamp')
+                    .orderBy('id')
                     .limit(limit)
                     .delete()
                     .run(this.conn);

@@ -16,6 +16,10 @@ export interface Config {
         canvasExpirationAge: number;
         historyThreshold: number;
     };
+    id_gen: {
+        host: string;
+        port: number;
+    };
     defaultCanvas: {
         width: number;
         height: number;

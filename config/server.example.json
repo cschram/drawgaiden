@@ -8,6 +8,10 @@
         "host": "localhost",
         "port": 9000
     },
+    "id_gen": {
+        "host": "localhost",
+        "port": 9100
+    },
     "janitor": {
         "jobInterval": 300000,
         "canvasExpirationAge": 86400000,

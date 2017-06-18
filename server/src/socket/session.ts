@@ -2,6 +2,7 @@ import * as SocketIO from 'socket.io';
 import * as winston from 'winston';
 import * as r from 'rethinkdb';
 import * as cuid from 'cuid';
+import * as dnode from 'dnode';
 import { Connection } from '../lib/db';
 import {
     Response,
@@ -23,7 +24,15 @@ import config from '../lib/config';
 
 const usernameRe = /^[a-zA-Z0-9]{2,15}$/;
 
-export default function session(sock: SocketIO.Socket, db: Connection, logger: winston.LoggerInstance) {
+interface SessionArgs {
+    sock: SocketIO.Socket;
+    db: Connection;
+    logger: winston.LoggerInstance;
+    idService: DNode.DNodeRemote;
+}
+
+export default function session(args: SessionArgs) {
+    const { sock, db, logger, idService } = args;
     let username = '';
     let canvasID = '';
     let feeds: r.Cursor[] = [];
@@ -178,8 +187,11 @@ export default function session(sock: SocketIO.Socket, db: Connection, logger: w
     }))));
 
     sock.on('canvas:draw', handleErrors(authCheck(canvasCheck(async (req: DrawRequest, cb: Callback) => {
-        await db.addHistory(req.entry);
-        cb({ success: true });
+        idService.getID(async (id: string) => {
+            req.entry.id = id;
+            await db.addHistory(req.entry);
+            cb({ success: true });
+        });
     }))));
 
     sock.on('user:position:set', handleErrors(authCheck(canvasCheck((req: SetPositionRequest, cb: Callback) => {

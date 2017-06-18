@@ -26,7 +26,7 @@ async function cleanUpCanvas(conn: Connection, id: string): Promise<boolean> {
     let userCount = await conn.getUserCount(id);
     if (userCount === 0) {
         let lastEntry = await conn.getLastHistoryEntry(id);
-        let age = Math.floor((nanoseconds() - lastEntry.timestamp) / 1000000);
+        let age = Date.now() - lastEntry.timestamp;
         if (age >= config.janitor.canvasExpirationAge) {
             logger.info(`Removing expired canvas "${id}"`);
             await conn.deleteCanvas(id);
