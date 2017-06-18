@@ -36,6 +36,7 @@ export default class Easel {
     private options: EaselOptions;
     private canvasWrap: HTMLElement;
     private offsetTargets: HTMLElement[];
+    private saveButton: HTMLElement;
 
     private finalCtx: CanvasRenderingContext2D;
     private draftCtx: CanvasRenderingContext2D;
@@ -67,6 +68,7 @@ export default class Easel {
         const canvases = [finalCanvas, draftCanvas];
         const overlays = Array.from(this.container.getElementsByClassName('easel__overlay') as NodeListOf<HTMLElement>);
         this.offsetTargets = overlays.concat(canvases);
+        this.saveButton = this.container.getElementsByClassName('easel__save')[0] as HTMLElement;
         canvases.forEach(canvas => {
             canvas.width = this.options.width;
             canvas.height = this.options.height;
@@ -138,6 +140,7 @@ export default class Easel {
         this.canvasWrap.addEventListener('mousemove', this.onMouseMove, true);
         this.canvasWrap.addEventListener('mousedown', this.onMouseDown, true);
         this.canvasWrap.addEventListener('mouseup', this.onMouseUp, true);
+        this.saveButton.addEventListener('click', this.onSave, true);
         this.toolOptions.forEach(option => {
             option.addEventListener('change', this.onToolChange, true);
         });
@@ -286,6 +289,12 @@ export default class Easel {
             let path = this.callEvent('mouseUp');
             this.options.onDraw(path);
         }
+    };
+
+    private onSave = (e: Event) => {
+        e.preventDefault();
+        let data = this.container.getElementsByTagName('canvas')[0].toDataURL('image/png');
+        window.open(data, '_blank');
     };
 
     private onToolChange = (e: Event) => {

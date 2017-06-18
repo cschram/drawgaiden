@@ -157,6 +157,9 @@ class EaselWrap extends React.Component<EaselWrapProps, void> {
                     <div className="easel__tool-size">
                         <input type="range" name="size" min="1" max="25" defaultValue="1" />
                     </div>
+                    <button className="easel__save">
+                        Save
+                    </button>
                 </div>
                 <div className="easel__canvas">
                     <canvas className="easel__canvas-final"></canvas>
