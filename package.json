@@ -1,0 +1,16 @@
+{
+    "name": "drawgaiden",
+    "version": "0.6.2",
+    "private": true,
+    "description": "Real time collaborative drawing canvas.",
+    "license": "MIT",
+    "scripts": {
+        "postinstall": "lerna bootstrap",
+        "start": "lerna run --parallel start",
+        "build": "lerna run build"
+    },
+    "devDependencies": {
+        "lerna": "^2.0.0-rc.5",
+        "rethinkdb": "^2.3.3"
+    }
+}

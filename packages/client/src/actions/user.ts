@@ -1,5 +1,5 @@
 import { push } from 'react-router-redux';
-import { Response } from '../../../defs/protocol';
+import { Response } from '../../../common/protocol';
 
 export function login(username: string, redirect?: string) {
     return (dispatch, getState) => {

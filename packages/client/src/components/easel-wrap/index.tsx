@@ -5,7 +5,7 @@ import Icon from '../icon';
 import Loading from '../loading';
 import Easel from '../../easel';
 import { Coord } from '../../easel/util';
-import { Canvas, HistoryEntry, User } from '../../../../defs/canvas';
+import { Canvas, HistoryEntry, User } from '../../../../common/canvas';
 import "./style.scss";
 
 const tools = [

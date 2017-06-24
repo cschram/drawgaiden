@@ -3,7 +3,7 @@ import config from '../lib/config';
 import { Connection, connect } from '../lib/db';
 import Logger from '../lib/logger';
 import { nanoseconds } from '../lib/util';
-import { Canvas as CanvasInfo,HistoryEntry } from '../../../defs/canvas';
+import { Canvas as CanvasInfo,HistoryEntry } from '../../../common/canvas';
 // This needs to be managed better...
 import { Tool } from '../../../client/src/easel/tools/tool';
 import CircleTool from '../../../client/src/easel/tools/circle';

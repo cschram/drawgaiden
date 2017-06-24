@@ -2,6 +2,6 @@
 **/node_modules
 config/client.json
 config/server.json
-logs/*.log
-rethinkdb_data
+**/*.log
+.vagrant
 .DS_Store

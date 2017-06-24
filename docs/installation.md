@@ -2,9 +2,9 @@
 
 # Prerequisites
 
-* Node.js >= 7.9.0
-* NPM >= 4.2.0
-* RethinkDB >= 2.3.0
+* [Node.js](https://nodejs.org/) >= 7.9.0
+* [NPM](https://www.npmjs.com/) >= 4.2.0
+* [RethinkDB](https://rethinkdb.com/) >= 2.3.0
 
 Draw Gaiden has been tested with the above versions, but older versions may work.
 

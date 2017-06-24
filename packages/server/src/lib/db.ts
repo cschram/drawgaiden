@@ -1,5 +1,5 @@
 import * as r from 'rethinkdb';
-import { Canvas, HistoryEntry, User, Coord } from '../../../defs/canvas';
+import { Canvas, HistoryEntry, User, Coord } from '../../../common/canvas';
 import config from './config';
 
 /**

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Loading from '../loading';
 import EaselWrap from '../easel-wrap';
 import { joinCanvas, draw, setMousePosition } from '../../actions/canvas';
-import { Canvas, HistoryEntry, Coord, User } from '../../../../defs/canvas';
+import { Canvas, HistoryEntry, Coord, User } from '../../../../common/canvas';
 import './style.scss';
 
 interface ClassPageProps {

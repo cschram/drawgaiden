@@ -17,7 +17,7 @@
         "canvasExpirationAge": 86400000,
         "historyThreshold": 50
     },
-    "logDirectory": "../logs",
+    "logDirectory": "/var/log/drawgaiden",
     "defaultCanvas": {
         "width": 2560,
         "height": 1440,

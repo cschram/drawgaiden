@@ -1,5 +1,5 @@
 import { readFileSync } from 'fs';
-
+import { resolve } from 'path';
 export interface Config {
     db: {
         host: string;
@@ -27,8 +27,7 @@ export interface Config {
     };
     logDirectory: string;
 }
-
-const path = '../config/server.json';
+const path = '../../config/server.json';
 const data = readFileSync(path, { encoding: 'utf-8' });
 const config: Config = JSON.parse(data);
 export default config;

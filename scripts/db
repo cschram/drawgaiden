@@ -3,13 +3,11 @@
 
 const r = require('rethinkdb');
 const argv = require('minimist')(process.argv.slice(2));
-const config = require('../../config/server.json');
+const config = require('../config/server.json');
 
 function printUsage() {
     console.log('usage: scripts/db help');
-    console.log('       scripts/db configure');
-    console.log('       scripts/db create <name>');
-    console.log('       scripts/db clear <name>');
+    console.log('       scripts/db init');
 }
 
 function connect() {
@@ -27,7 +25,7 @@ const commands = {
     help: async function() {
         printUsage();
     },
-    configure: async function() {
+    init: async function() {
         let conn = await connect();
         conn.use(config.db.db);
         console.log('Creating database...');
@@ -43,28 +41,6 @@ const commands = {
             r.table('history').indexCreate('canvasID').run(conn),
             r.table('users').indexCreate('canvasID').run(conn)
         ]);
-        console.log('Done.');
-    },
-    create: async function() {
-        let name = argv._[1];
-        let conn = await connect();
-        console.log(`Creating canvas "${name}"...`);
-        conn.use(config.db.db);
-        await r.table('canvases').insert([{
-            id: name,
-            width: config.defaultCanvasSize[0],
-            height: config.defaultCanvasSize[1],
-            backgroundColor: '#ffffff'
-        }]).run(conn);
-        console.log('Done.');
-    },
-    clear: async function() {
-        let id = argv._[1];
-        let conn = await connect();
-        conn.use(config.db.db);
-        console.log(`Clearing canvas "${id}" history...`);
-        await r.table('history').getAll(id, { index: 'canvasID' }).delete().run(conn);
-        await r.table('canvases').get(id).update({ snapshot: '' }).run(conn);
         console.log('Done.');
     }
 }

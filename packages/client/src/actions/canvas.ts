@@ -1,7 +1,7 @@
 import { push } from 'react-router-redux';
-import { HistoryEntry } from '../../../defs/canvas';
-import { Coord } from '../../../defs/canvas';
-import { Response, CreateCanvasResponse, JoinCanvasResponse } from '../../../defs/protocol';
+import { HistoryEntry } from '../../../common/canvas';
+import { Coord } from '../../../common/canvas';
+import { Response, CreateCanvasResponse, JoinCanvasResponse } from '../../../common/protocol';
 
 export function createCanvas() {
     return (dispatch, getState) => {

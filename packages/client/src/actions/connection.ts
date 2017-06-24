@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
-import { Response, NewHistoryEvent, UserEvent } from '../../../defs/protocol';
-import config from '../../../config/client.json';
+import { Response, NewHistoryEvent, UserEvent } from '../../../common/protocol';
+import config from '../config';
 
 export function connect() {
     return (dispatch, getState) => {

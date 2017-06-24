@@ -15,11 +15,11 @@ import {
     DrawRequest,
     NewHistoryEvent,
     SetPositionRequest
-} from '../../../defs/protocol';
+} from '../../../common/protocol';
 import {
     Canvas,
     HistoryEntry
-} from '../../../defs/canvas';
+} from '../../../common/canvas';
 import config from '../lib/config';
 
 const usernameRe = /^[a-zA-Z0-9]{2,15}$/;

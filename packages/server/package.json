@@ -1,6 +1,7 @@
 {
-  "name": "drawgaiden-socket-server",
-  "version": "0.6.1",
+  "name": "drawgaiden-server",
+  "version": "0.6.2",
+  "private": true,
   "description": "Real time collaborative drawing canvas.",
   "main": "src/index.ts",
   "scripts": {
