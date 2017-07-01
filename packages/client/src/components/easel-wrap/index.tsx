@@ -50,7 +50,7 @@ interface EaselWrapProps {
     setMousePosition: (coord: Coord) => void;
 }
 
-class EaselWrap extends React.Component<EaselWrapProps, void> {
+class EaselWrap extends React.Component<EaselWrapProps> {
     easel: Easel;
     queue: HistoryEntry[];
 
