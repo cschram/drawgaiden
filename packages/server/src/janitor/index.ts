@@ -5,12 +5,12 @@ import Logger from '../lib/logger';
 import { nanoseconds } from '../lib/util';
 import { Canvas as CanvasInfo,HistoryEntry } from '../../../common/canvas';
 // This needs to be managed better...
-import { Tool } from '../../../client/src/easel/tools/tool';
-import CircleTool from '../../../client/src/easel/tools/circle';
-import ColorPickerTool from '../../../client/src/easel/tools/colorpicker';
-import EraserTool from '../../../client/src/easel/tools/eraser';
-import PencilTool from '../../../client/src/easel/tools/pencil';
-import RectangleTool from '../../../client/src/easel/tools/rectangle';
+import { Tool } from '@drawgaiden/easel/lib/tools/tool';
+import CircleTool from '@drawgaiden/easel/lib/tools/circle';
+import ColorPickerTool from '@drawgaiden/easel/lib/tools/colorpicker';
+import EraserTool from '@drawgaiden/easel/lib/tools/eraser';
+import PencilTool from '@drawgaiden/easel/lib/tools/pencil';
+import RectangleTool from '@drawgaiden/easel/lib/tools/rectangle';
 
 const logger = Logger('janitor');
 

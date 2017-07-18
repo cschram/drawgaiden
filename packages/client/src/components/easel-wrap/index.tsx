@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import throttle from 'lodash.throttle';
 import Icon from '../icon';
 import Loading from '../loading';
-import Easel from '../../easel';
-import { Coord } from '../../easel/util';
+import Easel from '@drawgaiden/easel';
+import { Coord } from '@drawgaiden/easel/lib/util';
 import { Canvas, HistoryEntry, User } from '../../../../common/canvas';
 import "./style.scss";
 
@@ -149,7 +149,7 @@ class EaselWrap extends React.Component<EaselWrapProps> {
                     </ul>
                     <div className="easel__tool-colors">
                         <input type="color" name="stroke-color" defaultValue="#000000" />
-                        <a href="#" name="color-switch">↔</a>
+                        <a href="#" className="easel__color-switch">↔</a>
                         <input type="color" name="fill-color" defaultValue="#ffffff" />
                     </div>
                     <div className="easel__tool-size">

@@ -2,13 +2,7 @@
     "apps": [
         {
             "name": "drawgaiden-socket",
-            "script": "dist/server/src/socket/index.js",
-            "instances": 2,
-            "exec_mode": "cluster"
-        },
-        {
-            "name": "drawgaiden-id-gen",
-            "script": "dist/server/src/id-gen/index.js"
+            "script": "dist/server/src/socket/index.js"
         },
         {
             "name": "drawgaiden-janitor",
