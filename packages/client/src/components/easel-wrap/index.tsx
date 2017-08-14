@@ -6,7 +6,8 @@ import Loading from '../loading';
 import Easel from '@drawgaiden/easel';
 import { Coord } from '@drawgaiden/easel/lib/util';
 import { Canvas, HistoryEntry, User } from '../../../../common/canvas';
-import "./style.scss";
+import '@drawgaiden/easel/lib/style.css';
+import './style.scss';
 
 const tools = [
     {

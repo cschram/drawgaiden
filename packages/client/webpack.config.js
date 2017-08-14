@@ -18,12 +18,10 @@ module.exports = {
         loaders: [
             {
                 test: /\.ts[x]?$/,
-                include: path.resolve(__dirname, 'src'),
                 loader: ['babel-loader', 'ts-loader']
             },
             {
-                test: /\.scss$/,
-                include: path.resolve(__dirname, 'src'),
+                test: /\.[s]?css$/,
                 loader: [
                     {
                         loader: 'style-loader'
@@ -38,7 +36,6 @@ module.exports = {
             },
             {
                 test: /\.(png)$/,
-                include: path.resolve(__dirname, 'src'),
                 loader: 'file-loader'
             }
         ]

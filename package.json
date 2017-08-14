@@ -1,6 +1,6 @@
 {
     "name": "drawgaiden",
-    "version": "0.6.2",
+    "version": "0.6.3",
     "private": true,
     "description": "Real time collaborative drawing canvas.",
     "license": "MIT",
