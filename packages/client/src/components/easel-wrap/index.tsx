@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import throttle from 'lodash.throttle';
+import shallowCompare from 'react-addons-shallow-compare';
 import Icon from '../icon';
 import Loading from '../loading';
 import Easel from '@drawgaiden/easel';
@@ -45,24 +46,35 @@ const tools = [
 interface EaselWrapProps {
     canvas: Canvas;
     history: HistoryEntry[];
+    latestEntry: HistoryEntry;
     users: User[];
     username: string;
     draw: (entry: HistoryEntry) => void;
     setMousePosition: (coord: Coord) => void;
 }
 
+interface QueueItem {
+    entry: HistoryEntry;
+    ignoreOwn: boolean;
+}
+
 class EaselWrap extends React.Component<EaselWrapProps> {
     easel: Easel;
-    queue: HistoryEntry[];
+    queue: QueueItem[];
 
-    private drainQueue(ignoreOwn = false) {
+    /**
+     * Drain queue of history entries, calling easel.draw for each one.
+     * A queue is used to request an animation frame for each entry in order
+     * to prevent locking up the UI thread.
+     */
+    private drainQueue() {
         if (this.queue.length > 0) {
-            let entry = this.queue.shift();
+            let { entry, ignoreOwn } = this.queue.shift();
             requestAnimationFrame(() => {
                 if (!ignoreOwn || entry.username !== this.props.username) {
                     this.easel.draw(entry.toolName, entry.path, entry.settings);
                 }
-                this.drainQueue(ignoreOwn);
+                this.drainQueue();
             });
         }
     }
@@ -79,25 +91,22 @@ class EaselWrap extends React.Component<EaselWrapProps> {
     };
 
     shouldComponentUpdate(nextProps, nextState) {
-        return Object.keys(nextProps).some(key => {
-            if (key === 'history') {
-                // Handle new history entries
-                let newHistory = nextProps.history;
-                let oldHistory = this.props.history;
-                if (newHistory.length > oldHistory.length) {
-                    this.queue = this.queue.concat(newHistory.slice(oldHistory.length - 1));
-                    this.drainQueue(true);
-                }
-                return false;
-            } else {
-                return nextProps[key] !== this.props[key];
-            }
-        });
+        if (nextProps.latestEntry !== this.props.latestEntry) {
+            this.queue = this.queue.concat([{
+                entry: nextProps.latestEntry,
+                ignoreOwn: true
+            }]);
+            this.drainQueue();
+        }
+        return shallowCompare(this, nextProps, nextState);
     }
 
     componentDidMount() {
         const startQueue = () => {
-            this.queue = this.props.history;
+            this.queue = this.props.history.map(entry => ({
+                entry,
+                ignoreOwn: false
+            }));
             this.drainQueue();
         };
         let container = ReactDOM.findDOMNode(this.refs['container']) as HTMLElement;

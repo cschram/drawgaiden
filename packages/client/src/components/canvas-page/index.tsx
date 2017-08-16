@@ -10,6 +10,7 @@ interface ClassPageProps {
     canvasID: string;
     canvas: Canvas;
     history: HistoryEntry[];
+    latestEntry: HistoryEntry;
     users: User[];
     loading: boolean;
     username: string;
@@ -44,6 +45,7 @@ class CanvasPage extends React.Component<ClassPageProps> {
             <div className="canvas-page">
                 <EaselWrap canvas={this.props.canvas}
                            history={this.props.history}
+                           latestEntry={this.props.latestEntry}
                            users={this.props.users}
                            username={this.props.username}
                            draw={this.props.draw}
@@ -57,6 +59,7 @@ const mapStateToProps = (state, ownProps) => ({
     canvasID: ownProps.params.id,
     canvas: state.canvas.canvas,
     history: state.canvas.history,
+    latestEntry: state.canvas.latestEntry,
     users: state.canvas.users.filter(user => user.username !== state.user.username),
     loading: state.canvas.loading,
     username: state.user.username

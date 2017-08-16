@@ -3,6 +3,7 @@ import { Canvas, HistoryEntry, User } from '../../../common/canvas';
 interface CanvasState {
     canvas: Canvas;
     history: HistoryEntry[];
+    latestEntry: HistoryEntry;
     users: User[];
     loading: boolean;
 }
@@ -10,6 +11,7 @@ interface CanvasState {
 const initialState: CanvasState = {
     canvas: null,
     history: [],
+    latestEntry: null,
     users: [],
     loading: false
 };
@@ -17,57 +19,42 @@ const initialState: CanvasState = {
 export default function(state = initialState, { type, payload }): CanvasState {
     switch (type) {
         case 'JOIN_CANVAS_STARTED':
-            return {
-                canvas: null,
-                history: [],
-                users: [],
+            return Object.assign({}, initialState, {
                 loading: true
-            };
+            });
 
         case 'JOIN_CANVAS_SUCCESS':
-            return {
+            return Object.assign({}, initialState, {
                 canvas: payload.canvas,
                 history: payload.history,
-                users: payload.users,
-                loading: false
-            };
+                users: payload.users
+            });
 
         case 'CANVAS_HISTORY_NEW':
-            return {
-                canvas: state.canvas,
-                history: state.history.concat([payload]),
-                users: state.users,
-                loading: false
-            };
+            return Object.assign({}, state, {
+                latestEntry: payload
+            });
 
         case 'CANVAS_USER_JOIN':
-            return {
-                canvas: state.canvas,
-                history: state.history,
-                users: state.users.concat([payload]),
-                loading: false
-            };
+            return Object.assign({}, state, {
+                users: state.users.concat([payload])
+            });
 
         case 'CANVAS_USER_LEAVE':
-            return {
-                canvas: state.canvas,
-                history: state.history,
-                users: state.users.filter(user => user.username !== payload.username),
-                loading: false
-            };
+
+            return Object.assign({}, state, {
+                users: state.users.filter(user => user.username !== payload.username)
+            });
 
         case 'CANVAS_USER_UPDATE':
-            return {
-                canvas: state.canvas,
-                history: state.history,
+            return Object.assign({}, state, {
                 users: state.users.map(user => {
                     if (user.username === payload.username) {
                         return payload;
                     }
                     return user;
-                }),
-                loading: false
-            };
+                })
+            });
 
         default:
             return state;
