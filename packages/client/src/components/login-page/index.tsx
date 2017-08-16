@@ -13,7 +13,7 @@ interface LoginPageProps {
     redirect?: string;
 }
 
-class LoginPage extends React.Component<LoginPageProps> {
+export class LoginPage extends React.Component<LoginPageProps> {
     private loginHandler: (e) => void;
 
     constructor(props) {

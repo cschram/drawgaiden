@@ -8,7 +8,7 @@ interface IndexPageProps {
     createCanvas: () => void;
 }
 
-class IndexPage extends React.Component<IndexPageProps> {
+export class IndexPage extends React.Component<IndexPageProps> {
     componentDidMount() {
         this.props.createCanvas();
     }

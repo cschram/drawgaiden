@@ -68,7 +68,7 @@ class EaselWrap extends React.Component<EaselWrapProps> {
      * to prevent locking up the UI thread.
      */
     private drainQueue() {
-        if (this.queue.length > 0) {
+        if (this.queue.length > 0 && this.easel) {
             let { entry, ignoreOwn } = this.queue.shift();
             requestAnimationFrame(() => {
                 if (!ignoreOwn || entry.username !== this.props.username) {
@@ -110,22 +110,24 @@ class EaselWrap extends React.Component<EaselWrapProps> {
             this.drainQueue();
         };
         let container = ReactDOM.findDOMNode(this.refs['container']) as HTMLElement;
-        this.easel = new Easel(container, {
-            width: this.props.canvas.width,
-            height: this.props.canvas.height,
-            backgroundColor: this.props.canvas.backgroundColor,
-            onMouseMove: throttle(this.props.setMousePosition, 33),
-            onDraw: this.onDraw
-        });
-        if (this.props.canvas.snapshot) {
-            const img = new Image();
-            img.onload = () => {
-                this.easel.drawImage(img, { x: 0, y: 0 });
+        if (container) {
+            this.easel = new Easel(container, {
+                width: this.props.canvas.width,
+                height: this.props.canvas.height,
+                backgroundColor: this.props.canvas.backgroundColor,
+                onMouseMove: throttle(this.props.setMousePosition, 33),
+                onDraw: this.onDraw
+            });
+            if (this.props.canvas.snapshot) {
+                const img = new Image();
+                img.onload = () => {
+                    this.easel.drawImage(img, { x: 0, y: 0 });
+                    startQueue();
+                };
+                img.src = this.props.canvas.snapshot;
+            } else {
                 startQueue();
-            };
-            img.src = this.props.canvas.snapshot;
-        } else {
-            startQueue();
+            }
         }
     }
 

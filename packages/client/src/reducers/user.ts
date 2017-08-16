@@ -1,3 +1,22 @@
+function getSessionItem(name: string) {
+    if (window.sessionStorage) {
+        return sessionStorage.getItem(name);
+    }
+    return null;
+}
+
+function setSessionItem(name: string, value: string) {
+    if (window.sessionStorage) {
+        sessionStorage.setItem(name, value);
+    }
+}
+
+function removeSessionItem(name: string) {
+    if (window.sessionStorage) {
+        sessionStorage.removeItem(name);
+    }
+}
+
 interface UserState {
     username: string;
     loggingIn: boolean;
@@ -5,7 +24,7 @@ interface UserState {
 }
 
 const defaultState: UserState = {
-    username: sessionStorage.getItem('username') || '',
+    username: getSessionItem('username') || '',
     loggingIn: false,
     loginError: ''
 };
@@ -20,7 +39,7 @@ export default (state = defaultState, { type, payload }): UserState => {
             };
 
         case 'LOGIN_SUCCESS':
-            sessionStorage.setItem('username', payload);
+            setSessionItem('username', payload);
             return {
                 username: payload,
                 loggingIn: false,
@@ -35,7 +54,7 @@ export default (state = defaultState, { type, payload }): UserState => {
             };
 
         case 'LOGOUT':
-            sessionStorage.removeItem('username');
+            removeSessionItem('username');
             return {
                 username: '',
                 loggingIn: false,

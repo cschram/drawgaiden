@@ -15,7 +15,7 @@ interface AppProps {
     isLogin: boolean;
 }
 
-class App extends React.Component<AppProps> {
+export class App extends React.Component<AppProps> {
     private checkConnection() {
         if (this.props.connected) {
             this.checkLogin();

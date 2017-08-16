@@ -19,7 +19,7 @@ interface ClassPageProps {
     setMousePosition: (coord: Coord) => void;
 }
 
-class CanvasPage extends React.Component<ClassPageProps> {
+export class CanvasPage extends React.Component<ClassPageProps> {
     private loadCanvas() {
         if (!this.props.loading &&
             (this.props.canvas == null || this.props.canvas.id !== this.props.canvasID)

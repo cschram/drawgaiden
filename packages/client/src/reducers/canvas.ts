@@ -27,7 +27,8 @@ export default function(state = initialState, { type, payload }): CanvasState {
             return Object.assign({}, initialState, {
                 canvas: payload.canvas,
                 history: payload.history,
-                users: payload.users
+                users: payload.users,
+                loading: false
             });
 
         case 'CANVAS_HISTORY_NEW':
@@ -41,7 +42,6 @@ export default function(state = initialState, { type, payload }): CanvasState {
             });
 
         case 'CANVAS_USER_LEAVE':
-
             return Object.assign({}, state, {
                 users: state.users.filter(user => user.username !== payload.username)
             });

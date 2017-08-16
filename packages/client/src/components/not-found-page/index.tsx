@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-function NotFoundPage() {
+export function NotFoundPage() {
     return (
         <div className="not-found-page">
 

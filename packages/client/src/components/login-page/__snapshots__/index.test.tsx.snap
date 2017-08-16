@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<App/> 1`] = `
+<div
+  className="login-page"
+>
+  <form
+    className="login-form"
+    onSubmit={[Function]}
+  >
+    <img
+      alt="Draw Gaiden"
+      src={Object {}}
+    />
+    <fieldset>
+      <span
+        className="error"
+      >
+        Unknown error.
+      </span>
+      <input
+        placeholder="Enter user name"
+        type="text"
+      />
+      <button
+        onClick={[Function]}
+      >
+        <span>
+          Login
+        </span>
+      </button>
+    </fieldset>
+  </form>
+</div>
+`;
