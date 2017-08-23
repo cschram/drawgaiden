@@ -155,27 +155,38 @@ class EaselWrap extends React.Component<EaselWrapProps> {
     render() {
         return (
             <div className="easel" ref="container">
-                <div className="easel__toolbar">
-                    <ul className="easel__tools">
-                        {tools.map(this.renderTool)}
-                    </ul>
+                <div className="easel__settings">
                     <div className="easel__tool-colors">
                         <input type="color" name="stroke-color" defaultValue="#000000" />
                         <a href="#" className="easel__color-switch">↔</a>
                         <input type="color" name="fill-color" defaultValue="#ffffff" />
                     </div>
                     <div className="easel__tool-size">
+                        <span>Size:</span>
                         <input type="range" name="size" min="1" max="40" defaultValue="1" />
+                    </div>
+                    <div className="easel__tool-opacity">
+                        <span>Opacity:</span>
+                        <input type="range" name="opacity" min="0" max="100" defaultValue="100" />
+                    </div>
+                    <div className="easel__tool-smoothness">
+                        <span>Smoothness:</span>
+                        <input type="range" name="smoothness" min="0" max="100" defaultValue="80" />
                     </div>
                     <button className="easel__save">
                         Save
                     </button>
                 </div>
-                <div className="easel__canvas">
-                    <canvas className="easel__canvas-final"></canvas>
-                    <canvas className="easel__canvas-draft"></canvas>
-                    <div className="easel__overlay">
-                        {this.props.users.map(this.renderUsers)}
+                <div className="easel__main">
+                    <ul className="easel__tools">
+                        {tools.map(this.renderTool)}
+                    </ul>
+                    <div className="easel__canvas">
+                        <canvas className="easel__canvas-final"></canvas>
+                        <canvas className="easel__canvas-draft"></canvas>
+                        <div className="easel__overlay">
+                            {this.props.users.map(this.renderUsers)}
+                        </div>
                     </div>
                 </div>
             </div>
