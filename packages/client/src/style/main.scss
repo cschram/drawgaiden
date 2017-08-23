@@ -20,6 +20,10 @@ html, body, #mount {
     width: 100%;
 }
 
+::selection {
+    background: $color-tertiary-darker;
+}
+
 .app {
     height: 100%;
 }

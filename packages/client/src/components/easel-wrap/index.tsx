@@ -51,6 +51,7 @@ interface EaselWrapProps {
     username: string;
     draw: (entry: HistoryEntry) => void;
     setMousePosition: (coord: Coord) => void;
+    share: () => void;
 }
 
 interface QueueItem {
@@ -175,6 +176,9 @@ class EaselWrap extends React.Component<EaselWrapProps> {
                     </div>
                     <button className="easel__save">
                         Save
+                    </button>
+                    <button className="easel__share" onClick={this.props.share}>
+                        Share
                     </button>
                 </div>
                 <div className="easel__main">

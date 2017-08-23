@@ -1,7 +1,9 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import Loading from '../loading';
 import EaselWrap from '../easel-wrap';
+import Icon from '../icon';
 import { joinCanvas, draw, setMousePosition } from '../../actions/canvas';
 import { Canvas, HistoryEntry, Coord, User } from '../../../../common/canvas';
 import './style.scss';
@@ -19,7 +21,18 @@ interface ClassPageProps {
     setMousePosition: (coord: Coord) => void;
 }
 
-export class CanvasPage extends React.Component<ClassPageProps> {
+interface ClassPageState {
+    shareModalOpen: boolean;
+}
+
+export class CanvasPage extends React.Component<ClassPageProps, ClassPageState> {
+    constructor(props) {
+        super(props);
+        this.state = {
+            shareModalOpen: false
+        };
+    }
+
     private loadCanvas() {
         if (!this.props.loading &&
             (this.props.canvas == null || this.props.canvas.id !== this.props.canvasID)
@@ -28,12 +41,43 @@ export class CanvasPage extends React.Component<ClassPageProps> {
         }
     }
 
+    private showShareModal = () => {
+        this.setState({ shareModalOpen: true });
+    };
+
+    private hideShareModal = () => {
+        this.setState({ shareModalOpen: false });
+    }
+
+    private onClickShareLink = () => {
+        const input = ReactDOM.findDOMNode(this.refs['share-link']) as HTMLInputElement;
+        input.setSelectionRange(0, input.value.length);
+    };
+
     componentDidMount() {
         this.loadCanvas();
     }
     
     componentDidUpdate() {
         this.loadCanvas();
+    }
+
+    renderShareModal() {
+        return (
+            <div className="share-modal">
+                <div className="share-modal__content">
+                    <a href="#" className="share-modal__close" onClick={this.hideShareModal}>
+                        <Icon name="times" />
+                    </a>
+                    <span>Share this link with your friends to draw with them.</span>
+                    <input ref="share-link"
+                        type="text"
+                        name="share-link"
+                        defaultValue={location.href}
+                        onClick={this.onClickShareLink} />
+                </div>
+            </div>
+        );
     }
     
     render() {
@@ -49,7 +93,9 @@ export class CanvasPage extends React.Component<ClassPageProps> {
                            users={this.props.users}
                            username={this.props.username}
                            draw={this.props.draw}
-                           setMousePosition={this.props.setMousePosition} />
+                           setMousePosition={this.props.setMousePosition}
+                           share={this.showShareModal} />
+                {this.state.shareModalOpen ? this.renderShareModal() : null}
             </div>
         );
     }

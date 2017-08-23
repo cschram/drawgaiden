@@ -5,3 +5,41 @@
     height: 100%;
     width: 100%;
 }
+
+.share-modal {
+    background: rgba(0, 0, 0, 0.5);
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.share-modal__content {
+    background: $color-primary-dark;
+    border-radius: 4px;
+    box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
+    font-size: 1.5em;
+    height: 120px;
+    left: calc(50% - 225px);
+    padding: 1.5em;
+    position: relative;
+    top: calc(50% - 60px);
+    width: 450px;
+
+    span {
+        padding: 0 0.5em;
+    }
+
+    input[type="text"] {
+        font-size: 1em;
+    }
+}
+
+.share-modal__close {
+    color: #FFFFFF;
+    font-size: 1.5em;
+    position: absolute;
+    top: 0.75em;
+    right: 1em;
+}
