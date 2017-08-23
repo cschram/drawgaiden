@@ -8,14 +8,11 @@
         "host": "localhost",
         "port": 9000
     },
-    "id_gen": {
-        "host": "localhost",
-        "port": 9100
-    },
     "janitor": {
         "jobInterval": 300000,
         "canvasExpirationAge": 86400000,
-        "historyThreshold": 50
+        "historyThreshold": 50,
+        "monitorPort": 9100
     },
     "logDirectory": "/var/log/drawgaiden",
     "defaultCanvas": {

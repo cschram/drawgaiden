@@ -15,10 +15,7 @@ export interface Config {
         jobInterval: number;
         canvasExpirationAge: number;
         historyThreshold: number;
-    };
-    id_gen: {
-        host: string;
-        port: number;
+        monitorPort: number;
     };
     defaultCanvas: {
         width: number;

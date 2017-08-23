@@ -2,7 +2,7 @@ import * as Canvas from 'canvas';
 import config from '../lib/config';
 import { Connection, connect } from '../lib/db';
 import Logger from '../lib/logger';
-import { nanoseconds } from '../lib/util';
+import { HealthMonitor } from '../lib/healthmonit';
 import { Canvas as CanvasInfo,HistoryEntry } from '../../../common/canvas';
 // This needs to be managed better...
 import { Tool } from '@drawgaiden/easel/lib/tools/tool';
@@ -13,6 +13,9 @@ import PencilTool from '@drawgaiden/easel/lib/tools/pencil';
 import RectangleTool from '@drawgaiden/easel/lib/tools/rectangle';
 
 const logger = Logger('janitor');
+const monitor = new HealthMonitor({
+    port: config.janitor.monitorPort
+});
 
 function reportError(error: any) {
     if (error.stack) {
@@ -120,5 +123,5 @@ connect(config.db).then(conn => {
     logger.info('Janitor running');
 }).catch(error => {
     reportError(error);
-    process.exit();
+    monitor.error(error.toString());
 });

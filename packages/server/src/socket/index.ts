@@ -3,15 +3,19 @@ import Logger from '../lib/logger';
 import { Connection, connect } from '../lib/db';
 import session from './session';
 import config from '../lib/config';
+import { HealthMonitor } from '../lib/healthmonit';
 
 const logger = Logger('socket');
+const monitor = new HealthMonitor({
+    port: config.socket.port
+});
 
 connect(config.db).then(conn => {
     let port = config.socket.port;
     if (process.env.NODE_APP_INSTANCE) {
         port += parseInt(process.env.NODE_APP_INSTANCE, 10);
     }
-    const io = SocketIO(port);
+    const io = SocketIO(monitor.getServer().listener);
     io.on('connection', sock => session({
         sock,
         db: conn,
@@ -24,5 +28,5 @@ connect(config.db).then(conn => {
     } else {
         logger.error(error);
     }
-    process.exit();
+    monitor.error(error.toString());
 });
