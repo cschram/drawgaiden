@@ -1,6 +1,6 @@
 {
   "name": "drawgaiden-client",
-  "version": "0.6.3",
+  "version": "0.7.0",
   "private": true,
   "description": "Real time collaborative drawing canvas.",
   "main": "src/main.jsx",
