@@ -3,6 +3,9 @@ import { join } from 'path';
 import config from './config';
 
 export default function Logger(name: string) {
+    if (process.env.NODE_APP_INSTANCE) {
+        name = `${name}-${parseInt(process.env.NODE_APP_INSTANCE, 10)}`;
+    }
     return new winston.Logger({
         transports: [
             new winston.transports.Console({

@@ -1,0 +1,23 @@
+{
+    "db": {
+        "host": "localhost",
+        "port": 28015,
+        "db": "drawgaiden"
+    },
+    "socket": {
+        "host": "localhost",
+        "port": 9000
+    },
+    "janitor": {
+        "jobInterval": 300000,
+        "canvasExpirationAge": 86400000,
+        "historyThreshold": 50,
+        "monitorPort": 9100
+    },
+    "logDirectory": "/var/log/drawgaiden",
+    "defaultCanvas": {
+        "width": 2560,
+        "height": 1440,
+        "backgroundColor": "#ffffff"
+    }
+}

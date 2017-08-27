@@ -5,16 +5,17 @@ import session from './session';
 import config from '../lib/config';
 import { HealthMonitor } from '../lib/healthmonit';
 
+let port = config.socket.port;
+if (process.env.NODE_APP_INSTANCE) {
+    port += parseInt(process.env.NODE_APP_INSTANCE, 10);
+}
+
 const logger = Logger('socket');
 const monitor = new HealthMonitor({
-    port: config.socket.port
+    port
 });
 
 connect(config.db).then(conn => {
-    let port = config.socket.port;
-    if (process.env.NODE_APP_INSTANCE) {
-        port += parseInt(process.env.NODE_APP_INSTANCE, 10);
-    }
     const io = SocketIO(monitor.getServer().listener);
     io.on('connection', sock => session({
         sock,
