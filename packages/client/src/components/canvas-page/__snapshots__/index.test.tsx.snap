@@ -8,7 +8,84 @@ exports[`<App/> 1`] = `
     className="easel"
   >
     <div
-      className="easel__toolbar"
+      className="easel__settings"
+    >
+      <div
+        className="easel__tool-colors"
+      >
+        <input
+          defaultValue="#000000"
+          name="stroke-color"
+          type="color"
+        />
+        <a
+          className="easel__color-switch"
+          href="#"
+        >
+          ↔
+        </a>
+        <input
+          defaultValue="#ffffff"
+          name="fill-color"
+          type="color"
+        />
+      </div>
+      <div
+        className="easel__tool-size"
+      >
+        <span>
+          Size:
+        </span>
+        <input
+          defaultValue="1"
+          max="40"
+          min="1"
+          name="size"
+          type="range"
+        />
+      </div>
+      <div
+        className="easel__tool-opacity"
+      >
+        <span>
+          Opacity:
+        </span>
+        <input
+          defaultValue="100"
+          max="100"
+          min="0"
+          name="opacity"
+          type="range"
+        />
+      </div>
+      <div
+        className="easel__tool-smoothness"
+      >
+        <span>
+          Smoothness:
+        </span>
+        <input
+          defaultValue="80"
+          max="100"
+          min="0"
+          name="smoothness"
+          type="range"
+        />
+      </div>
+      <button
+        className="easel__save"
+      >
+        Save
+      </button>
+      <button
+        className="easel__share"
+        onClick={[Function]}
+      >
+        Share
+      </button>
+    </div>
+    <div
+      className="easel__main"
     >
       <ul
         className="easel__tools"
@@ -129,65 +206,29 @@ exports[`<App/> 1`] = `
         </li>
       </ul>
       <div
-        className="easel__tool-colors"
+        className="easel__canvas"
       >
-        <input
-          defaultValue="#000000"
-          name="stroke-color"
-          type="color"
+        <canvas
+          className="easel__canvas-final"
         />
-        <a
-          className="easel__color-switch"
-          href="#"
+        <canvas
+          className="easel__canvas-draft"
+        />
+        <div
+          className="easel__overlay"
         >
-          ↔
-        </a>
-        <input
-          defaultValue="#ffffff"
-          name="fill-color"
-          type="color"
-        />
-      </div>
-      <div
-        className="easel__tool-size"
-      >
-        <input
-          defaultValue="1"
-          max="40"
-          min="1"
-          name="size"
-          type="range"
-        />
-      </div>
-      <button
-        className="easel__save"
-      >
-        Save
-      </button>
-    </div>
-    <div
-      className="easel__canvas"
-    >
-      <canvas
-        className="easel__canvas-final"
-      />
-      <canvas
-        className="easel__canvas-draft"
-      />
-      <div
-        className="easel__overlay"
-      >
-        <span
-          className="easel-wrap__user"
-          style={
-            Object {
-              "left": 100,
-              "top": 100,
+          <span
+            className="easel-wrap__user"
+            style={
+              Object {
+                "left": 100,
+                "top": 100,
+              }
             }
-          }
-        >
-          username
-        </span>
+          >
+            username
+          </span>
+        </div>
       </div>
     </div>
   </div>

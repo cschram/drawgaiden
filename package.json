@@ -7,7 +7,8 @@
     "scripts": {
         "postinstall": "lerna bootstrap",
         "start": "lerna run --parallel start",
-        "build": "lerna run build"
+        "build": "lerna run build",
+        "test": "lerna run test"
     },
     "devDependencies": {
         "lerna": "^2.0.0-rc.5",

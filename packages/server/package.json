@@ -13,7 +13,8 @@
     "build": "tsc",
     "serve:socket": "node dist/server/src/socket/index.js",
     "serve:janitor": "node dist/server/src/janitor/index.js",
-    "serve": "concurrently -k -p \"[{name}]\" -n \"Socket,ID-Gen,Janitor\" -c \"cyan.bold,green.bold,purple.bold\" \"npm run serve:socket\" \"npm run serve:janitor\""
+    "serve": "concurrently -k -p \"[{name}]\" -n \"Socket,ID-Gen,Janitor\" -c \"cyan.bold,green.bold,purple.bold\" \"npm run serve:socket\" \"npm run serve:janitor\"",
+    "test": "echo \"No server tests.\""
   },
   "repository": {
     "type": "git",
