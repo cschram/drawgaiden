@@ -1,5 +1,7 @@
 ![Draw Gaiden](https://raw.githubusercontent.com/cschram/drawgaiden/master/packages/client/src/img/logo_big.png)
 
+[![Build Status](https://travis-ci.org/drawgaiden/drawgaiden.svg?branch=master)](https://travis-ci.org/drawgaiden/drawgaiden)
+
 Draw Gaiden is a collaborative drawing web application for drawing on a shared canvas with friends.
 
 # Features
