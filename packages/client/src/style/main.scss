@@ -27,3 +27,11 @@ html, body, #mount {
 .app {
     height: 100%;
 }
+
+a {
+    color: $color-tertiary;
+
+    &:visited {
+        color: $color-tertiary-darker;
+    }
+}

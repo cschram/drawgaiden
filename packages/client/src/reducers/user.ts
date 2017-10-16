@@ -1,21 +1,4 @@
-function getSessionItem(name: string) {
-    if (window.sessionStorage) {
-        return sessionStorage.getItem(name);
-    }
-    return null;
-}
-
-function setSessionItem(name: string, value: string) {
-    if (window.sessionStorage) {
-        sessionStorage.setItem(name, value);
-    }
-}
-
-function removeSessionItem(name: string) {
-    if (window.sessionStorage) {
-        sessionStorage.removeItem(name);
-    }
-}
+import { getSessionItem, setSessionItem, removeSessionItem } from '../lib/session';
 
 interface UserState {
     username: string;

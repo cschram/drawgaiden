@@ -1,11 +1,11 @@
 import { push } from 'react-router-redux';
-import { Response } from '../../../common/protocol';
+import { Protocol } from 'drawgaiden-common';
 
 export function login(username: string, redirect?: string) {
     return (dispatch, getState) => {
         dispatch({ type: 'LOGIN_STARTED' });
         let socket = getState().connection.socket;
-        socket.emit('login', { username }, (resp: Response) => {
+        socket.emit('login', { username }, (resp: Protocol.Response) => {
             if (resp.success) {
                 dispatch({
                     type: 'LOGIN_SUCCESS',

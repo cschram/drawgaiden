@@ -3,7 +3,7 @@ import config from '../lib/config';
 import { Connection, connect } from '../lib/db';
 import Logger from '../lib/logger';
 import { HealthMonitor } from '../lib/healthmonit';
-import { Canvas as CanvasInfo,HistoryEntry } from '../../../common/canvas';
+import * as DrawGaiden from 'drawgaiden-common';
 // This needs to be managed better...
 import { Tool } from '@drawgaiden/easel/lib/tools/tool';
 import CircleTool from '@drawgaiden/easel/lib/tools/circle';
@@ -41,7 +41,7 @@ async function cleanUpCanvas(conn: Connection, id: string): Promise<boolean> {
 
 // Squash a canvases history into a snapshot.
 async function squash(conn: Connection, canvasID: string) {
-    const canvasInfo: CanvasInfo = await conn.getCanvas(canvasID) as any; // Can't coerce Cursor into CanvasInfo...
+    const canvasInfo: DrawGaiden.Canvas = await conn.getCanvas(canvasID) as any; // Can't coerce Cursor into CanvasInfo...
     const canvas: HTMLCanvasElement = new Canvas(canvasInfo.width, canvasInfo.height);
     const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
     const tools: { [name: string]: Tool } = {
@@ -66,7 +66,7 @@ async function squash(conn: Connection, canvasID: string) {
     const history = await conn.getHistory(canvasID);
     let count = 0;
     return new Promise((resolve, reject) => {
-        history.each((error, entry: HistoryEntry) => {
+        history.each((error, entry: DrawGaiden.HistoryEntry) => {
             if (error) {
                 reportError(error);
             } else {

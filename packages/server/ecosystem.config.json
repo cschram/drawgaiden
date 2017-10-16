@@ -2,13 +2,13 @@
     "apps": [
         {
             "name": "drawgaiden-socket",
-            "script": "dist/server/src/socket/index.js",
+            "script": "dist/socket/index.js",
             "instances": 4,
             "exec_mode": "fork"
         },
         {
             "name": "drawgaiden-janitor",
-            "script": "dist/server/src/janitor/index.js"
+            "script": "dist/janitor/index.js"
         }
     ]
 }

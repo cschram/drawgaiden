@@ -4,6 +4,7 @@ import testData from '../../__testdata__/canvas';
 describe('Canvas Reducer', () => {
     test('JOIN_CANVAS_STARTED', () => {
         const initialState = {
+            lastCanvasID: '',
             canvas: null,
             history: [],
             latestEntry: null,
@@ -15,6 +16,7 @@ describe('Canvas Reducer', () => {
             payload: null
         };
         const expectedState = {
+            lastCanvasID: '',
             canvas: null,
             history: [],
             latestEntry: null,
@@ -26,6 +28,7 @@ describe('Canvas Reducer', () => {
 
     test('JOIN_CANVAS_SUCCESS', () => {
         const initialState = {
+            lastCanvasID: '',
             canvas: null,
             history: [],
             latestEntry: null,
@@ -41,6 +44,7 @@ describe('Canvas Reducer', () => {
             }
         };
         const expectedState = {
+            lastCanvasID: testData.canvas.id,
             canvas: testData.canvas,
             history: testData.history,
             latestEntry: null,
@@ -52,6 +56,7 @@ describe('Canvas Reducer', () => {
 
     test('CANVAS_HISTORY_NEW', () => {
         const initialState = {
+            lastCanvasID: testData.canvas.id,
             canvas: testData.canvas,
             history: testData.history,
             latestEntry: null,
@@ -63,6 +68,7 @@ describe('Canvas Reducer', () => {
             payload: testData.newEntry
         };
         const expectedState = {
+            lastCanvasID: testData.canvas.id,
             canvas: testData.canvas,
             history: testData.history,
             latestEntry: testData.newEntry,
@@ -74,6 +80,7 @@ describe('Canvas Reducer', () => {
 
     test('CANVAS_USER_JOIN', () => {
         const initialState = {
+            lastCanvasID: testData.canvas.id,
             canvas: testData.canvas,
             history: testData.history,
             latestEntry: null,
@@ -85,6 +92,7 @@ describe('Canvas Reducer', () => {
             payload: testData.newUser
         };
         const expectedState = {
+            lastCanvasID: testData.canvas.id,
             canvas: testData.canvas,
             history: testData.history,
             latestEntry: null,
@@ -96,6 +104,7 @@ describe('Canvas Reducer', () => {
 
     test('CANVAS_USER_UPDATE', () => {
         const initialState = {
+            lastCanvasID: testData.canvas.id,
             canvas: testData.canvas,
             history: testData.history,
             latestEntry: null,
@@ -107,6 +116,7 @@ describe('Canvas Reducer', () => {
             payload: testData.updatedUser
         };
         const expectedState = {
+            lastCanvasID: testData.canvas.id,
             canvas: testData.canvas,
             history: testData.history,
             latestEntry: null,

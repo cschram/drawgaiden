@@ -7,7 +7,13 @@ module.exports = {
         hot: true,
         inline: true,
         contentBase: './src',
-        port: 8000
+        port: 8000,
+        proxy: {
+            '/socket.io': {
+                target: 'ws://localhost:9000',
+                ws: true
+            }
+        }
     },
     entry: path.resolve(__dirname, 'src/main.tsx'),
     output: {

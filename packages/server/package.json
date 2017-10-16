@@ -6,14 +6,10 @@
   "main": "src/index.ts",
   "scripts": {
     "start": "npm run build && npm run watch",
-    "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Socket,Janitor\" -c \"cyan.bold,green.bold,purple.bold\" \"npm run watch:ts\" \"npm run watch:socket\" \"npm run watch:janitor\"",
+    "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Server\" -c \"green.bold,purple.bold\" \"npm run watch:ts\" \"npm run watch:server\"",
     "watch:ts": "tsc -w",
-    "watch:socket": "nodemon dist/server/src/socket/index.js",
-    "watch:janitor": "nodemon dist/server/src/janitor/index.js",
+    "watch:server": "nodemon --inspect dist/socket/index.js",
     "build": "tsc",
-    "serve:socket": "node dist/server/src/socket/index.js",
-    "serve:janitor": "node dist/server/src/janitor/index.js",
-    "serve": "concurrently -k -p \"[{name}]\" -n \"Socket,ID-Gen,Janitor\" -c \"cyan.bold,green.bold,purple.bold\" \"npm run serve:socket\" \"npm run serve:janitor\"",
     "test": "echo \"No server tests.\""
   },
   "repository": {
@@ -45,6 +41,7 @@
   },
   "devDependencies": {
     "concurrently": "^3.4.0",
+    "drawgaiden-common": "^0.7.0",
     "nodemon": "^1.11.0",
     "typescript": "^2.3.3"
   }

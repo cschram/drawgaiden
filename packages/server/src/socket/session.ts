@@ -3,24 +3,8 @@ import * as winston from 'winston';
 import * as r from 'rethinkdb';
 import * as cuid from 'cuid';
 import { Connection } from '../lib/db';
-import {
-    Response,
-    Callback,
-    LoginRequest,
-    CreateCanvasRequest,
-    CreateCanvasResponse,
-    JoinCanvasRequest,
-    JoinCanvasResponse,
-    DrawRequest,
-    NewHistoryEvent,
-    SetPositionRequest
-} from '../../../common/protocol';
-import {
-    Canvas,
-    HistoryEntry
-} from '../../../common/canvas';
+import { Protocol } from 'drawgaiden-common';
 import config from '../lib/config';
-
 const usernameRe = /^[a-zA-Z0-9]{2,15}$/;
 
 interface SessionArgs {
@@ -42,7 +26,7 @@ export default function session(args: SessionArgs) {
 
     const handleErrors = (fn: Function) => {
         return async (...args: any[]) => {
-            let cb: Callback;
+            let cb: Protocol.Callback;
             try {
                 await fn.apply(null, args);
             } catch(error) {
@@ -91,7 +75,7 @@ export default function session(args: SessionArgs) {
         }
     });
 
-    sock.on('login', handleErrors(async (req: LoginRequest, cb: Callback) => {
+    sock.on('login', handleErrors(async (req: Protocol.LoginRequest, cb: Protocol.Callback) => {
         if (username) {
             cb({
                 success: false,
@@ -111,7 +95,7 @@ export default function session(args: SessionArgs) {
         cb({ success: true });
     }));
 
-    sock.on('canvas:create', handleErrors(authCheck(async (req: CreateCanvasRequest, cb: Callback<CreateCanvasResponse>) => {
+    sock.on('canvas:create', handleErrors(authCheck(async (req: Protocol.CreateCanvasRequest, cb: Protocol.Callback<Protocol.CreateCanvasResponse>) => {
         const id = cuid();
         await db.createCanvas(id);
         cb({
@@ -120,7 +104,7 @@ export default function session(args: SessionArgs) {
         });
     })));
 
-    sock.on('canvas:join', handleErrors(authCheck(async (req: JoinCanvasRequest, cb: Callback<JoinCanvasResponse>) => {
+    sock.on('canvas:join', handleErrors(authCheck(async (req: Protocol.JoinCanvasRequest, cb: Protocol.Callback<Protocol.JoinCanvasResponse>) => {
         // The typing for r.Cursor can't be coerced to the actual object
         // type you want, so it needs to be converted to any type first.
         let canvas: any = await db.getCanvas(req.canvasID);
@@ -177,20 +161,20 @@ export default function session(args: SessionArgs) {
         });
     })));
 
-    sock.on('canvas:leave', handleErrors(authCheck(canvasCheck(async (cb: Callback) => {
+    sock.on('canvas:leave', handleErrors(authCheck(canvasCheck(async (cb: Protocol.Callback) => {
         await db.setUserCanvas(username, '');
         canvasID = '';
         clearFeeds();
         cb({ success: true });
     }))));
 
-    sock.on('canvas:draw', handleErrors(authCheck(canvasCheck(async (req: DrawRequest, cb: Callback) => {
+    sock.on('canvas:draw', handleErrors(authCheck(canvasCheck(async (req: Protocol.DrawRequest, cb: Protocol.Callback) => {
         req.entry.id = cuid();
         await db.addHistory(req.entry);
         cb({ success: true });
     }))));
 
-    sock.on('user:position:set', handleErrors(authCheck(canvasCheck((req: SetPositionRequest, cb: Callback) => {
+    sock.on('user:position:set', handleErrors(authCheck(canvasCheck((req: Protocol.SetPositionRequest, cb: Protocol.Callback) => {
         db.setUserPosition(username, req.coord);
         cb({ success: true });
     }))));

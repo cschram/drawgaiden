@@ -1,0 +1,17 @@
+@import "../../style/_colors.scss";
+
+.index-page {
+    background: $color-primary;
+    height: 100%;
+    padding: 10em 0;
+    width: 100%;
+}
+
+.index-page__main {
+    margin: 0 auto;
+    width: 560px;
+}
+
+.index-page__main p {
+    font-size: 1.75em;
+}

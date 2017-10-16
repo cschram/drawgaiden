@@ -5,7 +5,9 @@ import testData from '../../__testdata__/canvas';
 
 test('<App/>', () => {
     const props = {
-        createCanvas: () => {}
+        lastCanvasID: '',
+        createCanvas: () => {},
+        joinCanvas: (id: string) => {}
     };
     const tree = renderer.create(<IndexPage {...props}/>).toJSON();
     expect(tree).toMatchSnapshot();

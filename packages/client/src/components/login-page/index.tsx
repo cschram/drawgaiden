@@ -46,6 +46,7 @@ export class LoginPage extends React.Component<LoginPageProps> {
                                 <span>Login</span>}
                         </button>
                     </fieldset>
+                    <p>Having issues? Check our <a href="https://github.com/drawgaiden/drawgaiden/issues" target="_blank">bug tracker</a>.</p>
                 </form>
             </div>
         );

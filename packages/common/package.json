@@ -1,0 +1,17 @@
+{
+    "name": "drawgaiden-common",
+    "version": "0.7.0",
+    "private": true,
+    "description": "Real time collaborative drawing canvas.",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/cschram/drawgaiden.git"
+    },
+    "author": "Corey Schram <coreyschram@gmail.com>",
+    "license": "MIT",
+    "bugs": {
+      "url": "https://github.com/cschram/drawgaiden/issues"
+    },
+    "homepage": "https://github.com/cschram/drawgaiden#readme"
+  }
+  

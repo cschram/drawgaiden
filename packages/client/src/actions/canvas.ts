@@ -1,12 +1,10 @@
 import { push } from 'react-router-redux';
-import { HistoryEntry } from '../../../common/canvas';
-import { Coord } from '../../../common/canvas';
-import { Response, CreateCanvasResponse, JoinCanvasResponse } from '../../../common/protocol';
+import { HistoryEntry, Coord, Protocol } from 'drawgaiden-common';
 
 export function createCanvas() {
     return (dispatch, getState) => {
         let socket = getState().connection.socket;
-        socket.emit('canvas:create', {}, (resp: CreateCanvasResponse) => {
+        socket.emit('canvas:create', {}, (resp: Protocol.CreateCanvasResponse) => {
             if (resp.success) {
                 dispatch(push(`/canvas/${resp.id}`));
             } else {
@@ -20,7 +18,7 @@ export function joinCanvas(canvasID: string) {
     return (dispatch, getState) => {
         dispatch({ type: 'JOIN_CANVAS_STARTED' });
         let socket = getState().connection.socket;
-        socket.emit('canvas:join', { canvasID }, (resp: JoinCanvasResponse) => {
+        socket.emit('canvas:join', { canvasID }, (resp: Protocol.JoinCanvasResponse) => {
             if (resp.success) {
                 dispatch({
                     type: 'JOIN_CANVAS_SUCCESS',
@@ -44,7 +42,7 @@ export function joinCanvas(canvasID: string) {
 export function draw(entry: HistoryEntry) {
     return (dispatch, getState) => {
         let socket = getState().connection.socket;
-        socket.emit('canvas:draw', { entry }, (resp: Response) => {
+        socket.emit('canvas:draw', { entry }, (resp: Protocol.Response) => {
             if (!resp.success) {
                 console.error(resp.errorMessage);
             }
@@ -55,7 +53,7 @@ export function draw(entry: HistoryEntry) {
 export function setMousePosition(coord: Coord) {
     return (dispatch, getState) => {
         let socket = getState().connection.socket;
-        socket.emit('user:position:set', { coord }, (resp: Response) => {
+        socket.emit('user:position:set', { coord }, (resp: Protocol.Response) => {
             if (!resp.success) {
                 console.error(resp.errorMessage);
             }

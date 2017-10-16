@@ -1,6 +1,8 @@
-import { Canvas, HistoryEntry, User } from '../../../common/canvas';
+import { Canvas, HistoryEntry, User } from 'drawgaiden-common';
+import { getSessionItem, setSessionItem } from '../lib/session';
 
 interface CanvasState {
+    lastCanvasID: string;
     canvas: Canvas;
     history: HistoryEntry[];
     latestEntry: HistoryEntry;
@@ -9,6 +11,7 @@ interface CanvasState {
 }
 
 const initialState: CanvasState = {
+    lastCanvasID: getSessionItem('lastCanvasID') || '',
     canvas: null,
     history: [],
     latestEntry: null,
@@ -24,7 +27,9 @@ export default function(state = initialState, { type, payload }): CanvasState {
             });
 
         case 'JOIN_CANVAS_SUCCESS':
+            setSessionItem('lastCanvasID', payload.canvas.id);
             return Object.assign({}, initialState, {
+                lastCanvasID: payload.canvas.id,
                 canvas: payload.canvas,
                 history: payload.history,
                 users: payload.users,

@@ -32,6 +32,12 @@ button {
     }
 }
 
+button[disabled] {
+    background: desaturate($color-primary-dark, 50%);
+    color: #cccccc;
+    cursor: default;
+}
+
 input[type=range] {
     -webkit-appearance: none;
     width: 100%;

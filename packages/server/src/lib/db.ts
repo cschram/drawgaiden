@@ -1,6 +1,6 @@
 import * as r from 'rethinkdb';
-import { Canvas, HistoryEntry, User, Coord } from '../../../common/canvas';
 import config from './config';
+import * as DrawGaiden from 'drawgaiden-common';
 
 /**
  * Database connection wrapper.
@@ -39,7 +39,7 @@ export class Connection {
      * @param name Unique name of the canvas (used as the ID).
      */
     createCanvas(name: string) {
-        let canvas: Canvas = {
+        let canvas: DrawGaiden.Canvas = {
             id: name,
             width: config.defaultCanvas.width,
             height: config.defaultCanvas.height,
@@ -54,7 +54,7 @@ export class Connection {
      * Update canvas details.
      * @param canvas Updated canvas details. Must contain canvas ID.
      */
-    updateCanvas(canvas: Canvas) {
+    updateCanvas(canvas: DrawGaiden.Canvas) {
         if (!canvas.id) {
             return Promise.reject('Cannot update canvas with missing ID.');
         }
@@ -134,7 +134,7 @@ export class Connection {
      * Add a new history entry. Timestamp is created for the entry.
      * @param entry History entry details.
      */
-    addHistory(entry: HistoryEntry) {
+    addHistory(entry: DrawGaiden.HistoryEntry) {
         entry.timestamp = Date.now();
         return r.table('history')
                 .insert([entry])
@@ -237,7 +237,7 @@ export class Connection {
      * @param username Username of the user to update.
      * @param coord New mouse position coordinate.
      */
-    setUserPosition(username: string, coord: Coord) {
+    setUserPosition(username: string, coord: DrawGaiden.Coord) {
         return r.table('users')
                 .get(username)
                 .update({ mousePosition: coord })
