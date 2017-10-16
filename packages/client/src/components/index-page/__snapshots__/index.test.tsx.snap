@@ -5,12 +5,38 @@ exports[`<App/> 1`] = `
   className="index-page"
 >
   <div
-    className="loading"
+    className="index-page__main"
   >
-    <i
-      aria-hidden="true"
-      className="fa fa-spinner"
+    <img
+      alt="Draw Gaiden"
+      src={Object {}}
     />
+    <p>
+      Create or rejoin a canvas to start drawing, and share the link with friends to collaborate.
+    </p>
+    <button
+      onClick={[Function]}
+    >
+      <span>
+        Create Canvas
+      </span>
+    </button>
+    <button
+      disabled={true}
+      onClick={[Function]}
+    >
+      Rejoin Canvas
+    </button>
+    <p>
+      Having issues? Check our 
+      <a
+        href="https://github.com/drawgaiden/drawgaiden/issues"
+        target="_blank"
+      >
+        bug tracker
+      </a>
+      .
+    </p>
   </div>
 </div>
 `;

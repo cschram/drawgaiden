@@ -29,6 +29,16 @@ exports[`<App/> 1`] = `
           Login
         </span>
       </button>
+      <p>
+        Having issues? Check our 
+        <a
+          href="https://github.com/drawgaiden/drawgaiden/issues"
+          target="_blank"
+        >
+          bug tracker
+        </a>
+        .
+      </p>
     </fieldset>
   </form>
 </div>
