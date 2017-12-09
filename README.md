@@ -16,7 +16,7 @@ Draw Gaiden is a collaborative drawing web application for drawing on a shared c
 
 # Documentation
 
-* [Installation](docs/installation.md)
+* [Getting Started](docs/getting_started.md)
 * [Roadmap](docs/roadmap.md)
 
 # License

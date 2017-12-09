@@ -7,6 +7,10 @@ export interface Config {
         db: string;
         authKey?: string;
     };
+    redis: {
+        host: string;
+        port: number;
+    };
     socket: {
         host: string;
         port: number;
@@ -24,7 +28,10 @@ export interface Config {
     };
     logDirectory: string;
 }
-const path = '../../config/server.json';
-const data = readFileSync(path, { encoding: 'utf-8' });
+if (!process.env.CONFIG_FILE) {
+    console.error('Missing CONFIG_FILE');
+    process.exit();
+}
+const data = readFileSync(process.env.CONFIG_FILE, { encoding: 'utf-8' });
 const config: Config = JSON.parse(data);
 export default config;

@@ -8,6 +8,7 @@
     "test": "jest",
     "test:update": "jest -u",
     "build": "webpack --config=webpack.production.config.js",
+    "clean": "rimraf dist",
     "start": "webpack-dev-server --devtool eval --progress --hot --content-base src/client"
   },
   "repository": {

@@ -3,11 +3,13 @@
 
 const r = require('rethinkdb');
 const argv = require('minimist')(process.argv.slice(2));
-const config = require('../config/server.json');
+
+const configFile = argv.config || '../packages/server/config/dev.config.json';
+const config = require(configFile);
 
 function printUsage() {
     console.log('usage: scripts/db help');
-    console.log('       scripts/db init');
+    console.log('       scripts/db [--config=file] init');
 }
 
 function connect() {

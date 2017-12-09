@@ -4,11 +4,19 @@
             "name": "drawgaiden-socket",
             "script": "dist/socket/index.js",
             "instances": 4,
-            "exec_mode": "fork"
+            "exec_mode": "fork",
+            "env": {
+                "NODE_ENV": "production",
+                "CONFIG_FILE": "config/prod.config.json"
+            }
         },
         {
             "name": "drawgaiden-janitor",
-            "script": "dist/janitor/index.js"
+            "script": "dist/janitor/index.js",
+            "env": {
+                "NODE_ENV": "production",
+                "CONFIG_FILE": "config/prod.config.json"
+            }
         }
     ]
 }

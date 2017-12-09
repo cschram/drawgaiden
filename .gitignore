@@ -1,7 +1,4 @@
 **/dist
 **/node_modules
-config/client.json
-config/server.json
 **/*.log
-.vagrant
 .DS_Store
