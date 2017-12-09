@@ -1,0 +1,11 @@
+version: "3"
+services:
+  rethinkdb:
+    image: rethinkdb:2.3
+    ports:
+      - 28015:28015
+      - 8080:8080
+  redis:
+    image: redis:3.2
+    ports:
+      - 6379:6379
