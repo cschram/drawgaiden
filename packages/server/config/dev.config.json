@@ -18,7 +18,7 @@
         "historyThreshold": 50,
         "monitorPort": 9100
     },
-    "logDirectory": "/var/log/drawgaiden",
+    "logDirectory": "../../logs",
     "defaultCanvas": {
         "width": 2560,
         "height": 1440,

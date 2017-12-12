@@ -1,4 +1,6 @@
 import * as SocketIO from 'socket.io';
+import * as redis from 'redis';
+import * as ioRedis from 'socket.io-redis';
 import Logger from '../lib/logger';
 import { Connection, connect } from '../lib/db';
 import session from './session';
@@ -15,11 +17,20 @@ const monitor = new HealthMonitor({
     port
 });
 
-connect(config.db).then(conn => {
+connect(config.db).then(dbConn => {
+    const redisConn = redis.createClient({
+        host: config.redis.host,
+        port: config.redis.port
+    });
     const io = SocketIO(monitor.getServer().listener);
+    io.adapter(ioRedis({
+        pubClient: redisConn,
+        subClient: redisConn
+    }));
     io.on('connection', sock => session({
         sock,
-        db: conn,
+        dbConn,
+        redisConn,
         logger
     }));
     logger.info(`Started socket server at ${config.socket.host}:${port}`);

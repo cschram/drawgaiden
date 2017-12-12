@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "outDir": "lib",
+        "sourceMap": false,
+        "declaration": true,
+        "module": "commonjs",
+        "removeComments": false,
+        "strictNullChecks": true,
+        "noImplicitReturns": true,
+        "noImplicitAny": false,
+        "moduleResolution": "node",
+        "lib":[
+            "es2015",
+            "dom"
+        ]
+    },
+    "include": [
+        "src/**.ts"
+    ]
+}

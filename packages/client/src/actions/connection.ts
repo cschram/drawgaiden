@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
-import { Protocol } from 'drawgaiden-common';
+import { Protocol } from '@drawgaiden/common';
 
 export function connect() {
     return (dispatch, getState) => {

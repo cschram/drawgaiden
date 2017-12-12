@@ -1,5 +1,5 @@
 import { push } from 'react-router-redux';
-import { HistoryEntry, Coord, Protocol } from 'drawgaiden-common';
+import { HistoryEntry, Coord, Protocol } from '@drawgaiden/common';
 
 export function createCanvas() {
     return (dispatch, getState) => {

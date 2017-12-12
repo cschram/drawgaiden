@@ -1,12 +1,12 @@
 {
-    "name": "drawgaiden",
+    "name": "@drawgaiden/drawgaiden",
     "version": "0.7.0",
     "private": true,
     "description": "Real time collaborative drawing canvas.",
     "license": "MIT",
     "scripts": {
         "postinstall": "lerna bootstrap",
-        "start": "lerna run --parallel start",
+        "start": "npm run build && lerna run --parallel start",
         "build": "lerna run build",
         "clean": "lerna run clean",
         "test": "lerna run test"

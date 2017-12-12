@@ -1,0 +1,42 @@
+{
+  "name": "@drawgaiden/easel",
+  "version": "0.2.3",
+  "description": "Canvas drawing application library used by Draw Gaiden.",
+  "main": "lib/index.js",
+  "files": [
+    "lib/"
+  ],
+  "scripts": {
+    "build": "npm run build:ts && npm run build:scss",
+    "start": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Sass\" -c \"cyan.bold,green.bold\" \"npm run watch:ts\" \"npm run watch:scss\"",
+    "build:ts": "tsc",
+    "build:scss": "node-sass src/style.scss --output lib",
+    "clean": "rimraf lib",
+    "watch:ts": "tsc -w",
+    "watch:scss": "node-sass --watch src/style.scss --output lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drawgaiden/drawgaiden.git"
+  },
+  "keywords": [
+    "canvas",
+    "drawing",
+    "typescript",
+    "html5"
+  ],
+  "author": "Corey Schram <coreyschram@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/drawgaiden/easel/issues"
+  },
+  "homepage": "https://github.com/drawgaiden/easel#readme",
+  "devDependencies": {
+    "concurrently": "^3.5.0",
+    "node-sass": "^4.5.3",
+    "typescript": "^2.4.1"
+  },
+  "dependencies": {
+    "simplify-js": "^1.2.1"
+  }
+}

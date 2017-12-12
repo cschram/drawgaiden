@@ -1,4 +1,4 @@
-import { Canvas, HistoryEntry, User } from 'drawgaiden-common';
+import { Canvas, HistoryEntry, User } from '@drawgaiden/common';
 import { getSessionItem, setSessionItem } from '../lib/session';
 
 interface CanvasState {

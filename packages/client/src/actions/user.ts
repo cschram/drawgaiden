@@ -1,5 +1,5 @@
 import { push } from 'react-router-redux';
-import { Protocol } from 'drawgaiden-common';
+import { Protocol } from '@drawgaiden/common';
 
 export function login(username: string, redirect?: string) {
     return (dispatch, getState) => {

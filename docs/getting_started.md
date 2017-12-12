@@ -5,8 +5,20 @@
 * [Node.js](https://nodejs.org/) >= 6.11
 * [NPM](https://www.npmjs.com/) >= 3.10
 * [RethinkDB](https://rethinkdb.com/) >= 2.3
+* [Redis](https://redis.io/) >= 4.0
 
 Draw Gaiden has been tested with the above versions, but older versions may work.
+
+### RethinkDB and Redis Docker Images
+
+Provided in the repo is `docker-compose.yml` to create a Docker swarm with RethinkDB and Redis you can use.
+
+```
+docker swarm init
+docker stack deploy -c docker-compose.yml drawgaiden
+```
+
+## 
 
 ## Configuration
 

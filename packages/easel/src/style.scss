@@ -1,0 +1,168 @@
+$color-primary: #2FB59A;
+$color-primary-light: #50C8B0;
+$color-primary-lighter: #7FDECB;
+$color-primary-dark: #10A689;
+$color-primary-darker: #01846A;
+
+.easel {
+    height: 100%;
+    position: relative;
+    width: 100%;
+
+    &, & * {
+        box-sizing: border-box;
+    }
+}
+
+.easel__settings {
+    background: $color-primary;
+    height: 50px;
+    line-height: 50px;
+    padding: 0.75em;
+    width: 100%;
+}
+
+.easel__main {
+    height: calc(100% - 50px);
+    width: 100%;
+
+    & :after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+}
+
+.easel__tools {
+    background: $color-primary;
+    display: inline-block;
+    float: left;
+    height: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 50px;
+}
+
+.easel__tool-colors,
+.easel__tool-size,
+.easel__tool-opacity,
+.easel__tool-smoothness {
+    display: inline-block;
+    height: 100%;
+    margin-right: 1em;
+    vertical-align: top;
+}
+
+.easel__tool {
+    font-size: 2.5em;
+    height: 50px;
+    width: 50px;
+
+    input {
+        display: none;
+    }
+
+    label {
+        cursor: pointer;
+        display: inline-block;
+        height: 50px;
+        padding: 0.5em;
+        text-align: center;
+        width: 50px;
+    }
+
+    input:checked + label {
+        background: $color-primary-dark;
+    }
+
+    input + label:hover {
+        background: $color-primary-light;
+    }
+}
+
+.easel__tool-colors {
+    input[type="color"] {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        height: 35px;
+        margin: 0;
+        padding: 0;
+        width: 35px;
+    }
+
+    input[type="color"]::-webkit-color-swatch-wrapper {
+        padding: 0;
+    }
+
+    input[type="color"]::-webkit-color-swatch {
+        border: none;
+        border-radius: 3px;
+    }
+
+    a, a:visited {
+        color: #FFFFFF;
+        font-size: 3em;
+        position: relative;
+        text-decoration: none;
+        top: -0.25em;
+    }
+}
+
+.easel__tool-size,
+.easel__tool-opacity,
+.easel__tool-smoothness {
+    span {
+        display: inline-block;
+        font-size: 1.5em;
+        height: 100%;
+        line-height: 35px;
+        padding: 0 0.5em;
+        vertical-align: top;
+    }
+
+    input[type="range"] {
+        width: 100px;
+    }
+
+    input[type="range"]:focus {
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+}
+
+.easel__save {
+    background: $color-primary-light;
+    border: none;
+    border-radius: 2px;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-block;
+    float: right;
+    font-size: 1.8em;
+    height: 100%;
+    width: 100px;
+
+    &:active {
+        background: $color-primary-darker;
+    }
+}
+
+.easel__canvas {
+    background: $color-primary-darker;
+    display: inline-block;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    width: calc(100% - 50px);
+
+    canvas {
+        position: absolute;
+    }
+}
+
+.easel__overlay {
+    background: transparent;
+    position: absolute;
+}

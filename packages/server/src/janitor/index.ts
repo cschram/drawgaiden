@@ -3,7 +3,7 @@ import config from '../lib/config';
 import { Connection, connect } from '../lib/db';
 import Logger from '../lib/logger';
 import { HealthMonitor } from '../lib/healthmonit';
-import * as DrawGaiden from 'drawgaiden-common';
+import * as DrawGaiden from '@drawgaiden/common';
 // This needs to be managed better...
 import { Tool } from '@drawgaiden/easel/lib/tools/tool';
 import CircleTool from '@drawgaiden/easel/lib/tools/circle';

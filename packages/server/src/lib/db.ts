@@ -1,6 +1,6 @@
 import * as r from 'rethinkdb';
 import config from './config';
-import * as DrawGaiden from 'drawgaiden-common';
+import * as DrawGaiden from '@drawgaiden/common';
 
 /**
  * Database connection wrapper.

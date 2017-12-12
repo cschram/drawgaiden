@@ -1,5 +1,5 @@
 {
-    "name": "drawgaiden-common",
+    "name": "@drawgaiden/common",
     "version": "0.7.0",
     "private": true,
     "description": "Real time collaborative drawing canvas.",

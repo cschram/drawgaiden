@@ -5,7 +5,7 @@ import Loading from '../loading';
 import EaselWrap from '../easel-wrap';
 import Icon from '../icon';
 import { joinCanvas, draw, setMousePosition } from '../../actions/canvas';
-import { Canvas, HistoryEntry, Coord, User } from 'drawgaiden-common';
+import { Canvas, HistoryEntry, Coord, User } from '@drawgaiden/common';
 import './style.scss';
 
 interface ClassPageProps {
