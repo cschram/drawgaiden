@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import { LoginPage } from './index';
-import testData from '../../__testdata__/canvas';
+import testData from '../../../test/data/canvas';
 
 test('<App/>', () => {
     const props = {
