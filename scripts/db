@@ -8,8 +8,12 @@ const configFile = argv.config || '../packages/server/config/dev.config.json';
 const config = require(configFile);
 
 function printUsage() {
-    console.log('usage: scripts/db help');
-    console.log('       scripts/db [--config=file] init');
+    console.log('usage: scripts/db [--config=file] <command>');
+    console.log('available commands:');
+    console.log('  help - Display this help text');
+    console.log('  init - Initialize database');
+    console.log('  clean - Clean up database entries');
+
 }
 
 function connect() {
@@ -44,6 +48,17 @@ const commands = {
             r.table('users').indexCreate('canvasID').run(conn)
         ]);
         console.log('Done.');
+    },
+    clean: async function() {
+        let conn = await connect();
+        conn.use(config.db.db);
+        console.log('Cleaning database records...');
+        await Promise.all([
+            r.table('canvases').delete().run(conn),
+            r.table('history').delete().run(conn),
+            r.table('users').delete().run(conn)
+        ]);
+        console.log('Done');
     }
 }
 

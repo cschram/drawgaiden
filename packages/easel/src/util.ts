@@ -3,7 +3,16 @@ export interface Coord {
     y: number;
 }
 
+export interface Layer {
+    id: number;
+    finalCanvas: HTMLCanvasElement;
+    finalCtx: CanvasRenderingContext2D;
+    draftCanvas: HTMLCanvasElement;
+    draftCtx: CanvasRenderingContext2D;
+}
+
 export interface ToolSettings {
+    layer?: number;
     strokeStyle?: string;
     fillStyle?: string;
     lineWidth?: number;

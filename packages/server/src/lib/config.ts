@@ -24,6 +24,7 @@ export interface Config {
     defaultCanvas: {
         width: number;
         height: number;
+        layers: number;
         backgroundColor: string;
     };
     logDirectory: string;

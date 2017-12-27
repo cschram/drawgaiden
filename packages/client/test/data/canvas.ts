@@ -3,8 +3,9 @@ export default {
         id: '00001',
         width: 800,
         height: 600,
+        layers: 3,
         backgroundColor: '#ffffff',
-        snapshot: ''
+        snapshots: ['', '', '']
     },
     history: [
         {
@@ -24,6 +25,7 @@ export default {
                 }
             ],
             settings: {
+                layer: 0,
                 strokeStyle: '#000000',
                 fillStyle: '#ffffff',
                 lineWidth: 1,
@@ -62,6 +64,7 @@ export default {
             }
         ],
         settings: {
+            layer: 1,
             strokeStyle: '#000000',
             fillStyle: '#ffffff',
             lineWidth: 1,

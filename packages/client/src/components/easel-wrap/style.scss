@@ -10,11 +10,6 @@
     position: absolute;
 }
 
-
-.easel__settings input[type="range"] {
-    vertical-align: text-bottom;
-}
-
 .easel__share {
     float: right;
     height: 100%;
@@ -22,6 +17,6 @@
     width: 100px;
 }
 
-.easel__save {
-    margin: 0;
+.easel__option-layer select {
+    font-size: 1.4em;
 }

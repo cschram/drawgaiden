@@ -22,6 +22,7 @@
     "defaultCanvas": {
         "width": 2560,
         "height": 1440,
+        "layers": 3,
         "backgroundColor": "#ffffff"
     }
 }

@@ -43,6 +43,7 @@ export class Connection {
             id: name,
             width: config.defaultCanvas.width,
             height: config.defaultCanvas.height,
+            layers: config.defaultCanvas.layers,
             backgroundColor: config.defaultCanvas.backgroundColor
         };
         return r.table('canvases')

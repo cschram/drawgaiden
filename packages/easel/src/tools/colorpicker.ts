@@ -1,19 +1,14 @@
 import { Tool } from './tool';
-import { ToolSettings, Coord } from '../util';
+import { Layer, ToolSettings, Coord } from '../util';
 import { rgbToHex } from '../util';
 
-export type ColorPickCallback = (type: string, color: string) => void;
+export type ColorPickCallback = (type: string, color: string, opacity: number) => void;
 
 export default class ColorPickerTool extends Tool {
     private onPick: ColorPickCallback;
 
-    constructor(
-        finalCtx: CanvasRenderingContext2D,
-        draftCtx: CanvasRenderingContext2D,
-        settings: ToolSettings = {},
-        onPick: ColorPickCallback
-    ) {
-        super(finalCtx, draftCtx, settings);
+    constructor(layers: Layer[], settings: ToolSettings = {}, onPick: ColorPickCallback) {
+        super(layers, settings);
         this.onPick = onPick;
     }
 
@@ -26,12 +21,14 @@ export default class ColorPickerTool extends Tool {
     _pick(ctx: CanvasRenderingContext2D, coord: Coord) {
         const data = ctx.getImageData(coord.x, coord.y, 1, 1).data;
         const color = rgbToHex.apply(window, data);
-        this.onPick(this.settings.primary ? 'stroke' : 'fill', color);
+        const opacity = (data[3] / 255) * 100;
+        this.onPick(this.settings.primary ? 'stroke' : 'fill', color, opacity);
     }
 
     mouseDown(coord: Coord) {
+        const layer = this.layers[this.settings.layer as number];
         this.active = true;
-        this._pick(this.finalCtx, coord);
+        this._pick(layer.finalCtx, coord);
     }
 
     mouseUp(): Coord[] {
@@ -41,7 +38,8 @@ export default class ColorPickerTool extends Tool {
 
     mouseMove(coord: Coord) {
         if (this.active) {
-            this._pick(this.finalCtx, coord);
+            const layer = this.layers[this.settings.layer as number];
+            this._pick(layer.finalCtx, coord);
         }
     }
 }

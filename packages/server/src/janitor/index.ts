@@ -11,6 +11,7 @@ import ColorPickerTool from '@drawgaiden/easel/lib/tools/colorpicker';
 import EraserTool from '@drawgaiden/easel/lib/tools/eraser';
 import PencilTool from '@drawgaiden/easel/lib/tools/pencil';
 import RectangleTool from '@drawgaiden/easel/lib/tools/rectangle';
+import { Layer } from '@drawgaiden/easel/lib/util';
 
 const logger = Logger('janitor');
 const monitor = new HealthMonitor({
@@ -42,14 +43,26 @@ async function cleanUpCanvas(conn: Connection, id: string): Promise<boolean> {
 // Squash a canvases history into a snapshot.
 async function squash(conn: Connection, canvasID: string) {
     const canvasInfo: DrawGaiden.Canvas = await conn.getCanvas(canvasID) as any; // Can't coerce Cursor into CanvasInfo...
-    const canvas: HTMLCanvasElement = new Canvas(canvasInfo.width, canvasInfo.height);
-    const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
+    const layers: Layer[] = [];
+    for (let i = 0; i < canvasInfo.layers; i++) {
+        const draftCanvas = new Canvas(canvasInfo.width, canvasInfo.height);
+        const draftCtx = draftCanvas.getContext('2d');
+        const finalCanvas = new Canvas(canvasInfo.width, canvasInfo.height);
+        const finalCtx = finalCanvas.getContext('2d');
+        layers.push({
+            id: i,
+            draftCanvas,
+            draftCtx,
+            finalCanvas,
+            finalCtx
+        });
+    }
     const tools: { [name: string]: Tool } = {
-        circle: new CircleTool(ctx, ctx),
-        colorpicker: new ColorPickerTool(ctx, ctx, {}, () => {}),
-        eraser: new EraserTool(ctx, ctx, {}, canvasInfo.backgroundColor),
-        pencil: new PencilTool(ctx, ctx),
-        rectangle: new RectangleTool(ctx, ctx)
+        circle: new CircleTool(layers),
+        colorpicker: new ColorPickerTool(layers, {}, () => {}),
+        eraser: new EraserTool(layers, {}, canvasInfo.backgroundColor),
+        pencil: new PencilTool(layers),
+        rectangle: new RectangleTool(layers)
     };
     tools.rectangle.draw([
         { x: 0, y: 0},
@@ -58,10 +71,12 @@ async function squash(conn: Connection, canvasID: string) {
         strokeStyle: canvasInfo.backgroundColor,
         fillStyle: canvasInfo.backgroundColor,
     });
-    if (canvasInfo.snapshot) {
-        let img = new Canvas.Image();
-        img.src = canvasInfo.snapshot;
-        ctx.drawImage(img, 0, 0);
+    if (canvasInfo.snapshots) {
+        canvasInfo.snapshots.forEach((snapshot, i) => {
+            let img = new Canvas.Image();
+            img.src = snapshot;
+            layers[i].finalCtx.drawImage(img, 0, 0);
+        });
     }
     const history = await conn.getHistory(canvasID);
     let count = 0;
@@ -78,7 +93,9 @@ async function squash(conn: Connection, canvasID: string) {
                 // It would be nice if this set of operations could be made atomic, but worst case scenario
                 // the user gets the snapshot *and* the squashed entries, causing the app to needlessly
                 // redraw entries in the snapshot.
-                canvasInfo.snapshot = canvas.toDataURL('image/png');
+                canvasInfo.snapshots = layers.map(layer => {
+                    return layer.finalCanvas.toDataURL('image/png');
+                });
                 await conn.updateCanvas(canvasInfo);
                 // We want to limit the number of entries we're clearing because some may have been created while
                 // the operation was running.
@@ -107,9 +124,13 @@ connect(config.db).then(conn => {
             if (error) {
                 reportError(error);
             } else {
-                let deleted = await cleanUpCanvas(conn, id);
-                if (!deleted) {
-                    await cleanUpHistory(conn, id);
+                try {
+                    let deleted = await cleanUpCanvas(conn, id);
+                    if (!deleted) {
+                        await cleanUpHistory(conn, id);
+                    }
+                } catch(error) {
+                    logger.error(error.stack);
                 }
             }
         });
@@ -119,8 +140,8 @@ connect(config.db).then(conn => {
     // cleanly disconnected and removed from the user table, so this cleans
     // up any stragglers on startup.
     conn.clearUsers();
-    setTimeout(cleanUp, config.janitor.jobInterval);
     logger.info('Janitor running');
+    cleanUp();
 }).catch(error => {
     reportError(error);
     monitor.error(error.toString());

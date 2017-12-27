@@ -19,17 +19,19 @@ export default class CircleTool extends Tool {
 
     mouseMove(coord: Coord) {
         if (this.active) {
+            const layer = this.layers[this.settings.layer as number];
             this.path[1] = coord;
 
-            this._resetCtx(this.draftCtx, this.settings);
+            this._resetCtx(layer.draftCtx, this.settings);
             this._clear();
-            this._draw(this.path, this.draftCtx);
+            this._draw(this.path, layer.draftCtx);
         }
     }
 
     draw(path: Coord[], settings: ToolSettings = {}) {
         settings = Object.assign({}, this.settings, settings);
-        this._resetCtx(this.finalCtx, settings);
-        this._draw(path, this.finalCtx);
+        const layer = this.layers[settings.layer as number];
+        this._resetCtx(layer.finalCtx, settings);
+        this._draw(path, layer.finalCtx);
     }
 }

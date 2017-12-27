@@ -11,7 +11,6 @@ const usernameRe = /^[a-zA-Z0-9]{2,15}$/;
 interface SessionArgs {
     sock: SocketIO.Socket;
     dbConn: Connection;
-    redisConn: redis.RedisClient;
     logger: winston.LoggerInstance;
 }
 

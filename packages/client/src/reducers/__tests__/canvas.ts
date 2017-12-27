@@ -1,5 +1,5 @@
 import canvas from '../canvas';
-import testData from '../../__testdata__/canvas';
+import testData from '../../../test/data/canvas';
 
 describe('Canvas Reducer', () => {
     test('JOIN_CANVAS_STARTED', () => {

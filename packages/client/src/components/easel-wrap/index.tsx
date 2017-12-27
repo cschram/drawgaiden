@@ -10,39 +10,6 @@ import { Canvas, HistoryEntry, User } from '@drawgaiden/common';
 import '@drawgaiden/easel/lib/style.css';
 import './style.scss';
 
-const tools = [
-    {
-        id: 'pencil',
-        icon: 'pencil',
-        default: true
-    },
-    {
-        id: 'rectangle',
-        icon: 'square-o',
-        default: false
-    },
-    {
-        id: 'circle',
-        icon: 'circle-o',
-        default: false
-    },
-    {
-        id: 'eraser',
-        icon: 'eraser',
-        default: false
-    },
-    {
-        id: 'move',
-        icon: 'arrows-alt',
-        default: false
-    },
-    {
-        id: 'colorpicker',
-        icon: 'eyedropper',
-        default: false
-    }
-];
-
 interface EaselWrapProps {
     canvas: Canvas;
     history: HistoryEntry[];
@@ -116,32 +83,32 @@ class EaselWrap extends React.Component<EaselWrapProps> {
                 width: this.props.canvas.width,
                 height: this.props.canvas.height,
                 backgroundColor: this.props.canvas.backgroundColor,
+                layers: this.props.canvas.layers,
                 onMouseMove: throttle(this.props.setMousePosition, 33),
                 onDraw: this.onDraw
             });
-            if (this.props.canvas.snapshot) {
-                const img = new Image();
-                img.onload = () => {
-                    this.easel.drawImage(img, { x: 0, y: 0 });
+            if (this.props.canvas.snapshots && this.props.canvas.snapshots.length > 0) {
+                let promises = this.props.canvas.snapshots.map(snapshot => {
+                    return new Promise((resolve, reject) => {
+                        const img = new Image();
+                        img.onload = () => {
+                            this.easel.drawImage(img, { x: 0, y: 0 });
+                            resolve();
+                        };
+                        img.onerror = () => {
+                            reject();
+                        };
+                        img.src = snapshot;
+                    });
+                });
+                Promise.all(promises).then(() => {
                     startQueue();
-                };
-                img.src = this.props.canvas.snapshot;
+                });
             } else {
                 startQueue();
             }
         }
     }
-
-    renderTool = (tool, index) => {
-        return (
-            <li key={index} className="easel__tool">
-                <input type="radio" name="tool" id={`easel_tool_${tool.id}`} value={tool.id} defaultChecked={tool.default} />
-                <label htmlFor={`easel_tool_${tool.id}`}>
-                    <Icon name={tool.icon} />
-                </label>
-            </li>
-        );
-    };
 
     renderUsers = (user: User, index) => {
         const style = {
@@ -157,20 +124,24 @@ class EaselWrap extends React.Component<EaselWrapProps> {
         return (
             <div className="easel" ref="container">
                 <div className="easel__settings">
-                    <div className="easel__tool-colors">
+                    <div className="easel__option-colors">
                         <input type="color" name="stroke-color" defaultValue="#000000" />
                         <a href="#" className="easel__color-switch">↔</a>
                         <input type="color" name="fill-color" defaultValue="#ffffff" />
                     </div>
-                    <div className="easel__tool-size">
+                    <div className="easel__option-layer">
+                        <span>Layer:</span>
+                        <select name="layer"></select>
+                    </div>
+                    <div className="easel__option-size">
                         <span>Size:</span>
                         <input type="range" name="size" min="1" max="40" defaultValue="1" />
                     </div>
-                    <div className="easel__tool-opacity">
+                    <div className="easel__option-opacity">
                         <span>Opacity:</span>
                         <input type="range" name="opacity" min="0" max="100" defaultValue="100" />
                     </div>
-                    <div className="easel__tool-smoothness">
+                    <div className="easel__option-smoothness">
                         <span>Smoothness:</span>
                         <input type="range" name="smoothness" min="0" max="100" defaultValue="80" />
                     </div>
@@ -183,11 +154,45 @@ class EaselWrap extends React.Component<EaselWrapProps> {
                 </div>
                 <div className="easel__main">
                     <ul className="easel__tools">
-                        {tools.map(this.renderTool)}
+                        <li className="easel__tool">
+                            <input type="radio" name="tool" id="easel_tool_pencil" defaultValue="pencil" defaultChecked={true} />
+                            <label htmlFor="easel_tool_pencil">
+                                <i className="fa fa-pencil" aria-hidden="true"></i>
+                            </label>
+                        </li>
+                        <li className="easel__tool">
+                            <input type="radio" name="tool" id="easel_tool_rectangle" defaultValue="rectangle" />
+                            <label htmlFor="easel_tool_rectangle">
+                                <i className="fa fa-square-o" aria-hidden="true"></i>
+                            </label>
+                        </li>
+                        <li className="easel__tool">
+                            <input type="radio" name="tool" id="easel_tool_circle" defaultValue="circle" />
+                            <label htmlFor="easel_tool_circle">
+                                <i className="fa fa-circle-o" aria-hidden="true"></i>
+                            </label>
+                        </li>
+                        <li className="easel__tool">
+                            <input type="radio" name="tool" id="easel_tool_eraser" defaultValue="eraser" />
+                            <label htmlFor="easel_tool_eraser">
+                                <i className="fa fa-eraser" aria-hidden="true"></i>
+                            </label>
+                        </li>
+                        <li className="easel__tool">
+                            <input type="radio" name="tool" id="easel_tool_move" defaultValue="move" />
+                            <label htmlFor="easel_tool_move">
+                                <i className="fa fa-arrows-alt" aria-hidden="true"></i>
+                            </label>
+                        </li>
+                        <li className="easel__tool">
+                            <input type="radio" name="tool" id="easel_tool_colorpicker" defaultValue="colorpicker" />
+                            <label htmlFor="easel_tool_colorpicker">
+                                <i className="fa fa-eyedropper" aria-hidden="true"></i>
+                            </label>
+                        </li>
                     </ul>
                     <div className="easel__canvas">
-                        <canvas className="easel__canvas-final"></canvas>
-                        <canvas className="easel__canvas-draft"></canvas>
+                        <div className="easel__canvas-layers"></div>
                         <div className="easel__overlay">
                             {this.props.users.map(this.renderUsers)}
                         </div>

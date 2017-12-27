@@ -13,7 +13,6 @@
         }
         body {
                 line-height: 1;
-                color: #FFFFFF;
                 font-family: 'Open Sans', sans-serif;
                 font-size: 62.5%;
                 font-weight: 300;
@@ -24,20 +23,24 @@
     <div class="container">
         <div id="easel" class="easel">
             <div class="easel__settings">
-                <div class="easel__tool-colors">
+                <div class="easel__option-colors">
                     <input type="color" name="stroke-color" value="#000000" />
                     <a href="#" class="easel__color-switch">↔</a>
                     <input type="color" name="fill-color" value="#ffffff" />
                 </div>
-                <div class="easel__tool-size">
+                <div class="easel__option-layer">
+                    <span>Layer:</span>
+                    <select name="layer"></select>
+                </div>
+                <div class="easel__option-size">
                     <span>Size:</span>
                     <input type="range" name="size" min="1" max="40" value="1" />
                 </div>
-                <div class="easel__tool-opacity">
+                <div class="easel__option-opacity">
                     <span>Opacity:</span>
                     <input type="range" name="opacity" min="0" max="100" value="100" />
                 </div>
-                <div class="easel__tool-smoothness">
+                <div class="easel__option-smoothness">
                     <span>Smoothness:</span>
                     <input type="range" name="smoothness" min="0" max="100" value="80" />
                 </div>
@@ -85,8 +88,7 @@
                     </li>
                 </ul>
                 <div class="easel__canvas">
-                    <canvas class="easel__canvas-final"></canvas>
-                    <canvas class="easel__canvas-draft"></canvas>
+                    <div class="easel__canvas-layers"></div>
                 </div>
             </div>
         </div>

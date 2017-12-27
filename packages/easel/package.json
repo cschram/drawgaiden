@@ -1,6 +1,6 @@
 {
   "name": "@drawgaiden/easel",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "Canvas drawing application library used by Draw Gaiden.",
   "main": "lib/index.js",
   "files": [

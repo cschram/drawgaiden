@@ -9,7 +9,9 @@
         "start": "npm run build && lerna run --parallel start",
         "build": "lerna run build",
         "clean": "lerna run clean",
-        "test": "lerna run test"
+        "test": "lerna run test",
+        "db:init": "scripts/db init",
+        "db:clean": "scripts/db clean"
     },
     "devDependencies": {
         "lerna": "^2.0.0-rc.5",

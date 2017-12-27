@@ -1,4 +1,4 @@
-import { ToolSettings, Coord } from '../util';
+import { Layer, ToolSettings, Coord } from '../util';
 
 export class Tool {
     // Active flag, determining whether the tool is currently in use
@@ -7,26 +7,19 @@ export class Tool {
     lastCoord: Coord;
     // Path drawn by the mouse
     path: Coord[];
-    // "Final" context, where the changes are finalized
-    finalCtx: CanvasRenderingContext2D;
-    // "Draft" context, used for displaying temporary tool paths
-    // i.e. guide lines for a rectangle tool
-    draftCtx: CanvasRenderingContext2D;
+    // Canvas Layers
+    layers: Layer[];
     // Tool settings
     settings: ToolSettings;
 
-    constructor(finalCtx: CanvasRenderingContext2D, draftCtx: CanvasRenderingContext2D, settings: ToolSettings = {}) {
-        if (!finalCtx) {
-            throw new Error( 'Missing final contexts in tool constructor.' );
-        }
-
-        this.finalCtx = finalCtx;
-        this.draftCtx = draftCtx;
+    constructor(layers: Layer[], settings: ToolSettings = {}) {
+        this.layers = layers;
         this.settings = Object.assign({}, this.getDefaults(), settings);
     }
 
     getDefaults(): ToolSettings {
         return {
+            layer: 0,
             strokeStyle: '#000000',
             fillStyle: '#ffffff',
             lineWidth: 1,
@@ -96,8 +89,13 @@ export class Tool {
     //
     // Clear canvas
     //
-    _clear() {
-        this.draftCtx.clearRect(0, 0, this.draftCtx.canvas.width, this.draftCtx.canvas.height);
+    _clear(ctx?: CanvasRenderingContext2D) {
+        if (ctx) {
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        } else {
+            const layer = this.layers[this.settings.layer as number];
+            layer.draftCtx.clearRect(0, 0, layer.draftCtx.canvas.width, layer.draftCtx.canvas.height);
+        }
     }
 
 

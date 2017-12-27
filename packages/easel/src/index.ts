@@ -1,5 +1,5 @@
 import { Tool } from './tools/tool';
-import { ToolSettings, Coord } from './util';
+import { Layer, ToolSettings, Coord } from './util';
 import CircleTool from './tools/circle';
 import ColorPickerTool from './tools/colorpicker';
 import EraserTool from './tools/eraser';
@@ -14,14 +14,16 @@ export interface EaselOptions {
     width?: number;
     height?: number;
     backgroundColor?: string;
+    layers?: number;
     onMouseMove?: (coord: Coord) => void;
     onDraw?: (path: Coord[]) => void;
 }
 
 const defaultOptions: EaselOptions = {
-    width: 800,
-    height: 600,
+    width: 2560,
+    height: 1440,
     backgroundColor: '#ffffff',
+    layers: 3,
     onMouseMove: () => {},
     onDraw: () => {}
 };
@@ -38,19 +40,20 @@ export default class Easel {
     private offsetTargets: HTMLElement[];
     private saveButton: HTMLElement;
 
-    private finalCtx: CanvasRenderingContext2D;
-    private draftCtx: CanvasRenderingContext2D;
+    private layers: Layer[];
 
     private toolOptions: HTMLInputElement[];
     private strokeColor: HTMLInputElement;
     private fillColor: HTMLInputElement;
     private colorSwitch: HTMLAnchorElement;
+    private layerSelect: HTMLSelectElement;
     private toolSize: HTMLInputElement;
     private toolOpacity: HTMLInputElement;
     private toolSmoothness: HTMLInputElement;
 
     private tools: Tools;
     private tool: string;
+    private activeLayer: number;
 
     private drawing: boolean;
     private moving: boolean;
@@ -64,36 +67,61 @@ export default class Easel {
         this.options = Object.assign({}, defaultOptions, options);
 
         // Grab canvas elements and setup context
+        
         this.canvasWrap = this.container.getElementsByClassName('easel__canvas')[0] as HTMLElement;
-        const finalCanvas = this.container.getElementsByClassName('easel__canvas-final')[0] as HTMLCanvasElement;
-        const draftCanvas = this.container.getElementsByClassName('easel__canvas-draft')[0] as HTMLCanvasElement;
-        const canvases = [finalCanvas, draftCanvas];
-        const overlays = Array.from(this.container.getElementsByClassName('easel__overlay') as NodeListOf<HTMLElement>);
-        this.offsetTargets = overlays.concat(canvases);
+        this.toolOptions = Array.from(this.container.querySelectorAll('[name=tool]')) as HTMLInputElement[];
+        this.strokeColor = this.container.querySelectorAll('[name=stroke-color]')[0] as HTMLInputElement;
+        this.fillColor = this.container.querySelectorAll('[name=fill-color]')[0] as HTMLInputElement;
+        this.colorSwitch = this.container.querySelectorAll('.easel__color-switch')[0] as HTMLAnchorElement;
+        this.layerSelect = this.container.querySelectorAll('[name=layer]')[0] as HTMLSelectElement;
+        this.toolSize = this.container.querySelectorAll('[name=size]')[0] as HTMLInputElement;
+        this.toolOpacity = this.container.querySelectorAll('[name=opacity]')[0] as HTMLInputElement;
+        this.toolSmoothness = this.container.querySelectorAll('[name=smoothness]')[0] as HTMLInputElement;
         this.saveButton = this.container.getElementsByClassName('easel__save')[0] as HTMLElement;
-        canvases.forEach(canvas => {
-            canvas.width = this.options.width as number;
-            canvas.height = this.options.height as number;
-        });
+
+        // Generate Layers
+        this.layers = [];
+        const $layers = this.container.getElementsByClassName('easel__canvas-layers')[0] as HTMLElement;
+        for (let i = 0; i < (this.options.layers as number); i++) {
+            let $layer = document.createElement('div');
+            $layer.className = 'easel__canvas-layer';
+            let $canvasFinal = document.createElement('canvas') as HTMLCanvasElement;
+            $canvasFinal.className = 'easel__canvas-final';
+            $canvasFinal.width = this.options.width as number;
+            $canvasFinal.height = this.options.height as number;
+            $layer.appendChild($canvasFinal);
+            let $canvasDraft = document.createElement('canvas') as HTMLCanvasElement;
+            $canvasDraft.className = 'easel__canvas-draft';
+            $canvasDraft.width = this.options.width as number;
+            $canvasDraft.height = this.options.height as number;
+            $layer.appendChild($canvasDraft);
+            $layers.appendChild($layer);
+            this.layers.push({
+                id: i,
+                finalCanvas: $canvasFinal,
+                finalCtx: $canvasFinal.getContext('2d') as CanvasRenderingContext2D,
+                draftCanvas: $canvasDraft,
+                draftCtx: $canvasDraft.getContext('2d') as CanvasRenderingContext2D
+            });
+            const $option = document.createElement('option') as HTMLOptionElement;
+            $option.value = i.toString();
+            $option.textContent = (i + 1).toString();
+            this.layerSelect.appendChild($option);
+        }
+
+        const overlays = Array.from(this.container.getElementsByClassName('easel__overlay') as NodeListOf<HTMLElement>);
+        this.offsetTargets = overlays.concat([ $layers ]);
+        
         overlays.forEach(overlay => {
             overlay.style.width = `${this.options.width}px`;
             overlay.style.height = `${this.options.height}px`;
         });
-        this.finalCtx = finalCanvas.getContext('2d') as CanvasRenderingContext2D;
-        this.draftCtx = draftCanvas.getContext('2d') as CanvasRenderingContext2D;
         this.setOffset({
             x: (this.canvasWrap.clientWidth / 2) - (this.options.width as number / 2),
             y: (this.canvasWrap.clientHeight / 2) - (this.options.height as number / 2)
         });
 
         // Setup tools
-        this.toolOptions = Array.from(this.container.querySelectorAll('[name=tool]')) as HTMLInputElement[];
-        this.strokeColor = this.container.querySelectorAll('[name=stroke-color]')[0] as HTMLInputElement;
-        this.fillColor = this.container.querySelectorAll('[name=fill-color]')[0] as HTMLInputElement;
-        this.colorSwitch = this.container.querySelectorAll('.easel__color-switch')[0] as HTMLAnchorElement;
-        this.toolSize = this.container.querySelectorAll('[name=size]')[0] as HTMLInputElement;
-        this.toolOpacity = this.container.querySelectorAll('[name=opacity]')[0] as HTMLInputElement;
-        this.toolSmoothness = this.container.querySelectorAll('[name=smoothness]')[0] as HTMLInputElement;
 
         const moveTool = (eventName: string, coord?: Coord) => {
             if (eventName === 'mouseDown' && coord) {
@@ -118,23 +146,27 @@ export default class Easel {
             }
         };
 
-        const onPick = (type, color) => {
+        const onPick = (type, color, opacity) => {
             if (type === 'stroke') {
                 this.setStrokeColor(color);
             } else {
                 this.setFillColor(color);
             }
+            this.setOpacity(opacity);
         };
+
         this.tools = {
-            circle: new CircleTool(this.finalCtx, this.draftCtx),
-            colorpicker: new ColorPickerTool(this.finalCtx, this.draftCtx, {}, onPick),
-            eraser: new EraserTool(this.finalCtx, this.draftCtx, {}, this.options.backgroundColor as string),
-            pencil: new PencilTool(this.finalCtx, this.draftCtx),
-            rectangle: new RectangleTool(this.finalCtx, this.draftCtx),
+            circle: new CircleTool(this.layers),
+            colorpicker: new ColorPickerTool(this.layers, {}, onPick),
+            eraser: new EraserTool(this.layers, {}, this.options.backgroundColor as string),
+            pencil: new PencilTool(this.layers),
+            rectangle: new RectangleTool(this.layers),
             move: moveTool
         };
         let checkedTool = this.container.querySelectorAll('.easel__tool input:checked')[0] as HTMLInputElement;
         this.tool = checkedTool.value;
+        this.layerSelect.value = '0';
+        this.activeLayer = 0;
 
         // Initialize misc state
         this.drawing = false;
@@ -155,6 +187,7 @@ export default class Easel {
         this.strokeColor.addEventListener('change', this.onStrokeColorChange, true);
         this.fillColor.addEventListener('change', this.onFillColorChange, true);
         this.colorSwitch.addEventListener('click', this.onColorSwitchClick, true);
+        this.layerSelect.addEventListener('change', this.onLayerSelect, true);
         this.toolSize.addEventListener('change', this.onToolSizeChange, true);
         this.toolOpacity.addEventListener('change', this.onToolOpacityChange, true);
         this.toolSmoothness.addEventListener('change', this.onToolSmoothnessChange, true);
@@ -163,15 +196,21 @@ export default class Easel {
         this.clear();
     }
 
-    clear() {
-        (this.tools.rectangle as Tool).draw([
-            { x: 0, y: 0},
-            { x: this.options.width as number, y: this.options.height as number }
-        ], {
-            strokeStyle: this.options.backgroundColor,
-            fillStyle: this.options.backgroundColor,
-        });
-        this.draftCtx.clearRect(0, 0, this.options.width as number, this.options.height as number);
+    clear(layer?: number) {
+        if (typeof layer === 'number') {
+            (this.tools.rectangle as Tool).draw([
+                { x: 0, y: 0},
+                { x: this.options.width as number, y: this.options.height as number }
+            ], {
+                strokeStyle: this.options.backgroundColor,
+                fillStyle: this.options.backgroundColor,
+            });
+            this.layers[layer].draftCtx.clearRect(0, 0, this.options.width as number, this.options.height as number);
+        } else {
+            for (let i = 0; i < (this.options.layers as number); i++) {
+                this.clear(i);
+            }
+        }
     }
 
     getTool(): string {
@@ -201,14 +240,23 @@ export default class Easel {
         this.setToolSetting('fillStyle', color);
     }
 
+    setOpacity(opacity: number) {
+        this.toolOpacity.value = opacity.toString();
+        this.setToolSetting('opacity', opacity);
+    }
+
     draw(tool: string, path: Coord[], settings: ToolSettings = {}) {
         if (this.tools[tool] instanceof Tool) {
             (this.tools[tool] as Tool).draw(path, settings);
         }
     }
 
-    drawImage(img: HTMLImageElement, coord: Coord) {
-        this.finalCtx.drawImage(img, coord.x, coord.y);
+    drawImage(img: HTMLImageElement, coord: Coord, layer?: number) {
+        if (typeof layer === 'number') {
+            this.layers[layer].finalCtx.drawImage(img, coord.x, coord.y);
+        } else {
+            this.layers[this.activeLayer].finalCtx.drawImage(img, coord.x, coord.y);
+        }
     }
 
     private setToolSetting(name: string, value: any) {
@@ -324,7 +372,16 @@ export default class Easel {
 
     private onSave = (e: Event) => {
         e.preventDefault();
-        let data = this.container.getElementsByTagName('canvas')[0].toDataURL('image/png');
+        // let data = this.container.getElementsByTagName('canvas')[0].toDataURL('image/png');
+        // window.open(data, '_blank');
+        const $canvas = document.createElement('canvas');
+        $canvas.width = this.options.width as number;
+        $canvas.height = this.options.height as number;
+        const $ctx = $canvas.getContext('2d') as CanvasRenderingContext2D;
+        this.layers.forEach(layer => {
+            $ctx.drawImage(layer.finalCanvas, 0, 0);
+        });
+        const data = $canvas.toDataURL('image/png');
         window.open(data, '_blank');
     };
 
@@ -349,6 +406,12 @@ export default class Easel {
         this.fillColor.value = stroke;
         this.setToolSetting('strokeStyle', fill);
         this.setToolSetting('fillStyle', stroke);
+    };
+
+    private onLayerSelect = (e: Event) => {
+        const layer = parseInt(this.layerSelect.value, 10);
+        this.activeLayer = layer;
+        this.setToolSetting('layer', layer);
     };
 
     private onToolSizeChange = (e: Event) => {

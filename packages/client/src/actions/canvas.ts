@@ -29,10 +29,6 @@ export function joinCanvas(canvasID: string) {
                     }
                 });
             } else {
-                // dispatch({
-                //     type: 'JOIN_CANVAS_FAILED',
-                //     payload: resp.errorMessage
-                // });
                 dispatch(push('/404'));
             }
         });

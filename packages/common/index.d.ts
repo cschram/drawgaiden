@@ -2,6 +2,7 @@ export = DrawGaiden;
 
 declare namespace DrawGaiden {
     export interface ToolSettings {
+        layer?: number;
         strokeStyle?: string;
         fillStyle?: string;
         lineWidth?: number;
@@ -44,8 +45,9 @@ declare namespace DrawGaiden {
         id?: string;
         width: number;
         height: number;
+        layers: number;
         backgroundColor: string;
-        snapshot?: string;
+        snapshots?: string[];
     }
     
     namespace Protocol {
