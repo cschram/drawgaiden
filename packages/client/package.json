@@ -1,6 +1,6 @@
 {
   "name": "@drawgaiden/client",
-  "version": "0.7.0",
+  "version": "1.0.0",
   "private": true,
   "description": "Real time collaborative drawing canvas.",
   "main": "src/main.jsx",
@@ -22,8 +22,8 @@
   },
   "homepage": "https://github.com/cschram/drawgaiden#readme",
   "dependencies": {
-    "@drawgaiden/common": "^0.7.0",
-    "@drawgaiden/easel": "^0.3.1",
+    "@drawgaiden/common": "^1.0.0",
+    "@drawgaiden/easel": "^1.0.0",
     "@types/jest": "^21.1.8",
     "@types/lodash.throttle": "^4.1.2",
     "@types/react": "^16.0.29",

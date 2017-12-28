@@ -44,5 +44,3 @@ You need a web server to serve the static client files as a single page web app 
 
 If you have [PM2](http://pm2.keymetrics.io/) installed you can use `packages/server/ecosystem.config.json` to start up the backend services.
 Otherwise you'll need to run `packages/server/dist/server/socket/index.js` and `packages/server/dist/server/janitor/index.js` with Node.
-
-The example production setup expects to run four instances of the socket server, load balanced behind a separate host (api.drawgaiden.com in the example files).

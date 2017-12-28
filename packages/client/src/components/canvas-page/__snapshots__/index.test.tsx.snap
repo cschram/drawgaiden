@@ -84,6 +84,7 @@ exports[`<App/> 1`] = `
       </div>
       <button
         className="easel__save"
+        onClick={[Function]}
       >
         Save
       </button>
