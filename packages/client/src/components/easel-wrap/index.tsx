@@ -99,11 +99,11 @@ class EaselWrap extends React.Component<EaselWrapProps> {
                 onDraw: this.onDraw
             });
             if (this.props.canvas.snapshots && this.props.canvas.snapshots.length > 0) {
-                let promises = this.props.canvas.snapshots.map(snapshot => {
+                let promises = this.props.canvas.snapshots.map((snapshot, i) => {
                     return new Promise((resolve, reject) => {
                         const img = new Image();
                         img.onload = () => {
-                            this.easel.drawImage(img, { x: 0, y: 0 });
+                            this.easel.drawImage(img, { x: 0, y: 0 }, i);
                             resolve();
                         };
                         img.onerror = () => {
