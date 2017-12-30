@@ -6,6 +6,8 @@ import EaselWrap from '../easel-wrap';
 import Icon from '../icon';
 import { joinCanvas, draw, setMousePosition } from '../../actions/canvas';
 import { Canvas, HistoryEntry, Coord, User } from '@drawgaiden/common';
+import SaveModal from './save-modal';
+import ShareModal from './share-modal';
 import './style.scss';
 
 interface ClassPageProps {
@@ -21,15 +23,19 @@ interface ClassPageProps {
     setMousePosition: (coord: Coord) => void;
 }
 
+type Modal = 'none' | 'share' | 'save';
+
 interface ClassPageState {
-    shareModalOpen: boolean;
+    modal: Modal;
+    modalData: any;
 }
 
 export class CanvasPage extends React.Component<ClassPageProps, ClassPageState> {
     constructor(props) {
         super(props);
         this.state = {
-            shareModalOpen: false
+            modal: 'none',
+            modalData: null
         };
     }
 
@@ -42,17 +48,25 @@ export class CanvasPage extends React.Component<ClassPageProps, ClassPageState> 
     }
 
     private showShareModal = () => {
-        this.setState({ shareModalOpen: true });
+        this.setState({
+            modal: 'share',
+            modalData: null
+        });
     };
 
-    private hideShareModal = () => {
-        this.setState({ shareModalOpen: false });
+    private showSaveModal = (data: string) => {
+        this.setState({
+            modal: 'save',
+            modalData: data
+        });
     }
 
-    private onClickShareLink = () => {
-        const input = ReactDOM.findDOMNode(this.refs['share-link']) as HTMLInputElement;
-        input.setSelectionRange(0, input.value.length);
-    };
+    private hideModal = () => {
+        this.setState({
+            modal: 'none',
+            modalData: null
+        });
+    }
 
     componentDidMount() {
         this.loadCanvas();
@@ -62,22 +76,14 @@ export class CanvasPage extends React.Component<ClassPageProps, ClassPageState> 
         this.loadCanvas();
     }
 
-    renderShareModal() {
-        return (
-            <div className="share-modal">
-                <div className="share-modal__content">
-                    <a href="#" className="share-modal__close" onClick={this.hideShareModal}>
-                        <Icon name="times" />
-                    </a>
-                    <span>Share this link with your friends to draw with them.</span>
-                    <input ref="share-link"
-                        type="text"
-                        name="share-link"
-                        defaultValue={location.href}
-                        onClick={this.onClickShareLink} />
-                </div>
-            </div>
-        );
+    renderModal() {
+        if (this.state.modal === 'share') {
+            return <ShareModal onClose={this.hideModal} />;
+        } else if (this.state.modal === 'save') {
+            return <SaveModal onClose={this.hideModal} imageData={this.state.modalData as string} />;
+        } else {
+            return null;
+        }
     }
     
     render() {
@@ -94,8 +100,9 @@ export class CanvasPage extends React.Component<ClassPageProps, ClassPageState> 
                            username={this.props.username}
                            draw={this.props.draw}
                            setMousePosition={this.props.setMousePosition}
-                           share={this.showShareModal} />
-                {this.state.shareModalOpen ? this.renderShareModal() : null}
+                           share={this.showShareModal}
+                           save={this.showSaveModal} />
+                {this.renderModal()}
             </div>
         );
     }

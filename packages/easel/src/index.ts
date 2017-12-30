@@ -38,7 +38,6 @@ export default class Easel {
     private options: EaselOptions;
     private canvasWrap: HTMLElement;
     private offsetTargets: HTMLElement[];
-    private saveButton: HTMLElement;
 
     private layers: Layer[];
 
@@ -77,7 +76,6 @@ export default class Easel {
         this.toolSize = this.container.querySelectorAll('[name=size]')[0] as HTMLInputElement;
         this.toolOpacity = this.container.querySelectorAll('[name=opacity]')[0] as HTMLInputElement;
         this.toolSmoothness = this.container.querySelectorAll('[name=smoothness]')[0] as HTMLInputElement;
-        this.saveButton = this.container.getElementsByClassName('easel__save')[0] as HTMLElement;
 
         // Generate Layers
         this.layers = [];
@@ -180,7 +178,6 @@ export default class Easel {
         this.canvasWrap.addEventListener('touchstart', this.onTouchEvent, true);
         this.canvasWrap.addEventListener('touchend', this.onTouchEvent, true);
         this.canvasWrap.addEventListener('touchmove', this.onTouchEvent, true);
-        this.saveButton.addEventListener('click', this.onSave, true);
         this.toolOptions.forEach(option => {
             option.addEventListener('change', this.onToolChange, true);
         });
@@ -257,6 +254,17 @@ export default class Easel {
         } else {
             this.layers[this.activeLayer].finalCtx.drawImage(img, coord.x, coord.y);
         }
+    }
+
+    toDataURL(): string {
+        const $canvas = document.createElement('canvas');
+        $canvas.width = this.options.width as number;
+        $canvas.height = this.options.height as number;
+        const $ctx = $canvas.getContext('2d') as CanvasRenderingContext2D;
+        this.layers.forEach(layer => {
+            $ctx.drawImage(layer.finalCanvas, 0, 0);
+        });
+        return $canvas.toDataURL('image/png');
     }
 
     private setToolSetting(name: string, value: any) {
@@ -368,21 +376,6 @@ export default class Easel {
         mouseEvent.initMouseEvent(mouseEventName, true, true, window, 1, touch.screenX, touch.screenY,
                                   touch.clientX, touch.clientY, false, false, false, false, 0, null);
         this.canvasWrap.dispatchEvent(mouseEvent);
-    };
-
-    private onSave = (e: Event) => {
-        e.preventDefault();
-        // let data = this.container.getElementsByTagName('canvas')[0].toDataURL('image/png');
-        // window.open(data, '_blank');
-        const $canvas = document.createElement('canvas');
-        $canvas.width = this.options.width as number;
-        $canvas.height = this.options.height as number;
-        const $ctx = $canvas.getContext('2d') as CanvasRenderingContext2D;
-        this.layers.forEach(layer => {
-            $ctx.drawImage(layer.finalCanvas, 0, 0);
-        });
-        const data = $canvas.toDataURL('image/png');
-        window.open(data, '_blank');
     };
 
     private onToolChange = (e: Event) => {

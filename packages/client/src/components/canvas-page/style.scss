@@ -1,12 +1,19 @@
 @import "../../style/_colors";
 
+@mixin modal-size($width, $height) {
+    height: $height;
+    left: calc(50% - #{$width / 2});
+    top: calc(50% - #{$height / 2});
+    width: $width;
+}
+
 .canvas-page {
     background: $color-primary-dark;
     height: 100%;
     width: 100%;
 }
 
-.share-modal {
+.modal {
     background: rgba(0, 0, 0, 0.5);
     height: 100%;
     left: 0;
@@ -15,17 +22,13 @@
     width: 100%;
 }
 
-.share-modal__content {
+.modal__content {
     background: $color-primary-dark;
     border-radius: 4px;
     box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
     font-size: 1.5em;
-    height: 120px;
-    left: calc(50% - 225px);
     padding: 1.5em;
     position: relative;
-    top: calc(50% - 60px);
-    width: 450px;
 
     span {
         padding: 0 0.5em;
@@ -36,10 +39,25 @@
     }
 }
 
-.share-modal__close {
+.modal__close {
     color: #FFFFFF;
     font-size: 1.5em;
     position: absolute;
     top: 0.75em;
     right: 1em;
+}
+
+.share-modal {
+    @include modal-size(450px, 120px);
+}
+
+.save-modal {
+    @include modal-size(450px, 500px);
+}
+
+.save-modal__scroll-content {
+    height: 425px;
+    margin-top: 1em;
+    overflow: scroll;
+    width: 100%;
 }

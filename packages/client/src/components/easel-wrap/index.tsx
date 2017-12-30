@@ -19,6 +19,7 @@ interface EaselWrapProps {
     draw: (entry: HistoryEntry) => void;
     setMousePosition: (coord: Coord) => void;
     share: () => void;
+    save: (data: string) => void;
 }
 
 interface QueueItem {
@@ -56,6 +57,16 @@ class EaselWrap extends React.Component<EaselWrapProps> {
             path
         };
         this.props.draw(entry);
+    };
+
+    private onSave = (e) => {
+        e.preventDefault();
+        this.props.save(this.easel.toDataURL());
+    };
+
+    private onShare = (e) => {
+        e.preventDefault();
+        this.props.share();
     };
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -145,10 +156,10 @@ class EaselWrap extends React.Component<EaselWrapProps> {
                         <span>Smoothness:</span>
                         <input type="range" name="smoothness" min="0" max="100" defaultValue="80" />
                     </div>
-                    <button className="easel__save">
+                    <button className="easel__save" onClick={this.onSave}>
                         Save
                     </button>
-                    <button className="easel__share" onClick={this.props.share}>
+                    <button className="easel__share" onClick={this.onShare}>
                         Share
                     </button>
                 </div>
