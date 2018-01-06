@@ -8,7 +8,7 @@
     "start": "npm run build && npm run watch",
     "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Server\" -c \"green.bold,purple.bold\" \"npm run watch:ts\" \"npm run watch:server\"",
     "watch:ts": "tsc -w",
-    "watch:server": "CONFIG_FILE=config/dev.config.json nodemon --inspect dist/socket/index.js",
+    "watch:server": "CONFIG_FILE=config/dev.config.json nodemon dist/socket/index.js",
     "build": "tsc",
     "clean": "rimraf dist",
     "test": "echo \"No server tests.\""

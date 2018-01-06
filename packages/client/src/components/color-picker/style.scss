@@ -1,0 +1,11 @@
+.color-picker {
+    border-radius: 3px;
+    cursor: pointer;
+    display: inline-block;
+    height: 2em;
+    width: 2em;
+
+    input {
+        display: none;
+    }
+}

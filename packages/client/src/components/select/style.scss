@@ -1,0 +1,83 @@
+@import '../../style/_colors';
+
+.select {
+    background: $color-primary-light;
+    border: none;
+    border-radius: 3px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1.5em;
+    margin: 0.5em;
+    padding: 0.75em;
+    position: relative;
+    text-shadow: 1px 1px 0 $color-primary-dark;
+    width: 10em;
+
+    &.select--open {
+        background: $color-primary-darker;
+    }
+
+    &.select--disabled {
+        background: desaturate($color-primary, 40%);
+        cursor: not-allowed;
+        text-shadow: 1px 1px 0 darken($color-primary-darker, 5%);
+    }
+}
+
+.select__label {
+    display: inline-block;
+    height: 100%;
+    width: calc(100% - 1.5em);
+}
+
+.select__arrow {
+    display: inline-block;
+    height: 100%;
+    padding: 0 0 0 0.5em;
+    width: 1.5em;
+}
+
+.select__menu {
+    background: $color-primary-light;
+    border-radius: 3px;
+    box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: calc(100% + 0.5em);
+    width: 100%;
+    z-index: 99;
+}
+
+.select--open .select__menu {
+    display: block;
+}
+
+.select__menu-option {
+    padding: 0.75em;
+
+    &:first-child {
+        border-radius: 3px 3px 0 0;
+    }
+
+    &:last-child {
+        border-radius: 0 0 3px 3px;
+    }
+
+    &:hover {
+        background: $color-primary-lighter;
+        color: $color-primary-darker;
+        text-shadow: none;
+    }
+
+    &.select__menu-option--active {
+        background: $color-secondary-light;
+        color: #ffffff;
+        text-shadow: none;
+    }
+}

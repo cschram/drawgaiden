@@ -5,114 +5,38 @@ exports[`<App/> 1`] = `
   className="canvas-page"
 >
   <div
-    className="easel"
+    className="canvas-page__easel"
+  />
+  <div
+    className="canvas-page__controls"
   >
-    <div
-      className="easel__settings"
+    <button
+      className="canvas-page__control-toggle btn"
+      disabled={false}
+      onClick={[Function]}
     >
-      <div
-        className="easel__option-colors"
-      >
-        <input
-          defaultValue="#000000"
-          name="stroke-color"
-          type="color"
-        />
-        <a
-          className="easel__color-switch"
-          href="#"
-        >
-          ↔
-        </a>
-        <input
-          defaultValue="#ffffff"
-          name="fill-color"
-          type="color"
-        />
-      </div>
-      <div
-        className="easel__option-layer"
-      >
-        <span>
-          Layer:
-        </span>
-        <select
-          name="layer"
-        />
-      </div>
-      <div
-        className="easel__option-size"
-      >
-        <span>
-          Size:
-        </span>
-        <input
-          defaultValue="1"
-          max="40"
-          min="1"
-          name="size"
-          type="range"
-        />
-      </div>
-      <div
-        className="easel__option-opacity"
-      >
-        <span>
-          Opacity:
-        </span>
-        <input
-          defaultValue="100"
-          max="100"
-          min="0"
-          name="opacity"
-          type="range"
-        />
-      </div>
-      <div
-        className="easel__option-smoothness"
-      >
-        <span>
-          Smoothness:
-        </span>
-        <input
-          defaultValue="80"
-          max="100"
-          min="0"
-          name="smoothness"
-          type="range"
-        />
-      </div>
-      <button
-        className="easel__save"
-        onClick={[Function]}
-      >
-        Save
-      </button>
-      <button
-        className="easel__share"
-        onClick={[Function]}
-      >
-        Share
-      </button>
-    </div>
-    <div
-      className="easel__main"
-    >
+      <i
+        aria-hidden="true"
+        className="fa fa-eye"
+      />
+    </button>
+    <span>
       <ul
-        className="easel__tools"
+        className="radio-button canvas-page__control"
       >
         <li
-          className="easel__tool"
+          className="radio-button__option radio-button__option--checked"
         >
           <input
-            defaultChecked={true}
-            defaultValue="pencil"
-            id="easel_tool_pencil"
-            name="tool"
+            checked={true}
+            id="tools_0"
+            name="tools"
+            onChange={[Function]}
             type="radio"
+            value="pencil"
           />
           <label
-            htmlFor="easel_tool_pencil"
+            htmlFor="tools_0"
           >
             <i
               aria-hidden="true"
@@ -121,16 +45,18 @@ exports[`<App/> 1`] = `
           </label>
         </li>
         <li
-          className="easel__tool"
+          className="radio-button__option"
         >
           <input
-            defaultValue="rectangle"
-            id="easel_tool_rectangle"
-            name="tool"
+            checked={false}
+            id="tools_1"
+            name="tools"
+            onChange={[Function]}
             type="radio"
+            value="rectangle"
           />
           <label
-            htmlFor="easel_tool_rectangle"
+            htmlFor="tools_1"
           >
             <i
               aria-hidden="true"
@@ -139,16 +65,18 @@ exports[`<App/> 1`] = `
           </label>
         </li>
         <li
-          className="easel__tool"
+          className="radio-button__option"
         >
           <input
-            defaultValue="circle"
-            id="easel_tool_circle"
-            name="tool"
+            checked={false}
+            id="tools_2"
+            name="tools"
+            onChange={[Function]}
             type="radio"
+            value="circle"
           />
           <label
-            htmlFor="easel_tool_circle"
+            htmlFor="tools_2"
           >
             <i
               aria-hidden="true"
@@ -157,16 +85,18 @@ exports[`<App/> 1`] = `
           </label>
         </li>
         <li
-          className="easel__tool"
+          className="radio-button__option"
         >
           <input
-            defaultValue="eraser"
-            id="easel_tool_eraser"
-            name="tool"
+            checked={false}
+            id="tools_3"
+            name="tools"
+            onChange={[Function]}
             type="radio"
+            value="eraser"
           />
           <label
-            htmlFor="easel_tool_eraser"
+            htmlFor="tools_3"
           >
             <i
               aria-hidden="true"
@@ -175,16 +105,18 @@ exports[`<App/> 1`] = `
           </label>
         </li>
         <li
-          className="easel__tool"
+          className="radio-button__option"
         >
           <input
-            defaultValue="move"
-            id="easel_tool_move"
-            name="tool"
+            checked={false}
+            id="tools_4"
+            name="tools"
+            onChange={[Function]}
             type="radio"
+            value="move"
           />
           <label
-            htmlFor="easel_tool_move"
+            htmlFor="tools_4"
           >
             <i
               aria-hidden="true"
@@ -193,16 +125,18 @@ exports[`<App/> 1`] = `
           </label>
         </li>
         <li
-          className="easel__tool"
+          className="radio-button__option"
         >
           <input
-            defaultValue="colorpicker"
-            id="easel_tool_colorpicker"
-            name="tool"
+            checked={false}
+            id="tools_5"
+            name="tools"
+            onChange={[Function]}
             type="radio"
+            value="colorpicker"
           />
           <label
-            htmlFor="easel_tool_colorpicker"
+            htmlFor="tools_5"
           >
             <i
               aria-hidden="true"
@@ -212,27 +146,179 @@ exports[`<App/> 1`] = `
         </li>
       </ul>
       <div
-        className="easel__canvas"
+        className="select canvas-page__control"
+        onClick={[Function]}
       >
-        <div
-          className="easel__canvas-layers"
-        />
-        <div
-          className="easel__overlay"
+        <span
+          className="select__label"
         >
-          <span
-            className="easel-wrap__user"
-            style={
-              Object {
-                "left": 100,
-                "top": 100,
-              }
-            }
+          Layer 1
+        </span>
+        <span
+          className="select__arrow"
+        >
+          <i
+            aria-hidden="true"
+            className="fa fa-caret-down"
+          />
+        </span>
+        <ul
+          className="select__menu"
+        >
+          <li
+            className="select__menu-option select__menu-option--active"
+            data-value="0"
+            onClick={[Function]}
           >
-            username
-          </span>
-        </div>
+            Layer 1
+          </li>
+          <li
+            className="select__menu-option"
+            data-value="1"
+            onClick={[Function]}
+          >
+            Layer 2
+          </li>
+          <li
+            className="select__menu-option"
+            data-value="2"
+            onClick={[Function]}
+          >
+            Layer 3
+          </li>
+        </ul>
       </div>
+      <button
+        className="canvas-page__control btn"
+        disabled={false}
+        onClick={[Function]}
+      >
+        <i
+          aria-hidden="true"
+          className="fa fa-share-alt"
+        />
+        <span>
+          Share
+        </span>
+      </button>
+      <button
+        className="canvas-page__control btn"
+        disabled={false}
+        onClick={[Function]}
+      >
+        <i
+          aria-hidden="true"
+          className="fa fa-floppy-o"
+        />
+        <span>
+          Save
+        </span>
+      </button>
+      <button
+        className="canvas-page__control btn"
+        disabled={false}
+        onClick={[Function]}
+      >
+        <i
+          aria-hidden="true"
+          className="fa fa-times"
+        />
+        <span>
+          Exit
+        </span>
+      </button>
+    </span>
+  </div>
+  <div
+    className="canvas-page__settings"
+  >
+    <div
+      className="canvas-page__tool-setting canvas-page__colors"
+    >
+      <div
+        className="color-picker"
+        onClick={[Function]}
+        style={
+          Object {
+            "backgroundColor": "#000000",
+          }
+        }
+      >
+        <input
+          onChange={[Function]}
+          type="color"
+          value="#000000"
+        />
+      </div>
+      <div
+        className="color-picker"
+        onClick={[Function]}
+        style={
+          Object {
+            "backgroundColor": "#ffffff",
+          }
+        }
+      >
+        <input
+          onChange={[Function]}
+          type="color"
+          value="#ffffff"
+        />
+      </div>
+    </div>
+    <div
+      className="canvas-page__tool-setting"
+    >
+      <label>
+        Size
+      </label>
+      <input
+        className="slider "
+        disabled={false}
+        max={50}
+        min={1}
+        name="size"
+        onChange={[Function]}
+        step={1}
+        type="range"
+        value={1}
+      />
+    </div>
+    <div
+      className="canvas-page__tool-setting"
+    >
+      <label>
+        Opacity
+      </label>
+      <input
+        className="slider "
+        disabled={false}
+        max={100}
+        min={0}
+        name="opacity"
+        onChange={[Function]}
+        step={1}
+        type="range"
+        value={100}
+      />
+    </div>
+    <div
+      className="canvas-page__tool-setting"
+    >
+      <label>
+        Smoothness
+      </label>
+      <input
+        className="slider "
+        disabled={false}
+        max={100}
+        min={0}
+        name="smoothness"
+        onChange={[Function]}
+        step={1}
+        type="range"
+        value={80}
+      />
     </div>
   </div>
 </div>

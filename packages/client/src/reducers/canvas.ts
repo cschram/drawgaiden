@@ -8,6 +8,13 @@ interface CanvasState {
     latestEntry: HistoryEntry;
     users: User[];
     loading: boolean;
+    currentTool: string;
+    currentLayer: number;
+    strokeColor: string;
+    fillColor: string;
+    toolSize: number;
+    toolOpacity: number;
+    toolSmoothness: number
 }
 
 const initialState: CanvasState = {
@@ -16,7 +23,14 @@ const initialState: CanvasState = {
     history: [],
     latestEntry: null,
     users: [],
-    loading: false
+    loading: false,
+    currentTool: 'pencil',
+    currentLayer: 0,
+    strokeColor: '#000000',
+    fillColor: '#ffffff',
+    toolSize: 1,
+    toolOpacity: 100,
+    toolSmoothness: 80
 };
 
 export default function(state = initialState, { type, payload }): CanvasState {
@@ -34,6 +48,14 @@ export default function(state = initialState, { type, payload }): CanvasState {
                 history: payload.history,
                 users: payload.users,
                 loading: false
+            });
+
+        case 'LEAVE_CANVAS':
+            return Object.assign({}, state, {
+                canvas: null,
+                history: [],
+                latestEntry: null,
+                users: []
             });
 
         case 'CANVAS_HISTORY_NEW':
@@ -59,6 +81,41 @@ export default function(state = initialState, { type, payload }): CanvasState {
                     }
                     return user;
                 })
+            });
+
+        case 'CANVAS_CHANGE_TOOL':
+            return Object.assign({}, state, {
+                currentTool: payload
+            });
+
+        case 'CANVAS_CHANGE_LAYER':
+            return Object.assign({}, state, {
+                currentLayer: payload
+            });
+
+        case 'CANVAS_CHANGE_STROKE_COLOR':
+            return Object.assign({}, state, {
+                strokeColor: payload
+            });
+
+        case 'CANVAS_CHANGE_FILL_COLOR':
+            return Object.assign({}, state, {
+                fillColor: payload
+            });
+
+        case 'CANVAS_CHANGE_TOOL_SIZE':
+            return Object.assign({}, state, {
+                toolSize: payload
+            });
+
+        case 'CANVAS_CHANGE_TOOL_OPACITY':
+            return Object.assign({}, state, {
+                toolOpacity: payload
+            });
+
+        case 'CANVAS_CHANGE_TOOL_SMOOTHNESS':
+            return Object.assign({}, state, {
+                toolSmoothness: payload
             });
 
         default:

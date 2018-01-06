@@ -1,6 +1,5 @@
 @import "_normalize";
 @import "_colors";
-@import "_input";
 
 * {
     box-sizing: border-box;
@@ -22,10 +21,6 @@ html, body, #mount {
 
 ::selection {
     background: $color-tertiary-darker;
-}
-
-.app {
-    height: 100%;
 }
 
 a {

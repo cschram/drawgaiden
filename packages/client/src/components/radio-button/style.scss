@@ -1,0 +1,54 @@
+@import '../../style/_colors';
+
+.radio-button {
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    display: inline-block;
+    list-style: none;
+    margin: 0.75em;
+    padding: 0;
+}
+
+.radio-button__option {
+    display: inline-block;
+
+    &:first-child label {
+        border-radius: 3px 0 0 3px;
+    }
+
+    &:last-child label {
+        border-radius: 0 3px 3px 0;
+    }
+
+    input {
+        display: none;
+    }
+
+    label {
+        background: $color-primary-light;
+        border: none;
+        color: #ffffff;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 1.5em;
+        padding: 0.75em;
+        text-shadow: 1px 1px 0 $color-primary-dark;
+    }
+}
+
+.radio-button__option--checked label {
+    background: $color-secondary-light;
+    text-shadow: 1px 1px 0 $color-secondary-darker;
+}
+
+.radio-button--disabled {
+    label {
+        background: desaturate($color-primary, 40%);
+        cursor: not-allowed;
+        text-shadow: 1px 1px 0 desaturate($color-primary-dark, 40%);
+    }
+
+    .radio-button__option--checked label {
+        background: desaturate($color-primary-dark, 60%);
+        text-shadow: 1px 1px 0 desaturate($color-primary-darker, 60%);
+    }
+}

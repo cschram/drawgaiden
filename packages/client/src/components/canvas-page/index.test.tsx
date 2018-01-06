@@ -13,8 +13,23 @@ test('<App/>', () => {
         loading: false,
         username: 'username',
         joinCanvas: (id) => {},
+        exit: () => {},
         draw: (entry) => {},
-        setMousePosition: (coord) => {}
+        setMousePosition: (coord) => {},
+        currentTool: 'pencil',
+        changeTool: (tool) => {},
+        currentLayer: 0,
+        changeLayer: (layer) => {},
+        strokeColor: '#000000',
+        changeStrokeColor: (color) => {},
+        fillColor: '#ffffff',
+        changeFillColor: (color) => {},
+        toolSize: 1,
+        changeToolSize: (size) => {},
+        toolOpacity: 100,
+        changeToolOpacity: (opacity) => {},
+        toolSmoothness: 80,
+        changeToolSmoothness: (smoothness) => {}
     };
     const tree = renderer.create(<CanvasPage {...props}/>).toJSON();
     expect(tree).toMatchSnapshot();

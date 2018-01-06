@@ -19,10 +19,17 @@ exports[`<App/> 1`] = `
         Unknown error.
       </span>
       <input
+        className="input "
+        disabled={false}
+        name="username"
+        onChange={[Function]}
         placeholder="Enter user name"
         type="text"
+        value=""
       />
       <button
+        className="btn"
+        disabled={false}
         onClick={[Function]}
       >
         <span>

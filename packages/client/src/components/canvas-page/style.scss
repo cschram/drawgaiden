@@ -1,63 +1,107 @@
-@import "../../style/_colors";
-
-@mixin modal-size($width, $height) {
-    height: $height;
-    left: calc(50% - #{$width / 2});
-    top: calc(50% - #{$height / 2});
-    width: $width;
-}
+@import '../../style/_colors';
 
 .canvas-page {
-    background: $color-primary-dark;
     height: 100%;
-    width: 100%;
-}
-
-.modal {
-    background: rgba(0, 0, 0, 0.5);
-    height: 100%;
-    left: 0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-}
-
-.modal__content {
-    background: $color-primary-dark;
-    border-radius: 4px;
-    box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
-    font-size: 1.5em;
-    padding: 1.5em;
     position: relative;
-
-    span {
-        padding: 0 0.5em;
-    }
-
-    input[type="text"] {
-        font-size: 1em;
-    }
-}
-
-.modal__close {
-    color: #FFFFFF;
-    font-size: 1.5em;
-    position: absolute;
-    top: 0.75em;
-    right: 1em;
-}
-
-.share-modal {
-    @include modal-size(450px, 120px);
-}
-
-.save-modal {
-    @include modal-size(450px, 500px);
-}
-
-.save-modal__scroll-content {
-    height: 425px;
-    margin-top: 1em;
-    overflow: scroll;
     width: 100%;
+}
+
+.canvas-page__easel-container {
+    height: 100%;
+    position: relative;
+    width: 100%;
+
+    .select {
+        width: 7em;
+    }
+    
+    .slider {
+        width: 9em;
+    }
+}
+
+.canvas-page__easel {
+    background: #ffffff;
+    height: 100%;
+    width: 100%;
+}
+
+.canvas-page__user {
+    background: #000000;
+    border-radius: 4px;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+    color: #ffffff;
+    font-size: 1.5em;
+    opacity: 0.5;
+    padding: 0.25em;
+    position: absolute;
+}
+
+.canvas-page__controls {
+    font-size: 1.25em;
+    position: absolute;
+    top: 0;
+
+    .btn span {
+        margin-left: 0.5em;
+    }
+}
+
+.canvas-page__settings {
+    bottom: 0;
+    position: absolute;
+}
+
+.canvas-page__tool-setting {
+    background: $color-primary-light;
+    border-radius: 3px;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+    display: inline-block;
+    height: 3em;
+    font-size: 1.5em;
+    line-height: 2.5em;
+    margin: 0.75em;
+    padding: 0.25em 0.75em;
+    vertical-align: bottom;
+
+    label {
+        vertical-align: middle;
+    }
+}
+
+.canvas-page__colors {
+    height: 3em;
+    padding: 0;
+
+    .color-picker {
+        height: 100%;
+        width: 3em;
+
+        &:first-child {
+            border-radius: 3px 0 0 3px;
+        }
+
+        &:last-child {
+            border-radius: 0 3px 3px 0;
+        }
+    }
+}
+
+.btn--transparent.canvas-page__control-toggle:hover {
+    background: opacify($color-primary-light, 0.25);
+    color: $color-primary-darker;
+    text-shadow: 1px 1px 0 $color-primary-lighter;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.share-modal .input {
+    font-size: 1em;
+    margin: 1em 0;
+    width: 100%;
+}
+
+@media screen and (max-width: 56.5em) {
+    .canvas-page__controls .btn span {
+        display: none;
+    }
 }

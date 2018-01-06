@@ -35,6 +35,12 @@ export function joinCanvas(canvasID: string) {
     };
 }
 
+export function leaveCanvas() {
+    return (dispatch, getState) => {
+        dispatch({ type: 'LEAVE_CANVAS' });
+    };
+}
+
 export function draw(entry: HistoryEntry) {
     return (dispatch, getState) => {
         let socket = getState().connection.socket;
@@ -55,4 +61,53 @@ export function setMousePosition(coord: Coord) {
             }
         });
     }
+}
+
+export function changeTool(tool: string) {
+    return {
+        type: 'CANVAS_CHANGE_TOOL',
+        payload: tool
+    };
+}
+
+export function changeLayer(layer: number) {
+    return {
+        type: 'CANVAS_CHANGE_LAYER',
+        payload: layer
+    };
+}
+
+export function changeStrokeColor(color: string) {
+    return {
+        type: 'CANVAS_CHANGE_STROKE_COLOR',
+        payload: color
+    };
+}
+
+export function changeFillColor(color: string) {
+    return {
+        type: 'CANVAS_CHANGE_FILL_COLOR',
+        payload: color
+    };
+}
+
+export function changeToolSize(size: number) {
+    return {
+        type: 'CANVAS_CHANGE_TOOL_SIZE',
+        payload: size
+    };
+}
+
+export function changeToolOpacity(opacity: number) {
+    return {
+        type: 'CANVAS_CHANGE_TOOL_OPACITY',
+        payload: opacity
+    };
+}
+
+export function changeToolSmoothness(smoothness: number) {
+    return {
+        type: 'CANVAS_CHANGE_TOOL_SMOOTHNESS',
+        payload: smoothness
+    };
 }

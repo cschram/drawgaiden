@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import Icon from '../icon';
+import Input from '../input';
+import Button from '../button';
 import { login } from '../../actions/user';
 import "./style.scss";
 import logoPath from "../../img/logo_big.png";
@@ -13,38 +15,47 @@ interface LoginPageProps {
     redirect?: string;
 }
 
-export class LoginPage extends React.Component<LoginPageProps> {
-    private loginHandler: (e) => void;
+interface LoginPageState {
+    username: string;
+}
 
+export class LoginPage extends React.Component<LoginPageProps, LoginPageState> {
     constructor(props) {
         super(props);
-        this.loginHandler = this.login.bind(this);
+        this.state = {
+            username: ''
+        };
     }
 
-    login(e) {
-        e.preventDefault();
+    onChangeUsername = (username: string) => {
+        this.setState({ username });
+    };
+
+    login = () => {
         if (!this.props.loggingIn) {
-            let usernameInput = ReactDOM.findDOMNode(this.refs['username']) as HTMLInputElement;
-            this.props.login(usernameInput.value, this.props.redirect || '');
+            this.props.login(this.state.username, this.props.redirect || '');
         }
-    }
+    };
 
     render() {
         return (
             <div className="login-page">
-                <form className="login-form" onSubmit={this.loginHandler}>
+                <form className="login-form" onSubmit={this.login}>
                     <img src={logoPath} alt="Draw Gaiden" />
                     <fieldset>
                         {this.props.loginError ?
                             <span className="error">{this.props.loginError}</span> :
                             null
                         }
-                        <input type="text" ref="username" placeholder="Enter user name" />
-                        <button onClick={this.loginHandler}>
+                        <Input name="username"
+                               value={this.state.username}
+                               onChange={this.onChangeUsername}
+                               placeholder="Enter user name" />
+                        <Button onClick={this.login}>
                             {this.props.loggingIn ?
                                 <Icon name="loading" /> :
                                 <span>Login</span>}
-                        </button>
+                        </Button>
                         <p>Having issues? Check our <a href="https://github.com/drawgaiden/drawgaiden/issues" target="_blank">bug tracker</a>.</p>
                     </fieldset>
                 </form>

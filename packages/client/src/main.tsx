@@ -8,6 +8,7 @@ import { Router, Route, IndexRoute, Redirect, browserHistory } from 'react-route
 import { syncHistoryWithStore, routerReducer, routerMiddleware } from 'react-router-redux'
 
 import * as reducers from './reducers';
+import authRequired from './helpers/auth-required';
 import App from './components/app';
 import IndexPage from './components/index-page';
 import LoginPage from './components/login-page';
@@ -31,9 +32,9 @@ ReactDOM.render(
     <Provider store={store}>
         <Router history={history}>
             <Route path="/" component={App}>
-                <IndexRoute component={IndexPage} />
+                <IndexRoute component={authRequired(IndexPage)} />
                 <Route path="login" component={LoginPage} />
-                <Route path="canvas/:id" component={CanvasPage} />
+                <Route path="canvas/:id" component={authRequired(CanvasPage)} />
                 <Route path="404" component={NotFoundPage} />
                 <Redirect from="*" to="404" />
             </Route>

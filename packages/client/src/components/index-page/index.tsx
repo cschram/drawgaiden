@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { createCanvas } from '../../actions/canvas';
 import Loading from '../loading';
+import Button from '../button';
 import './style.scss';
 
 import logoPath from "../../img/logo_big.png";
@@ -44,12 +45,14 @@ export class IndexPage extends React.Component<IndexPageProps, IndexPageState> {
                 <div className="index-page__main">
                     <img src={logoPath} alt="Draw Gaiden" />
                     <p>Create or rejoin a canvas to start drawing, and share the link with friends to collaborate.</p>
-                    <button onClick={this.createCanvas}>
-                        {this.state.creatingCanvas ? <Loading /> : <span>Create Canvas</span>}
-                    </button>
-                    <button onClick={this.rejoinCanvas} disabled={!this.props.lastCanvasID}>
-                        Rejoin Canvas
-                    </button>
+                    <div>
+                        <Button primary={true} onClick={this.createCanvas}>
+                            {this.state.creatingCanvas ? <Loading /> : <span>Create Canvas</span>}
+                        </Button>
+                        <Button onClick={this.rejoinCanvas} disabled={!this.props.lastCanvasID}>
+                            Rejoin Canvas
+                        </Button>
+                    </div>
                     <p>Having issues? Check our <a href="https://github.com/drawgaiden/drawgaiden/issues" target="_blank">bug tracker</a>.</p>
                 </div>
             </div>

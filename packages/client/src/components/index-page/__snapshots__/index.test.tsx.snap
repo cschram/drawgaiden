@@ -14,19 +14,24 @@ exports[`<App/> 1`] = `
     <p>
       Create or rejoin a canvas to start drawing, and share the link with friends to collaborate.
     </p>
-    <button
-      onClick={[Function]}
-    >
-      <span>
-        Create Canvas
-      </span>
-    </button>
-    <button
-      disabled={true}
-      onClick={[Function]}
-    >
-      Rejoin Canvas
-    </button>
+    <div>
+      <button
+        className="btn btn--primary"
+        disabled={false}
+        onClick={[Function]}
+      >
+        <span>
+          Create Canvas
+        </span>
+      </button>
+      <button
+        className="btn btn--disabled"
+        disabled={true}
+        onClick={[Function]}
+      >
+        Rejoin Canvas
+      </button>
+    </div>
     <p>
       Having issues? Check our 
       <a

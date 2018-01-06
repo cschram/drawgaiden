@@ -1,0 +1,61 @@
+@import '../../style/_colors';
+
+.modal {
+    background: rgba(0, 0, 0, 0.25);
+    bottom: 0;
+    display: none;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+}
+
+.modal.modal--open {
+    display: block;
+}
+
+.modal__dialog {
+    background: $color-primary-dark;
+    border-radius: 3px;
+    box-shadow: 2px 2px 20px 2px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    z-index: 99;
+}
+
+.modal__title {
+    background: $color-secondary;
+    border-bottom: 1px solid $color-secondary-darker;
+    border-radius: 3px 3px 0 0;
+    height: 1.75em;
+    font-size: 2em;
+    padding: 0.3em 0.75em;
+    text-shadow: 1px 1px 0 $color-secondary-darker;
+}
+
+.modal__close {
+    color: #ffffff;
+    font-size: 1.25em;
+    position: absolute;
+    right: 0.5em;
+    top: 0.1em;
+    z-index: 100;
+}
+
+.modal__content {
+    border-radius: 0 0 3px 3px;
+    font-size: 1.5em;
+    height: calc(100% - 2.25em -1px);
+    overflow-y: auto;
+    padding: 1em;
+    width: 100%;
+
+    & :first-child {
+        margin-top: 0;
+    }
+
+    & :last-child {
+        margin-bottom: 0;
+    }
+}

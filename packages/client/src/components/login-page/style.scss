@@ -11,6 +11,10 @@
     margin: 0 auto;
     width: 560px;
 
+    img {
+        width: 100%;
+    }
+
     fieldset {
         border: 0;
         padding: 1em 2em;
@@ -20,9 +24,23 @@
         font-size: 1.75em;
     }
 
+    .input,
+    .btn {
+        display: block;
+        height: 3em;
+        margin: 1em 0;
+        width: 100%;
+    }
+
     .error {
         color: $color-tertiary-dark;
         font-size: 1.5em;
         font-weight: bold;
+    }
+}
+
+@media screen and (max-width: 560px) {
+    .login-form {
+        width: 100%;
     }
 }
