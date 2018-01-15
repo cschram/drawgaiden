@@ -23,6 +23,7 @@ exports[`<App/> 1`] = `
         disabled={false}
         name="username"
         onChange={[Function]}
+        onClick={[Function]}
         placeholder="Enter user name"
         type="text"
         value=""

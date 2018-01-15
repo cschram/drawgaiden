@@ -5,320 +5,381 @@ exports[`<App/> 1`] = `
   className="canvas-page"
 >
   <div
-    className="canvas-page__easel"
-  />
-  <div
-    className="canvas-page__controls"
+    className="canvas-page__easel-container"
   >
-    <button
-      className="canvas-page__control-toggle btn"
-      disabled={false}
-      onClick={[Function]}
+    <div
+      className="canvas-page__easel"
     >
-      <i
-        aria-hidden="true"
-        className="fa fa-eye"
-      />
-    </button>
-    <span>
-      <ul
-        className="radio-button canvas-page__control"
-      >
-        <li
-          className="radio-button__option radio-button__option--checked"
-        >
-          <input
-            checked={true}
-            id="tools_0"
-            name="tools"
-            onChange={[Function]}
-            type="radio"
-            value="pencil"
-          />
-          <label
-            htmlFor="tools_0"
-          >
-            <i
-              aria-hidden="true"
-              className="fa fa-pencil"
-            />
-          </label>
-        </li>
-        <li
-          className="radio-button__option"
-        >
-          <input
-            checked={false}
-            id="tools_1"
-            name="tools"
-            onChange={[Function]}
-            type="radio"
-            value="rectangle"
-          />
-          <label
-            htmlFor="tools_1"
-          >
-            <i
-              aria-hidden="true"
-              className="fa fa-square-o"
-            />
-          </label>
-        </li>
-        <li
-          className="radio-button__option"
-        >
-          <input
-            checked={false}
-            id="tools_2"
-            name="tools"
-            onChange={[Function]}
-            type="radio"
-            value="circle"
-          />
-          <label
-            htmlFor="tools_2"
-          >
-            <i
-              aria-hidden="true"
-              className="fa fa-circle-o"
-            />
-          </label>
-        </li>
-        <li
-          className="radio-button__option"
-        >
-          <input
-            checked={false}
-            id="tools_3"
-            name="tools"
-            onChange={[Function]}
-            type="radio"
-            value="eraser"
-          />
-          <label
-            htmlFor="tools_3"
-          >
-            <i
-              aria-hidden="true"
-              className="fa fa-eraser"
-            />
-          </label>
-        </li>
-        <li
-          className="radio-button__option"
-        >
-          <input
-            checked={false}
-            id="tools_4"
-            name="tools"
-            onChange={[Function]}
-            type="radio"
-            value="move"
-          />
-          <label
-            htmlFor="tools_4"
-          >
-            <i
-              aria-hidden="true"
-              className="fa fa-arrows-alt"
-            />
-          </label>
-        </li>
-        <li
-          className="radio-button__option"
-        >
-          <input
-            checked={false}
-            id="tools_5"
-            name="tools"
-            onChange={[Function]}
-            type="radio"
-            value="colorpicker"
-          />
-          <label
-            htmlFor="tools_5"
-          >
-            <i
-              aria-hidden="true"
-              className="fa fa-eyedropper"
-            />
-          </label>
-        </li>
-      </ul>
       <div
-        className="select canvas-page__control"
+        className="canvas-page__overlay"
+      >
+        <span
+          className="canvas-page__user"
+          style={
+            Object {
+              "left": 100,
+              "top": 100,
+            }
+          }
+        >
+          username
+        </span>
+      </div>
+    </div>
+    <div
+      className="canvas-page__controls"
+    >
+      <button
+        className="canvas-page__control-toggle btn"
+        disabled={false}
         onClick={[Function]}
       >
-        <span
-          className="select__label"
+        <i
+          aria-hidden="true"
+          className="fa fa-eye"
+        />
+      </button>
+      <span>
+        <ul
+          className="radio-button canvas-page__control"
         >
-          Layer 1
-        </span>
-        <span
-          className="select__arrow"
+          <li
+            className="radio-button__option radio-button__option--checked"
+          >
+            <input
+              checked={true}
+              id="tools_0"
+              name="tools"
+              onChange={[Function]}
+              type="radio"
+              value="pencil"
+            />
+            <label
+              htmlFor="tools_0"
+            >
+              <i
+                aria-hidden="true"
+                className="fa fa-pencil"
+              />
+            </label>
+          </li>
+          <li
+            className="radio-button__option"
+          >
+            <input
+              checked={false}
+              id="tools_1"
+              name="tools"
+              onChange={[Function]}
+              type="radio"
+              value="rectangle"
+            />
+            <label
+              htmlFor="tools_1"
+            >
+              <i
+                aria-hidden="true"
+                className="fa fa-square-o"
+              />
+            </label>
+          </li>
+          <li
+            className="radio-button__option"
+          >
+            <input
+              checked={false}
+              id="tools_2"
+              name="tools"
+              onChange={[Function]}
+              type="radio"
+              value="circle"
+            />
+            <label
+              htmlFor="tools_2"
+            >
+              <i
+                aria-hidden="true"
+                className="fa fa-circle-o"
+              />
+            </label>
+          </li>
+          <li
+            className="radio-button__option"
+          >
+            <input
+              checked={false}
+              id="tools_3"
+              name="tools"
+              onChange={[Function]}
+              type="radio"
+              value="eraser"
+            />
+            <label
+              htmlFor="tools_3"
+            >
+              <i
+                aria-hidden="true"
+                className="fa fa-eraser"
+              />
+            </label>
+          </li>
+          <li
+            className="radio-button__option"
+          >
+            <input
+              checked={false}
+              id="tools_4"
+              name="tools"
+              onChange={[Function]}
+              type="radio"
+              value="move"
+            />
+            <label
+              htmlFor="tools_4"
+            >
+              <i
+                aria-hidden="true"
+                className="fa fa-arrows-alt"
+              />
+            </label>
+          </li>
+          <li
+            className="radio-button__option"
+          >
+            <input
+              checked={false}
+              id="tools_5"
+              name="tools"
+              onChange={[Function]}
+              type="radio"
+              value="colorpicker"
+            />
+            <label
+              htmlFor="tools_5"
+            >
+              <i
+                aria-hidden="true"
+                className="fa fa-eyedropper"
+              />
+            </label>
+          </li>
+        </ul>
+        <div
+          className="select canvas-page__control"
+          onClick={[Function]}
+        >
+          <span
+            className="select__label"
+          >
+            Layer 1
+          </span>
+          <span
+            className="select__arrow"
+          >
+            <i
+              aria-hidden="true"
+              className="fa fa-caret-down"
+            />
+          </span>
+          <ul
+            className="select__menu"
+          >
+            <li
+              className="select__menu-option select__menu-option--active"
+              data-value="0"
+              onClick={[Function]}
+            >
+              Layer 1
+            </li>
+            <li
+              className="select__menu-option"
+              data-value="1"
+              onClick={[Function]}
+            >
+              Layer 2
+            </li>
+            <li
+              className="select__menu-option"
+              data-value="2"
+              onClick={[Function]}
+            >
+              Layer 3
+            </li>
+          </ul>
+        </div>
+        <button
+          className="canvas-page__control btn"
+          disabled={false}
+          onClick={[Function]}
         >
           <i
             aria-hidden="true"
-            className="fa fa-caret-down"
+            className="fa fa-share-alt"
           />
-        </span>
-        <ul
-          className="select__menu"
+          <span>
+            Share
+          </span>
+        </button>
+        <button
+          className="canvas-page__control btn"
+          disabled={false}
+          onClick={[Function]}
         >
-          <li
-            className="select__menu-option select__menu-option--active"
-            data-value="0"
-            onClick={[Function]}
-          >
-            Layer 1
-          </li>
-          <li
-            className="select__menu-option"
-            data-value="1"
-            onClick={[Function]}
-          >
-            Layer 2
-          </li>
-          <li
-            className="select__menu-option"
-            data-value="2"
-            onClick={[Function]}
-          >
-            Layer 3
-          </li>
-        </ul>
+          <i
+            aria-hidden="true"
+            className="fa fa-times"
+          />
+          <span>
+            Exit
+          </span>
+        </button>
+      </span>
+    </div>
+    <div
+      className="canvas-page__settings"
+    >
+      <div
+        className="canvas-page__tool-setting canvas-page__colors"
+      >
+        <div
+          className="color-picker"
+          onClick={[Function]}
+          style={
+            Object {
+              "backgroundColor": "#000000",
+            }
+          }
+        >
+          <input
+            onChange={[Function]}
+            type="color"
+            value="#000000"
+          />
+        </div>
+        <div
+          className="color-picker"
+          onClick={[Function]}
+          style={
+            Object {
+              "backgroundColor": "#ffffff",
+            }
+          }
+        >
+          <input
+            onChange={[Function]}
+            type="color"
+            value="#ffffff"
+          />
+        </div>
       </div>
-      <button
-        className="canvas-page__control btn"
-        disabled={false}
-        onClick={[Function]}
+      <div
+        className="canvas-page__tool-setting"
       >
-        <i
-          aria-hidden="true"
-          className="fa fa-share-alt"
+        <label>
+          Size
+        </label>
+        <input
+          className="slider "
+          disabled={false}
+          max={50}
+          min={1}
+          name="size"
+          onChange={[Function]}
+          step={1}
+          type="range"
+          value={1}
         />
-        <span>
-          Share
-        </span>
-      </button>
-      <button
-        className="canvas-page__control btn"
-        disabled={false}
-        onClick={[Function]}
+      </div>
+      <div
+        className="canvas-page__tool-setting"
       >
-        <i
-          aria-hidden="true"
-          className="fa fa-floppy-o"
+        <label>
+          Opacity
+        </label>
+        <input
+          className="slider "
+          disabled={false}
+          max={100}
+          min={0}
+          name="opacity"
+          onChange={[Function]}
+          step={1}
+          type="range"
+          value={100}
         />
-        <span>
-          Save
-        </span>
-      </button>
-      <button
-        className="canvas-page__control btn"
-        disabled={false}
-        onClick={[Function]}
+      </div>
+      <div
+        className="canvas-page__tool-setting"
       >
-        <i
-          aria-hidden="true"
-          className="fa fa-times"
+        <label>
+          Smoothness
+        </label>
+        <input
+          className="slider "
+          disabled={false}
+          max={100}
+          min={0}
+          name="smoothness"
+          onChange={[Function]}
+          step={1}
+          type="range"
+          value={80}
         />
-        <span>
-          Exit
-        </span>
-      </button>
-    </span>
+      </div>
+    </div>
   </div>
   <div
-    className="canvas-page__settings"
+    className="modal"
   >
     <div
-      className="canvas-page__tool-setting canvas-page__colors"
+      className="modal__dialog"
+      style={
+        Object {
+          "height": "150px",
+          "left": "calc(50% - 150px)",
+          "top": "calc(50% - 75px)",
+          "width": "300px",
+        }
+      }
     >
       <div
-        className="color-picker"
-        onClick={[Function]}
-        style={
-          Object {
-            "backgroundColor": "#000000",
-          }
-        }
+        className="modal__title"
       >
-        <input
-          onChange={[Function]}
-          type="color"
-          value="#000000"
-        />
+        <a
+          className="modal__close"
+          href="#"
+          onClick={[Function]}
+        >
+          <i
+            aria-hidden="true"
+            className="fa fa-times"
+          />
+        </a>
+        <span>
+          Share this canvas
+        </span>
       </div>
       <div
-        className="color-picker"
-        onClick={[Function]}
-        style={
-          Object {
-            "backgroundColor": "#ffffff",
-          }
-        }
+        className="modal__content"
       >
-        <input
-          onChange={[Function]}
-          type="color"
-          value="#ffffff"
-        />
+        <div
+          className="share-modal"
+        >
+          <span>
+            Share this link with your friends to draw with them.
+          </span>
+          <input
+            className="input "
+            disabled={false}
+            name="share-link"
+            onChange={[Function]}
+            onClick={[Function]}
+            placeholder=""
+            type="text"
+            value="about:blank"
+          />
+        </div>
       </div>
-    </div>
-    <div
-      className="canvas-page__tool-setting"
-    >
-      <label>
-        Size
-      </label>
-      <input
-        className="slider "
-        disabled={false}
-        max={50}
-        min={1}
-        name="size"
-        onChange={[Function]}
-        step={1}
-        type="range"
-        value={1}
-      />
-    </div>
-    <div
-      className="canvas-page__tool-setting"
-    >
-      <label>
-        Opacity
-      </label>
-      <input
-        className="slider "
-        disabled={false}
-        max={100}
-        min={0}
-        name="opacity"
-        onChange={[Function]}
-        step={1}
-        type="range"
-        value={100}
-      />
-    </div>
-    <div
-      className="canvas-page__tool-setting"
-    >
-      <label>
-        Smoothness
-      </label>
-      <input
-        className="slider "
-        disabled={false}
-        max={100}
-        min={0}
-        name="smoothness"
-        onChange={[Function]}
-        step={1}
-        type="range"
-        value={80}
-      />
     </div>
   </div>
 </div>
