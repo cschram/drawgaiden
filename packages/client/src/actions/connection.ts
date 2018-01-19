@@ -4,6 +4,9 @@ import { Protocol } from '@drawgaiden/common';
 export function connect() {
     return (dispatch, getState) => {
         dispatch({ type: 'CONNECTING' });
+        // const socket = io({
+        //     path: '/api/socket.io'
+        // });
         const socket = io();
 
         socket.on('connect', () => {

@@ -1,7 +1,8 @@
 import * as Canvas from 'canvas';
+import * as Hapi from 'hapi';
 import config from '../lib/config';
 import { Connection, connect } from '../lib/db';
-import Logger from '../lib/logger';
+import { createLogger } from '../lib/logger';
 import { HealthMonitor } from '../lib/healthmonit';
 import * as DrawGaiden from '@drawgaiden/common';
 // This needs to be managed better...
@@ -13,10 +14,13 @@ import PencilTool from '@drawgaiden/easel/lib/tools/pencil';
 import RectangleTool from '@drawgaiden/easel/lib/tools/rectangle';
 import { Layer } from '@drawgaiden/easel/lib/util';
 
-const logger = Logger('janitor');
-const monitor = new HealthMonitor({
+const logger = createLogger('janitor');
+const server = new Hapi.Server();
+server.connection({
     port: config.janitor.monitorPort
 });
+const monitor = new HealthMonitor(server);
+server.start();
 
 function reportError(error: any) {
     if (error.stack) {

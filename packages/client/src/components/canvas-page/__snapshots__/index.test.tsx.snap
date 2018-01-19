@@ -227,6 +227,19 @@ exports[`<App/> 1`] = `
         >
           <i
             aria-hidden="true"
+            className="fa fa-floppy-o"
+          />
+          <span>
+            Save
+          </span>
+        </button>
+        <button
+          className="canvas-page__control btn"
+          disabled={false}
+          onClick={[Function]}
+        >
+          <i
+            aria-hidden="true"
             className="fa fa-times"
           />
           <span>

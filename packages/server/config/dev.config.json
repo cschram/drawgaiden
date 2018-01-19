@@ -8,7 +8,7 @@
         "host": "localhost",
         "port": 6379
     },
-    "socket": {
+    "server": {
         "host": "localhost",
         "port": 9000
     },

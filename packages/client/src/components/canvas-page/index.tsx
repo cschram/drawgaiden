@@ -208,7 +208,10 @@ export class CanvasPage extends React.Component<CanvasPageProps, CanvasPageState
     };
 
     private onSave = () => {
-
+        window.open(
+            `${window.location.origin}/api/canvas/${this.props.canvasID}.png`,
+            '_blank'
+        );
     };
 
     private onExit = () => {

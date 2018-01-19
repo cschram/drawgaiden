@@ -2,7 +2,9 @@ import * as winston from 'winston';
 import { join } from 'path';
 import config from './config';
 
-export default function Logger(name: string) {
+export type Logger = winston.LoggerInstance;
+
+export function createLogger(name: string): Logger {
     if (process.env.NODE_APP_INSTANCE) {
         name = `${name}-${parseInt(process.env.NODE_APP_INSTANCE, 10)}`;
     }

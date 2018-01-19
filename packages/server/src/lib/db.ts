@@ -24,7 +24,7 @@ export class Connection {
     getCanvas(id: string) {
         return r.table('canvases')
                 .get(id)
-                .run(this.conn);
+                .run(this.conn) as Promise<DrawGaiden.Canvas>;
     }
 
     /**

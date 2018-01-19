@@ -11,7 +11,7 @@ export interface Config {
         host: string;
         port: number;
     };
-    socket: {
+    server: {
         host: string;
         port: number;
     };

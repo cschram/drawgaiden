@@ -9,6 +9,12 @@ module.exports = {
         contentBase: './src',
         port: 8000,
         proxy: {
+            '/api': {
+                target: 'http://localhost:9000',
+                pathRewrite: {
+                    '^/api': ''
+                }
+            },
             '/socket.io': {
                 target: 'ws://localhost:9000',
                 ws: true

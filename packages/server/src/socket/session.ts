@@ -1,11 +1,11 @@
 import * as SocketIO from 'socket.io';
 import * as winston from 'winston';
 import * as r from 'rethinkdb';
-import * as cuid from 'cuid';
 import * as redis from 'redis';
 import { Connection } from '../lib/db';
 import { Protocol } from '@drawgaiden/common';
 import config from '../lib/config';
+const cuid = require('cuid');
 const usernameRe = /^[a-zA-Z0-9]{2,15}$/;
 
 interface SessionArgs {

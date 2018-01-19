@@ -106,10 +106,10 @@ export default function EaselContainer({
                             <Icon name="share-alt" />
                             <span>Share</span>
                         </Button>
-                        {/*<Button className="canvas-page__control" onClick={onSave}>
+                        <Button className="canvas-page__control" onClick={onSave}>
                             <Icon name="floppy-o" />
                             <span>Save</span>
-                        </Button>*/}
+                        </Button>
                         <Button className="canvas-page__control" onClick={onExit}>
                             <Icon name="times" />
                             <span>Exit</span>

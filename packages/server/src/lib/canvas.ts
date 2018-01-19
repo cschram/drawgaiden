@@ -8,7 +8,7 @@ import PencilTool from '@drawgaiden/easel/lib/tools/pencil';
 import RectangleTool from '@drawgaiden/easel/lib/tools/rectangle';
 import { Layer } from '@drawgaiden/easel/lib/util';
 
-export function flatten(canvas: Canvas, history: HistoryEntry[]): string {
+export function flatten(canvas: Canvas, history: HistoryEntry[]): Buffer {
     const destination = new NodeCanvas(canvas.width, canvas.height);
     const destinationCtx = destination.getContext('2d');
     const layers: Layer[] = [];
@@ -52,7 +52,7 @@ export function flatten(canvas: Canvas, history: HistoryEntry[]): string {
     layers.forEach(layer => {
         let img = new NodeCanvas.Image();
         img.src = layer.finalCanvas.toDataURL('image/png');
-        destinationCtx.draftCanvas(img, 0, 0);
+        destinationCtx.drawImage(img, 0, 0);
     });
-    return destination.toDataURL('image/png');
+    return destination.toBuffer();
 }

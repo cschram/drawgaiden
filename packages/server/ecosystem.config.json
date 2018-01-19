@@ -1,8 +1,8 @@
 {
     "apps": [
         {
-            "name": "drawgaiden-socket",
-            "script": "dist/socket/index.js",
+            "name": "drawgaiden-server",
+            "script": "dist/index.js",
             "instances": 4,
             "exec_mode": "fork",
             "env": {
