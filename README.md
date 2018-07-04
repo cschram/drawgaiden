@@ -1,9 +1,5 @@
 ![Draw Gaiden](https://raw.githubusercontent.com/cschram/drawgaiden/master/packages/client/src/img/logo_big.png)
 
-![NPM license](https://img.shields.io/npm/l/react-virtualized.svg?style=flat)
-[![Build Status](https://travis-ci.org/drawgaiden/drawgaiden.svg?branch=master)](https://travis-ci.org/drawgaiden/drawgaiden)
-[![Dependency Status](https://www.versioneye.com/user/projects/59a3c0fc0fb24f004bb22490/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/59a3c0fc0fb24f004bb22490)
-
 Draw Gaiden is a collaborative drawing web application for drawing on a shared canvas with friends.
 
 # Features
@@ -13,11 +9,9 @@ Draw Gaiden is a collaborative drawing web application for drawing on a shared c
 * Pencil, Rectangle, Circle, Eraser, and Color Picker tools
 * Displays the location of users cursors while they are drawing
 * Background service to clean up unused canvases and squash canvas history into snapshots
+* Save canvas snapshot images
 
-# Documentation
-
-* [Getting Started](docs/getting_started.md)
-* [Roadmap](docs/roadmap.md)
+Installation and other documentation can be found on the [wiki](https://gitlab.com/cschram/drawgaiden/wikis/home).
 
 # License
 
