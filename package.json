@@ -14,7 +14,7 @@
         "db:clean": "scripts/db clean"
     },
     "devDependencies": {
-        "lerna": "^2.0.0-rc.5",
+        "lerna": "^2.11.0",
         "rethinkdb": "^2.3.3",
         "rimraf": "^2.6.2"
     }

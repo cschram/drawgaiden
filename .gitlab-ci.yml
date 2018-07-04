@@ -1,0 +1,11 @@
+image: node:10.5
+
+before_script:
+  - apt-get update -qq
+  - apt-get install -y -qq libcairo2-dev libjpeg-dev libpango1.0-dev libgif-dev build-essential g++ curl
+
+test:
+  script:
+    - npm install --unsafe-perm
+    - npm run build
+    - npm run test

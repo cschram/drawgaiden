@@ -13,7 +13,6 @@ function printUsage() {
     console.log('  help - Display this help text');
     console.log('  init - Initialize database');
     console.log('  clean - Clean up database entries');
-
 }
 
 function connect() {
