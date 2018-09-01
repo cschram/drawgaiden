@@ -2,6 +2,8 @@
 
 Draw Gaiden is a collaborative drawing web application for drawing on a shared canvas with friends.
 
+**This project has moved to [GitLab](https://gitlab.com/cschram/drawgaiden)**
+
 # Features
 
 * Public links for sharing
